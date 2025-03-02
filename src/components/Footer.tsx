@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUp, Mail, Instagram, Twitter, GitHub } from 'lucide-react';
+import { ArrowUp, Mail, Instagram, Twitter, Globe } from 'lucide-react';
 
 interface FooterProps {
   onOpenPrivacyPolicy: () => void;
@@ -40,7 +40,7 @@ const Footer: React.FC<FooterProps> = ({ onOpenPrivacyPolicy }) => {
                 <Instagram size={16} className="text-white" />
               </a>
               <a href="#" className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary transition-colors">
-                <GitHub size={16} className="text-white" />
+                <Globe size={16} className="text-white" />
               </a>
             </div>
           </div>
