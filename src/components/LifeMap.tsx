@@ -141,24 +141,24 @@ const LifeMap: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true, margin: "-100px" }}
-          className="text-center mb-16"
+          className="text-center mb-12 md:mb-16"
         >
-          <h2 className="section-heading">Life Map Visualization</h2>
-          <p className="section-subheading">
+          <h2 className="section-heading text-3xl md:text-5xl font-bold">Life Map Visualization</h2>
+          <p className="section-subheading text-base md:text-xl max-w-2xl mx-auto">
             A dynamic, spatial view of your tasks and reminders that intelligently adapts to your life.
           </p>
         </motion.div>
         
-        <div className="flex flex-col lg:flex-row items-center gap-12">
-          {/* Left side: Visualization */}
+        <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-12">
+          {/* Life Map Visualization - Shown vertically stacked on mobile */}
           <motion.div 
-            className="lg:w-3/5"
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            className="w-full lg:w-3/5"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true, margin: "-100px" }}
           >
-            <div className="relative bg-primary/50 border border-white/10 rounded-2xl p-8 shadow-blue-glow overflow-hidden h-[500px]">
+            <div className="relative bg-primary/50 border border-white/10 rounded-2xl p-6 md:p-8 shadow-blue-glow overflow-hidden h-[350px] md:h-[500px]">
               {/* The hexagon map */}
               <div ref={hexMapRef} className="w-full h-full relative">
                 {/* Hexagons will be created dynamically */}
@@ -169,72 +169,73 @@ const LifeMap: React.FC = () => {
             </div>
           </motion.div>
           
-          {/* Right side: Features */}
-          <motion.div 
-            className="lg:w-2/5"
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            viewport={{ once: true, margin: "-100px" }}
-          >
-            <div className="space-y-8">
-              <div className="feature-card">
-                <div className="flex items-start">
-                  <div className="bg-secondary/20 p-3 rounded-lg mr-4">
-                    <Clock className="text-secondary w-6 h-6" />
+          {/* Features - Shown below on mobile */}
+          <div className="w-full lg:w-2/5 mt-10 lg:mt-0">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              viewport={{ once: true, margin: "-100px" }}
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 md:gap-6">
+                <div className="feature-card">
+                  <div className="flex items-start">
+                    <div className="bg-secondary/20 p-3 rounded-lg mr-4 flex-shrink-0">
+                      <Clock className="text-secondary w-5 h-5 md:w-6 md:h-6" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg md:text-xl font-bold mb-1 md:mb-2">Time-Based Relationships</h3>
+                      <p className="text-sm md:text-base text-gray-300">
+                        Events reorganize based on time proximity, bringing upcoming tasks closer to center.
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="text-xl font-bold mb-2">Time-Based Relationships</h3>
-                    <p className="text-gray-300">
-                      Events reorganize based on time proximity, bringing upcoming tasks closer to center as they approach.
-                    </p>
+                </div>
+                
+                <div className="feature-card">
+                  <div className="flex items-start">
+                    <div className="bg-accent/20 p-3 rounded-lg mr-4 flex-shrink-0">
+                      <MapPin className="text-accent w-5 h-5 md:w-6 md:h-6" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg md:text-xl font-bold mb-1 md:mb-2">Location Awareness</h3>
+                      <p className="text-sm md:text-base text-gray-300">
+                        Tasks tied to specific locations move dynamically as you navigate through your day.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="feature-card">
+                  <div className="flex items-start">
+                    <div className="bg-secondary/20 p-3 rounded-lg mr-4 flex-shrink-0">
+                      <Zap className="text-secondary w-5 h-5 md:w-6 md:h-6" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg md:text-xl font-bold mb-1 md:mb-2">AI-Powered Connections</h3>
+                      <p className="text-sm md:text-base text-gray-300">
+                        Intelligent algorithms discover relationships between tasks and visually connect related items.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="feature-card">
+                  <div className="flex items-start">
+                    <div className="bg-accent/20 p-3 rounded-lg mr-4 flex-shrink-0">
+                      <Calendar className="text-accent w-5 h-5 md:w-6 md:h-6" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg md:text-xl font-bold mb-1 md:mb-2">Calendar Integration</h3>
+                      <p className="text-sm md:text-base text-gray-300">
+                        Seamlessly syncs with your calendar events and gives them spatial context in your Life Map.
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
-              
-              <div className="feature-card">
-                <div className="flex items-start">
-                  <div className="bg-accent/20 p-3 rounded-lg mr-4">
-                    <MapPin className="text-accent w-6 h-6" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold mb-2">Location Awareness</h3>
-                    <p className="text-gray-300">
-                      Tasks tied to specific locations move dynamically as you navigate through your day.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="feature-card">
-                <div className="flex items-start">
-                  <div className="bg-secondary/20 p-3 rounded-lg mr-4">
-                    <Zap className="text-secondary w-6 h-6" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold mb-2">AI-Powered Connections</h3>
-                    <p className="text-gray-300">
-                      Intelligent algorithms discover relationships between tasks and visually connect related items.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="feature-card">
-                <div className="flex items-start">
-                  <div className="bg-accent/20 p-3 rounded-lg mr-4">
-                    <Calendar className="text-accent w-6 h-6" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold mb-2">Calendar Integration</h3>
-                    <p className="text-gray-300">
-                      Seamlessly syncs with your calendar events and gives them spatial context in your Life Map.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>

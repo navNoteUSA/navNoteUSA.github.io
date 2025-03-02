@@ -1,98 +1,120 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Linkedin, Twitter, Facebook, Instagram, Github } from 'lucide-react';
+import { ArrowUp, Mail, Instagram, Twitter, GitHub } from 'lucide-react';
 
 const Footer: React.FC = () => {
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+  
   return (
-    <footer className="py-16 relative overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-t from-dark to-primary/80"></div>
+    <footer className="bg-black py-12 md:py-16 relative overflow-hidden">
+      {/* Background pattern */}
+      <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
       
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-          <div className="md:col-span-1">
-            {/* Logo and company info */}
-            <div className="mb-6 md:mb-0">
-              <a href="#" className="flex items-center mb-4">
-                <span className="text-xl font-bold text-gradient mr-3">navNote</span>
-              </a>
-              <p className="text-gray-300 max-w-sm text-sm">
-                Elevate your productivity with our AI-powered context-aware task management application.
-              </p>
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-4 mb-12">
+          {/* Brand Column */}
+          <div className="col-span-1 md:col-span-1">
+            <div className="mb-4">
+              <span className="text-xl font-bold text-gradient">navNote</span>
             </div>
-            <div className="flex gap-4">
-              <a 
-                href="https://www.linkedin.com/company/navnote" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="p-2 glass rounded-full hover:bg-accent/20 transition-colors"
-                aria-label="LinkedIn"
-              >
-                <Linkedin size={18} />
+            <p className="text-sm md:text-base text-slate-400 max-w-xs">
+              An AI-powered location-aware task management app that revolutionizes how you organize your life.
+            </p>
+            <div className="flex space-x-3 mt-6">
+              <a href="#" className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary transition-colors">
+                <Twitter size={16} className="text-white" />
               </a>
-              <a 
-                href="#" 
-                className="p-2 glass rounded-full hover:bg-accent/20 transition-colors"
-                aria-label="Twitter"
-              >
-                <Twitter size={18} />
+              <a href="#" className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary transition-colors">
+                <Instagram size={16} className="text-white" />
               </a>
-              <a 
-                href="#" 
-                className="p-2 glass rounded-full hover:bg-accent/20 transition-colors"
-                aria-label="Facebook"
-              >
-                <Facebook size={18} />
-              </a>
-              <a 
-                href="#" 
-                className="p-2 glass rounded-full hover:bg-accent/20 transition-colors"
-                aria-label="Instagram"
-              >
-                <Instagram size={18} />
+              <a href="#" className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center hover:bg-primary transition-colors">
+                <GitHub size={16} className="text-white" />
               </a>
             </div>
           </div>
           
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Product</h3>
-            <ul className="space-y-2">
-              <li><a href="#features" className="text-gray-400 hover:text-secondary transition-colors">Features</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-secondary transition-colors">Pricing</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-secondary transition-colors">Roadmap</a></li>
-              <li><a href="#waitlist" className="text-gray-400 hover:text-secondary transition-colors">Beta Program</a></li>
+          {/* Product Column */}
+          <div className="col-span-1">
+            <h3 className="text-base md:text-lg font-semibold mb-4">Product</h3>
+            <ul className="space-y-2 text-sm md:text-base">
+              <li>
+                <a href="#features" className="text-slate-400 hover:text-white transition-colors">Features</a>
+              </li>
+              <li>
+                <a href="#technology" className="text-slate-400 hover:text-white transition-colors">Technology</a>
+              </li>
+              <li>
+                <a href="#privacy" className="text-slate-400 hover:text-white transition-colors">Privacy</a>
+              </li>
+              <li>
+                <a href="#" className="text-slate-400 hover:text-white transition-colors">App Download</a>
+              </li>
             </ul>
           </div>
           
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Company</h3>
-            <ul className="space-y-2">
-              <li><a href="#mission" className="text-gray-400 hover:text-secondary transition-colors">About</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-secondary transition-colors">Blog</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-secondary transition-colors">Careers</a></li>
-              <li><a href="#contact" className="text-gray-400 hover:text-secondary transition-colors">Contact</a></li>
+          {/* Company Column */}
+          <div className="col-span-1">
+            <h3 className="text-base md:text-lg font-semibold mb-4">Company</h3>
+            <ul className="space-y-2 text-sm md:text-base">
+              <li>
+                <a href="#" className="text-slate-400 hover:text-white transition-colors">About Us</a>
+              </li>
+              <li>
+                <a href="#" className="text-slate-400 hover:text-white transition-colors">Careers</a>
+              </li>
+              <li>
+                <a href="#" className="text-slate-400 hover:text-white transition-colors">Press</a>
+              </li>
+              <li>
+                <a href="#" className="text-slate-400 hover:text-white transition-colors">Contact</a>
+              </li>
             </ul>
           </div>
           
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Contact</h3>
-            <ul className="space-y-2">
-              <li className="text-gray-400">info@navnote.net</li>
-              <li className="text-gray-400">Ogden, Utah, USA</li>
-              <li className="text-gray-400">(385) 288-0722</li>
+          {/* Legal Column */}
+          <div className="col-span-1">
+            <h3 className="text-base md:text-lg font-semibold mb-4">Legal</h3>
+            <ul className="space-y-2 text-sm md:text-base">
+              <li>
+                <a href="#" className="text-slate-400 hover:text-white transition-colors">Terms</a>
+              </li>
+              <li>
+                <a href="#" className="text-slate-400 hover:text-white transition-colors">Privacy</a>
+              </li>
+              <li>
+                <a href="#" className="text-slate-400 hover:text-white transition-colors">Cookies</a>
+              </li>
+              <li>
+                <a href="#" className="text-slate-400 hover:text-white transition-colors">Licenses</a>
+              </li>
             </ul>
           </div>
         </div>
         
-        <div className="border-t border-white/10 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 text-sm mb-4 md:mb-0">
-              © 2025 navNote LLC. All rights reserved.
-            </p>
-            <div className="flex gap-6">
-              <a href="#" className="text-gray-400 text-sm hover:text-secondary transition-colors">Privacy Policy</a>
-              <a href="#" className="text-gray-400 text-sm hover:text-secondary transition-colors">Terms of Service</a>
-            </div>
+        <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center">
+          <p className="text-xs md:text-sm text-slate-500 mb-4 md:mb-0">
+            © {new Date().getFullYear()} navNote. All rights reserved.
+          </p>
+          
+          <div className="flex items-center space-x-4">
+            <a 
+              href="#" 
+              className="scroll-to-top-btn w-10 h-10 rounded-full bg-primary/10 hover:bg-primary/20 flex items-center justify-center transition-colors"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToTop();
+              }}
+            >
+              <ArrowUp size={18} className="text-primary" />
+            </a>
+            <a href="#" className="text-xs md:text-sm text-slate-400 hover:text-white transition-colors">
+              <Mail size={16} className="inline mr-2" />
+              Contact Us
+            </a>
           </div>
         </div>
       </div>

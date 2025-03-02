@@ -71,63 +71,90 @@ const Navbar: React.FC = () => {
             transition={{ duration: 0.3 }}
             className="md:hidden glass border-t border-white/5"
           >
-            <nav className="container mx-auto px-4 py-4 flex flex-col space-y-4">
+            <nav className="container mx-auto px-4 py-6 flex flex-col space-y-3">
               <a 
                 href="#features" 
-                className="py-3 px-4 flex items-center space-x-3 rounded-lg hover:bg-white/5 transition-colors"
+                className="py-4 px-5 flex items-center space-x-3 rounded-lg hover:bg-white/10 active:bg-white/20 transition-colors"
                 onClick={() => setIsOpen(false)}
               >
-                <HelpCircle size={18} className="text-secondary" />
-                <span>Features</span>
+                <div className="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center">
+                  <HelpCircle size={20} className="text-secondary" />
+                </div>
+                <div>
+                  <span className="font-medium">Features</span>
+                  <p className="text-xs text-gray-400">Explore what makes navNote unique</p>
+                </div>
               </a>
               <a 
                 href="#lifemap" 
-                className="py-3 px-4 flex items-center space-x-3 rounded-lg hover:bg-white/5 transition-colors"
+                className="py-4 px-5 flex items-center space-x-3 rounded-lg hover:bg-white/10 active:bg-white/20 transition-colors"
                 onClick={() => setIsOpen(false)}
               >
-                <MapPin size={18} className="text-accent" />
-                <span>Life Map</span>
+                <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center">
+                  <MapPin size={20} className="text-accent" />
+                </div>
+                <div>
+                  <span className="font-medium">Life Map</span>
+                  <p className="text-xs text-gray-400">See your tasks in a spatial context</p>
+                </div>
               </a>
               <a 
                 href="#technology" 
-                className="py-3 px-4 flex items-center space-x-3 rounded-lg hover:bg-white/5 transition-colors"
+                className="py-4 px-5 flex items-center space-x-3 rounded-lg hover:bg-white/10 active:bg-white/20 transition-colors"
                 onClick={() => setIsOpen(false)}
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-secondary">
-                  <path d="M12 3L20 7.5V16.5L12 21L4 16.5V7.5L12 3Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M12 12L12 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M12 12L20 7.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M12 12L4 7.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                <span>Technology</span>
+                <div className="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-secondary">
+                    <path d="M12 3L20 7.5V16.5L12 21L4 16.5V7.5L12 3Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M12 12L12 21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M12 12L20 7.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M12 12L4 7.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                <div>
+                  <span className="font-medium">Technology</span>
+                  <p className="text-xs text-gray-400">Our AI-powered core technology</p>
+                </div>
               </a>
               <a 
                 href="#privacy" 
-                className="py-3 px-4 flex items-center space-x-3 rounded-lg hover:bg-white/5 transition-colors"
+                className="py-4 px-5 flex items-center space-x-3 rounded-lg hover:bg-white/10 active:bg-white/20 transition-colors"
                 onClick={() => setIsOpen(false)}
               >
-                <Shield size={18} className="text-accent" />
-                <span>Privacy</span>
+                <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center">
+                  <Shield size={20} className="text-accent" />
+                </div>
+                <div>
+                  <span className="font-medium">Privacy</span>
+                  <p className="text-xs text-gray-400">How we protect your data</p>
+                </div>
               </a>
               <a 
                 href="#contact" 
-                className="py-3 px-4 flex items-center space-x-3 rounded-lg hover:bg-white/5 transition-colors"
+                className="py-4 px-5 flex items-center space-x-3 rounded-lg hover:bg-white/10 active:bg-white/20 transition-colors"
                 onClick={() => setIsOpen(false)}
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-secondary">
-                  <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M22 6L12 13L2 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                <span>Contact</span>
+                <div className="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-secondary">
+                    <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M22 6L12 13L2 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                <div>
+                  <span className="font-medium">Contact</span>
+                  <p className="text-xs text-gray-400">Get in touch with our team</p>
+                </div>
               </a>
-              <a 
-                href="#download"
-                className="mt-2 py-3 bg-secondary text-white rounded-lg flex items-center justify-center space-x-2"
-                onClick={() => setIsOpen(false)}
-              >
-                <Download size={18} />
-                <span>Get a Demo</span>
-              </a>
+              <div className="pt-4 mt-2 border-t border-white/10">
+                <a 
+                  href="#download"
+                  className="py-4 bg-secondary hover:bg-secondary/90 active:bg-secondary/80 text-white rounded-xl flex items-center justify-center space-x-3 transition-colors shadow-lg shadow-secondary/20"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <Download size={20} />
+                  <span className="font-medium">Get a Demo</span>
+                </a>
+              </div>
             </nav>
           </motion.div>
         )}
