@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>navNote | Your AI-Powered Virtual Memory</title>
+  <script>
+    // Single Page Apps for GitHub Pages
+    // https://github.com/rafgraph/spa-github-pages
+    // This script checks to see if a redirect is present in the query string,
+    // converts it back into the correct url and adds it to the
+    // browser's history using window.history.replaceState(...),
+    // which won't cause the browser to attempt to load the new url.
+    (function() {
+      var redirectRoute = window.location.search.match(/(\/\?)\/([^&]*)/);
+      if (redirectRoute) {
+        var newRoute = redirectRoute[2];
+        newRoute = newRoute.replace(/~and~/g, '&');
+        var basePath = window.location.pathname.split('/').slice(0, 2).join('/');
+        window.history.replaceState(null, null, basePath + '/' + newRoute);
+      }
+    })();
+  </script>
+  <!-- Simply include the same head content as your index.html here -->
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <meta name="description" content="navNote intelligently adapts to your life, seamlessly integrating task management with context-aware AI that evolves with you." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-950 text-gray-100">
+  <div id="root"></div>
+  <script type="module" src="./src/main.tsx"></script>
+</body>
+</html> 
