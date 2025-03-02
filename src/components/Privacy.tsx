@@ -98,8 +98,7 @@ const Privacy: React.FC = () => {
         
         <div className="mt-16 text-center">
           <p className="text-gray-300 max-w-lg mx-auto">
-            If you have questions about our privacy practices, please contact us at:<br />
-            <a href="mailto:navNoteHQ@gmail.com" className="text-secondary hover:underline">navNoteHQ@gmail.com</a>
+            If you have questions about our privacy practices, please contact us through our contact form.
           </p>
         </div>
       </div>

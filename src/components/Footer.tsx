@@ -11,13 +11,15 @@ const Footer: React.FC = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           <div className="md:col-span-1">
-            <div className="flex items-center gap-2 mb-4">
-              <img src="/logo.svg" alt="navNote Logo" className="w-8 h-8" />
-              <span className="text-xl font-bold text-gradient">navNote</span>
+            {/* Logo and company info */}
+            <div className="mb-6 md:mb-0">
+              <a href="#" className="flex items-center mb-4">
+                <span className="text-xl font-bold text-gradient mr-3">navNote</span>
+              </a>
+              <p className="text-gray-300 max-w-sm text-sm">
+                Elevate your productivity with our AI-powered context-aware task management application.
+              </p>
             </div>
-            <p className="text-gray-400 mb-4">
-              The AI-powered virtual memory that intelligently adapts to your life.
-            </p>
             <div className="flex gap-4">
               <a 
                 href="https://www.linkedin.com/company/navnote" 

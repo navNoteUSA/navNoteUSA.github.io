@@ -183,13 +183,9 @@ const Hero: React.FC = () => {
               className="relative"
             >
               <div className="relative perspective-1000">
-                {/* 3D Logo Animation */}
-                <div ref={logoRef} className="w-48 h-48 md:w-60 md:h-60 mb-12 relative z-20">
-                  <img 
-                    src="/logo.svg" 
-                    alt="navNote Logo" 
-                    className="w-full h-full object-contain drop-shadow-[0_0_15px_rgba(77,157,224,0.5)]"
-                  />
+                {/* 3D Logo Animation - Removed */}
+                <div ref={logoRef} className="w-48 h-48 md:w-60 md:h-60 mb-12 relative z-20 flex items-center justify-center">
+                  <h1 className="text-5xl font-bold text-gradient-animated">navNote</h1>
                 </div>
                 
                 {/* Life Map Visualization */}

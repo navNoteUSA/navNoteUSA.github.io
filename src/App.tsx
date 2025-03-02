@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import AppDemo from './components/AppDemo';
 import Features from './components/Features';
 import LifeMap from './components/LifeMap';
 import Technology from './components/Technology';
@@ -61,6 +62,7 @@ function App() {
       {/* Main content */}
       <Navbar />
       <Hero />
+      <AppDemo />
       <Features />
       <LifeMap />
       <Technology />

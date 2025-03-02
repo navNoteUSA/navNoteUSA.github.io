@@ -30,12 +30,7 @@ const Navbar: React.FC = () => {
           {/* Logo */}
           <div className="flex items-center">
             <a href="#" className="flex items-center">
-              <img 
-                src="/logo.svg" 
-                alt="navNote Logo" 
-                className="h-12 w-12 mr-3"
-              />
-              <span className="text-xl font-bold text-gradient">navNote</span>
+              <span className="text-2xl font-bold text-gradient">navNote</span>
             </a>
           </div>
 
@@ -51,7 +46,7 @@ const Navbar: React.FC = () => {
               className="bg-secondary text-white px-5 py-2 rounded-full hover:shadow-blue-glow transition-all duration-300 flex items-center gap-2"
             >
               <Download size={16} />
-              Get the App
+              Get a Demo
             </a>
           </nav>
 
@@ -131,7 +126,7 @@ const Navbar: React.FC = () => {
                 onClick={() => setIsOpen(false)}
               >
                 <Download size={18} />
-                <span>Get the App</span>
+                <span>Get a Demo</span>
               </a>
             </nav>
           </motion.div>
