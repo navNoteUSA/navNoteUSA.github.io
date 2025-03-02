@@ -237,7 +237,7 @@ body {
 
 /* Sticky navbar animation */
 .navbar-sticky {
-  @apply fixed top-0 left-0 w-full z-50 animated-background;
+  @apply fixed top-0 left-0 w-full z-50;
   animation: slideDown 0.5s ease-in-out;
 }
 
