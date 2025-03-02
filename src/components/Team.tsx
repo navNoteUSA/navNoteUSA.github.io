@@ -9,10 +9,11 @@ interface TeamMemberProps {
   email: string;
   credentials: string;
   index: number;
+  linkedinUrl: string;
   isFounder?: boolean;
 }
 
-const TeamMember: React.FC<TeamMemberProps> = ({ name, role, email, credentials, index, isFounder = false }) => {
+const TeamMember: React.FC<TeamMemberProps> = ({ name, role, email, credentials, index, linkedinUrl, isFounder = false }) => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -43,7 +44,7 @@ const TeamMember: React.FC<TeamMemberProps> = ({ name, role, email, credentials,
           <Mail size={18} />
         </a>
         <a 
-          href="https://www.linkedin.com/company/navnote" 
+          href={linkedinUrl} 
           target="_blank" 
           rel="noopener noreferrer"
           className="p-2 glass rounded-full hover:bg-accent/20 transition-colors"
@@ -95,13 +96,15 @@ const Team: React.FC = () => {
       name: "Esmaeil Mousavi",
       role: "Founder & Owner",
       email: "esmaeil@navNote.net",
-      credentials: "Artificial Intelligence & Machine Learning Lead Researcher / Teaching Fellow, Weber State, MIT, Harvard, NCWQR"
+      credentials: "Artificial Intelligence & Machine Learning Lead Researcher / Teaching Fellow, Weber State, MIT, Harvard, NCWQR",
+      linkedinUrl: "https://www.linkedin.com/in/mousavi-ai/"
     },
     {
       name: "Niklas Kennedy",
       role: "Co-Founder & CEO",
       email: "niklas@navNote.net",
-      credentials: "Mainframe System Engineer, UX/UI Developer, Association for Computing Machinery President, IBM, ACM, Weber State"
+      credentials: "Mainframe System Engineer, UX/UI Developer, Association for Computing Machinery President, IBM, ACM, Weber State",
+      linkedinUrl: "https://www.linkedin.com/in/niklas-kennedy-0a1a53198/"
     }
   ];
 
@@ -176,6 +179,7 @@ const Team: React.FC = () => {
               role={founder.role}
               email={founder.email}
               credentials={founder.credentials}
+              linkedinUrl={founder.linkedinUrl}
               index={index}
               isFounder={true}
             />
