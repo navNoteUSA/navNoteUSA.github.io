@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Download, HelpCircle, Shield, MapPin } from 'lucide-react';
+import { Menu, X, Download, HelpCircle, Shield, MapPin, Mail } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,13 +27,27 @@ const Navbar: React.FC = () => {
       document.body.style.overflow = '';
     }
     
+    // Close menu when clicking outside on mobile
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsOpen(false);
+      }
+    };
+    
+    window.addEventListener('resize', handleResize);
+    
     return () => {
       document.body.style.overflow = '';
+      window.removeEventListener('resize', handleResize);
     };
   }, [isOpen]);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const closeMenu = () => {
+    setIsOpen(false);
   };
 
   return (
@@ -111,7 +125,7 @@ const Navbar: React.FC = () => {
                 <a 
                   href="#features" 
                   className="py-4 px-5 flex items-center space-x-3 rounded-lg hover:bg-white/10 active:bg-white/20 transition-colors"
-                  onClick={() => setIsOpen(false)}
+                  onClick={closeMenu}
                 >
                   <div className="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center">
                     <HelpCircle size={20} className="text-secondary" />
@@ -124,7 +138,7 @@ const Navbar: React.FC = () => {
                 <a 
                   href="#lifemap" 
                   className="py-4 px-5 flex items-center space-x-3 rounded-lg hover:bg-white/10 active:bg-white/20 transition-colors"
-                  onClick={() => setIsOpen(false)}
+                  onClick={closeMenu}
                 >
                   <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center">
                     <MapPin size={20} className="text-accent" />
@@ -139,7 +153,7 @@ const Navbar: React.FC = () => {
                 <a 
                   href="#technology" 
                   className="py-4 px-5 flex items-center space-x-3 rounded-lg hover:bg-white/10 active:bg-white/20 transition-colors"
-                  onClick={() => setIsOpen(false)}
+                  onClick={closeMenu}
                 >
                   <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center">
                     <Shield size={20} className="text-blue-400" />
@@ -153,7 +167,7 @@ const Navbar: React.FC = () => {
                 <a 
                   href="#privacy" 
                   className="py-4 px-5 flex items-center space-x-3 rounded-lg hover:bg-white/10 active:bg-white/20 transition-colors"
-                  onClick={() => setIsOpen(false)}
+                  onClick={closeMenu}
                 >
                   <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center">
                     <Shield size={20} className="text-purple-400" />
@@ -167,7 +181,7 @@ const Navbar: React.FC = () => {
                 <a 
                   href="#contact" 
                   className="py-4 px-5 flex items-center space-x-3 rounded-lg hover:bg-white/10 active:bg-white/20 transition-colors"
-                  onClick={() => setIsOpen(false)}
+                  onClick={closeMenu}
                 >
                   <div className="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center">
                     <Mail size={20} className="text-green-400" />
@@ -183,7 +197,7 @@ const Navbar: React.FC = () => {
                 <a 
                   href="#demo" 
                   className="w-full bg-secondary text-white py-3 rounded-lg hover:bg-secondary/90 transition-colors flex items-center justify-center gap-2"
-                  onClick={() => setIsOpen(false)}
+                  onClick={closeMenu}
                 >
                   <Download size={18} />
                   Get a Demo
