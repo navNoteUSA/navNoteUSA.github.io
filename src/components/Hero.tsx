@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Map, BrainCircuit, Cpu, Terminal, Neurons } from 'lucide-react';
+import { ArrowRight, Map, BrainCircuit, Cpu, Terminal, Network } from 'lucide-react';
 import gsap from 'gsap';
 
 const Hero: React.FC = () => {
@@ -181,7 +181,7 @@ const Hero: React.FC = () => {
                 </div>
                 <div className="flex items-center">
                   <div className="h-10 w-10 rounded-full bg-accent/20 flex items-center justify-center mr-3">
-                    <Neurons size={20} className="text-accent" />
+                    <Network size={20} className="text-accent" />
                   </div>
                   <p className="text-sm text-gray-300">
                     Neural network personalization
