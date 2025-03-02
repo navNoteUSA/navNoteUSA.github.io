@@ -1,12 +1,20 @@
 import React from 'react';
 import { ArrowUp, Mail, Instagram, Twitter, GitHub } from 'lucide-react';
 
-const Footer: React.FC = () => {
+interface FooterProps {
+  onOpenPrivacyPolicy: () => void;
+}
+
+const Footer: React.FC<FooterProps> = ({ onOpenPrivacyPolicy }) => {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
+  };
+  
+  const openTermsModal = () => {
+    alert('Terms of Service document will open here. Feature coming soon.');
   };
   
   return (
@@ -51,7 +59,7 @@ const Footer: React.FC = () => {
                 <a href="#privacy" className="text-slate-400 hover:text-white transition-colors">Privacy</a>
               </li>
               <li>
-                <a href="#" className="text-slate-400 hover:text-white transition-colors">App Download</a>
+                <a href="#demo" className="text-slate-400 hover:text-white transition-colors">Get a Demo</a>
               </li>
             </ul>
           </div>
@@ -70,7 +78,7 @@ const Footer: React.FC = () => {
                 <a href="#" className="text-slate-400 hover:text-white transition-colors">Press</a>
               </li>
               <li>
-                <a href="#" className="text-slate-400 hover:text-white transition-colors">Contact</a>
+                <a href="#contact" className="text-slate-400 hover:text-white transition-colors">Contact</a>
               </li>
             </ul>
           </div>
@@ -80,10 +88,20 @@ const Footer: React.FC = () => {
             <h3 className="text-base md:text-lg font-semibold mb-4">Legal</h3>
             <ul className="space-y-2 text-sm md:text-base">
               <li>
-                <a href="#" className="text-slate-400 hover:text-white transition-colors">Terms</a>
+                <button 
+                  onClick={openTermsModal}
+                  className="text-slate-400 hover:text-white transition-colors text-left"
+                >
+                  Terms
+                </button>
               </li>
               <li>
-                <a href="#" className="text-slate-400 hover:text-white transition-colors">Privacy</a>
+                <button 
+                  onClick={onOpenPrivacyPolicy}
+                  className="text-slate-400 hover:text-white transition-colors text-left"
+                >
+                  Privacy
+                </button>
               </li>
               <li>
                 <a href="#" className="text-slate-400 hover:text-white transition-colors">Cookies</a>
@@ -111,7 +129,7 @@ const Footer: React.FC = () => {
             >
               <ArrowUp size={18} className="text-primary" />
             </a>
-            <a href="#" className="text-xs md:text-sm text-slate-400 hover:text-white transition-colors">
+            <a href="#contact" className="text-xs md:text-sm text-slate-400 hover:text-white transition-colors">
               <Mail size={16} className="inline mr-2" />
               Contact Us
             </a>

@@ -1,19 +1,31 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Building } from 'lucide-react';
 
 const ContactCard: React.FC<{
   title: string;
-  email: string;
+  contact: string;
+  type: 'email' | 'phone' | 'location';
   icon: React.ReactNode;
   description: string;
   index: number;
-}> = ({ title, email, icon, description, index }) => {
+}> = ({ title, contact, type, icon, description, index }) => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
+
+  const getContactLink = () => {
+    switch (type) {
+      case 'email':
+        return `mailto:${contact}`;
+      case 'phone':
+        return `tel:${contact.replace(/[^0-9+]/g, '')}`;
+      default:
+        return '#';
+    }
+  };
 
   return (
     <motion.div
@@ -30,12 +42,18 @@ const ContactCard: React.FC<{
         <div>
           <h3 className="text-lg font-semibold mb-1">{title}</h3>
           <p className="text-gray-400 text-sm mb-3">{description}</p>
-          <a 
-            href={`mailto:${email}`}
-            className="text-secondary hover:text-accent transition-colors"
-          >
-            {email}
-          </a>
+          {type !== 'location' ? (
+            <a 
+              href={getContactLink()}
+              className="inline-flex items-center text-secondary hover:text-accent transition-colors"
+            >
+              {type === 'email' && <Mail size={16} className="mr-2" />}
+              {type === 'phone' && <Phone size={16} className="mr-2" />}
+              {contact}
+            </a>
+          ) : (
+            <span className="text-gray-400">{contact}</span>
+          )}
         </div>
       </div>
     </motion.div>
@@ -53,25 +71,29 @@ const Contact: React.FC = () => {
   const contactCards = [
     {
       title: "General Inquiries",
-      email: "contact@navNote.net",
+      contact: "contact@navNote.net",
+      type: 'email' as const,
       icon: <Mail size={24} />,
       description: "For general questions about navNote and our services."
     },
     {
-      title: "Sales Department",
-      email: "sales@navNote.net",
+      title: "Customer Support",
+      contact: "(385) 288-0722",
+      type: 'phone' as const,
       icon: <Phone size={24} />,
-      description: "For partnership opportunities and business inquiries."
+      description: "Call us directly for immediate assistance with any issues."
     },
     {
-      title: "Executive Office",
-      email: "ceo@navNote.net",
-      icon: <MapPin size={24} />,
-      description: "For press, investment, and strategic partnership inquiries."
+      title: "Headquarters",
+      contact: "Ogden, Utah, USA",
+      type: 'location' as const,
+      icon: <Building size={24} />,
+      description: "Our main office location where our team is based."
     },
     {
       title: "Technical Support",
-      email: "info@navNote.net",
+      contact: "support@navNote.net",
+      type: 'email' as const,
       icon: <Mail size={24} />,
       description: "For technical assistance and product support."
     }
@@ -80,7 +102,7 @@ const Contact: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // In a real implementation, this would submit to a backend
-    alert(`Thank you for joining our waitlist! We'll contact you at ${email} when navNote launches.`);
+    alert(`Thank you for your interest! We'll contact you at ${email} to schedule a demo.`);
     setEmail('');
   };
 
@@ -108,7 +130,8 @@ const Contact: React.FC = () => {
             <ContactCard
               key={index}
               title={card.title}
-              email={card.email}
+              contact={card.contact}
+              type={card.type}
               icon={card.icon}
               description={card.description}
               index={index}
@@ -116,17 +139,17 @@ const Contact: React.FC = () => {
           ))}
         </div>
         
-        {/* Waitlist Section */}
-        <div id="waitlist" className="max-w-3xl mx-auto">
+        {/* Demo Request Section */}
+        <div id="demo" className="max-w-3xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ duration: 0.5, delay: 0.3 }}
             className="glass p-8 rounded-xl"
           >
-            <h3 className="text-2xl font-bold mb-4 text-center">Ready to Transform Your Productivity?</h3>
+            <h3 className="text-2xl font-bold mb-4 text-center">Ready to See navNote in Action?</h3>
             <p className="text-center text-gray-300 mb-8">
-              Join our waitlist to be among the first to experience the future of intelligent task management.
+              Request a personalized demo to experience the future of intelligent task management.
             </p>
             
             <form onSubmit={handleSubmit} className="max-w-md mx-auto">
@@ -147,7 +170,7 @@ const Contact: React.FC = () => {
                 </button>
               </div>
               <p className="text-center text-gray-400 text-sm mt-4">
-                We respect your privacy. No spam, just updates about our launch.
+                We respect your privacy. No spam, just information about your demo request.
               </p>
             </form>
           </motion.div>

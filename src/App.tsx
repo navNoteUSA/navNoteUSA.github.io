@@ -15,6 +15,7 @@ import ParticleBackground from './components/ParticleBackground';
 function App() {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -41,6 +42,16 @@ function App() {
     };
   }, []);
 
+  const handleOpenPrivacyPolicy = () => {
+    setShowPrivacyPolicy(true);
+    // Scroll to top when opening modal
+    window.scrollTo(0, 0);
+  };
+
+  const handleClosePrivacyPolicy = () => {
+    setShowPrivacyPolicy(false);
+  };
+
   return (
     <div className="relative min-h-screen bg-primary text-white overflow-x-hidden">
       {/* Custom cursor (visible only on desktop) */}
@@ -66,11 +77,14 @@ function App() {
       <Features />
       <LifeMap />
       <Technology />
-      <Privacy />
+      <Privacy 
+        showFullPolicy={showPrivacyPolicy} 
+        onClose={handleClosePrivacyPolicy} 
+      />
       <Partners />
       <Team />
       <Contact />
-      <Footer />
+      <Footer onOpenPrivacyPolicy={handleOpenPrivacyPolicy} />
     </div>
   );
 }
