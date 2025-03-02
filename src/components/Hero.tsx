@@ -149,7 +149,7 @@ const Hero: React.FC = () => {
               <div className="flex flex-wrap gap-4">
                 <a 
                   href="#demo" 
-                  className="btn-primary"
+                  className="btn-primary group"
                 >
                   See the App
                   <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
