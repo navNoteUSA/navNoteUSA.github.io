@@ -1,12 +1,13 @@
-<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="50" cy="50" r="45" fill="url(#paint0_linear)" />
-  <path d="M30 40L50 30L70 40V60L50 70L30 60V40Z" stroke="white" stroke-width="2" />
-  <path d="M50 30V50M50 50V70M50 50L30 40M50 50L70 40" stroke="white" stroke-width="2" />
-  <defs>
-    <linearGradient id="paint0_linear" x1="5" y1="5" x2="95" y2="95" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#0A1128" />
-      <stop offset="0.5" stop-color="#00F0FF" />
-      <stop offset="1" stop-color="#B026FF" />
-    </linearGradient>
-  </defs>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" fill="#2E3D62" rx="128" ry="128"/>
+  
+  <!-- Nav arrow shape -->
+  <path d="M256 120 L346 256 L256 392 L166 256 Z" fill="#4D9DE0" stroke="#FFFFFF" stroke-width="12"/>
+  
+  <!-- Circle representing a note/marker -->
+  <circle cx="256" cy="256" r="48" fill="#78C091" stroke="#FFFFFF" stroke-width="8"/>
+  
+  <!-- Text label -->
+  <text x="256" y="450" font-family="Roboto, Arial, sans-serif" font-size="48" font-weight="bold" fill="#FFFFFF" text-anchor="middle">navNote</text>
 </svg>

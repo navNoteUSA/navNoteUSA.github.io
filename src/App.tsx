@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Features from './components/Features';
-import Mission from './components/Mission';
+import LifeMap from './components/LifeMap';
 import Technology from './components/Technology';
 import Partners from './components/Partners';
 import Team from './components/Team';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import Privacy from './components/Privacy';
 import ParticleBackground from './components/ParticleBackground';
 
 function App() {
@@ -49,7 +50,7 @@ function App() {
           top: `${cursorPosition.y}px`,
           width: isHovering ? '48px' : '24px',
           height: isHovering ? '48px' : '24px',
-          backgroundColor: isHovering ? 'rgba(176, 38, 255, 0.5)' : 'rgba(0, 240, 255, 0.5)',
+          backgroundColor: isHovering ? 'rgba(77, 157, 224, 0.5)' : 'rgba(120, 192, 145, 0.5)',
           mixBlendMode: 'difference'
         }}
       />
@@ -61,8 +62,9 @@ function App() {
       <Navbar />
       <Hero />
       <Features />
+      <LifeMap />
       <Technology />
-      <Mission />
+      <Privacy />
       <Partners />
       <Team />
       <Contact />
