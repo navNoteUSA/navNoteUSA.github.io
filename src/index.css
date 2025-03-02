@@ -17,21 +17,21 @@ html {
 
 body {
   @apply bg-primary text-white font-sans overflow-x-hidden;
-  background-image: radial-gradient(circle at 10% 20%, rgba(77, 157, 224, 0.1) 0%, transparent 40%),
-                    radial-gradient(circle at 90% 80%, rgba(120, 192, 145, 0.1) 0%, transparent 40%);
+  background-image: radial-gradient(circle at 10% 20%, rgba(51, 102, 204, 0.08) 0%, transparent 40%),
+                    radial-gradient(circle at 90% 80%, rgba(0, 200, 150, 0.08) 0%, transparent 40%);
 }
 
 /* Glass effect styles */
 .glass {
-  @apply bg-white/10 backdrop-blur-lg border border-white/5;
+  @apply bg-dark/50 backdrop-blur-lg border border-white/5;
 }
 
 .glass-card {
-  @apply bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl shadow-lg transition-all duration-300;
+  @apply bg-dark/60 backdrop-blur-lg border border-white/10 rounded-2xl shadow-lg transition-all duration-300;
 }
 
 .glass-card:hover {
-  @apply bg-white/10 border-white/20 shadow-blue-glow;
+  @apply bg-dark/70 border-white/20 shadow-blue-glow;
 }
 
 /* Typography styles */
@@ -41,7 +41,7 @@ body {
 
 .text-gradient-animated {
   @apply bg-clip-text text-transparent;
-  background-image: linear-gradient(90deg, #4D9DE0, #78C091, #4D9DE0);
+  background-image: linear-gradient(90deg, #3366CC, #00C896, #3366CC);
   background-size: 200% auto;
   animation: gradient 5s ease infinite;
 }
@@ -66,12 +66,12 @@ body {
 
 /* Futuristic Circuit Patterns */
 .bg-circuit-pattern {
-  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10h80v80H10z' fill='none' stroke='%234D9DE0' stroke-width='0.5' stroke-dasharray='1, 3'/%3E%3Cpath d='M20 20h60v60H20z' fill='none' stroke='%234D9DE0' stroke-width='0.5' stroke-dasharray='1, 3'/%3E%3Cpath d='M30 30h40v40H30z' fill='none' stroke='%234D9DE0' stroke-width='0.5' stroke-dasharray='1, 3'/%3E%3Ccircle cx='50' cy='50' r='20' fill='none' stroke='%2378C091' stroke-width='0.5'/%3E%3Ccircle cx='50' cy='50' r='10' fill='none' stroke='%2378C091' stroke-width='0.5'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10h80v80H10z' fill='none' stroke='%233366CC' stroke-width='0.5' stroke-dasharray='1, 3'/%3E%3Cpath d='M20 20h60v60H20z' fill='none' stroke='%233366CC' stroke-width='0.5' stroke-dasharray='1, 3'/%3E%3Cpath d='M30 30h40v40H30z' fill='none' stroke='%233366CC' stroke-width='0.5' stroke-dasharray='1, 3'/%3E%3Ccircle cx='50' cy='50' r='20' fill='none' stroke='%2300C896' stroke-width='0.5'/%3E%3Ccircle cx='50' cy='50' r='10' fill='none' stroke='%2300C896' stroke-width='0.5'/%3E%3C/svg%3E");
 }
 
 .bg-grid-lines {
-  background-image: linear-gradient(to right, rgba(77, 157, 224, 0.1) 1px, transparent 1px),
-                    linear-gradient(to bottom, rgba(77, 157, 224, 0.1) 1px, transparent 1px);
+  background-image: linear-gradient(to right, rgba(51, 102, 204, 0.07) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(51, 102, 204, 0.07) 1px, transparent 1px);
   background-size: 20px 20px;
 }
 
@@ -88,7 +88,7 @@ body {
 .circuit-path::before {
   content: '';
   position: absolute;
-  background: linear-gradient(90deg, transparent, rgba(77, 157, 224, 0.5), transparent);
+  background: linear-gradient(90deg, transparent, rgba(51, 102, 204, 0.5), transparent);
   width: 100%;
   height: 2px;
   animation: circuit-animation 4s linear infinite;
@@ -131,7 +131,7 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-image: radial-gradient(rgba(77, 157, 224, 0.4) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(51, 102, 204, 0.4) 1px, transparent 1px);
   background-size: 20px 20px;
   opacity: 0.3;
   animation: pulse 4s ease infinite alternate;
@@ -202,7 +202,7 @@ body {
   position: relative;
   width: var(--hexagon-size);
   height: calc(var(--hexagon-size) * 0.866);
-  background-color: rgba(77, 157, 224, 0.1);
+  background-color: rgba(51, 102, 204, 0.1);
   margin: calc(var(--hexagon-size) * 0.433) 0;
   border-radius: 10px;
   display: flex;
@@ -217,7 +217,7 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: rgba(77, 157, 224, 0.1);
+  background-color: rgba(51, 102, 204, 0.1);
   border-radius: 10px;
 }
 
@@ -235,8 +235,8 @@ body {
 }
 
 .hexagon:hover {
-  background-color: rgba(77, 157, 224, 0.2);
-  box-shadow: 0 0 25px rgba(77, 157, 224, 0.3);
+  background-color: rgba(51, 102, 204, 0.2);
+  box-shadow: 0 0 25px rgba(51, 102, 204, 0.3);
   transform: translateY(-5px);
 }
 
@@ -245,14 +245,14 @@ body {
   @apply relative overflow-hidden rounded-xl p-6 transition-all duration-500;
   background: rgba(46, 61, 98, 0.3);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(77, 157, 224, 0.1);
+  border: 1px solid rgba(51, 102, 204, 0.1);
   transform-style: preserve-3d;
 }
 
 .feature-card:hover {
   @apply shadow-lg;
   background: rgba(46, 61, 98, 0.5);
-  border: 1px solid rgba(77, 157, 224, 0.2);
+  border: 1px solid rgba(51, 102, 204, 0.2);
   transform: translateY(-5px) rotateX(5deg) rotateY(5deg);
 }
 
@@ -302,12 +302,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(77, 157, 224, 0.5);
+  background: rgba(51, 102, 204, 0.5);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(77, 157, 224, 0.8);
+  background: rgba(51, 102, 204, 0.8);
 }
 
 /* Navbar styles */
@@ -353,15 +353,15 @@ body {
 
 /* Shadow enhancements */
 .shadow-blue-glow {
-  box-shadow: 0 0 20px rgba(77, 157, 224, 0.3);
+  box-shadow: 0 0 20px rgba(51, 102, 204, 0.3);
 }
 
 .shadow-green-glow {
-  box-shadow: 0 0 20px rgba(120, 192, 145, 0.3);
+  box-shadow: 0 0 20px rgba(0, 200, 150, 0.3);
 }
 
 /* Enhanced background patterns */
 .bg-hex-pattern {
-  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 25L87.5 43.3V81.7L50 100L12.5 81.7V43.3L50 25Z' fill='none' stroke='%234D9DE0' stroke-width='0.5'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 25L87.5 43.3V81.7L50 100L12.5 81.7V43.3L50 25Z' fill='none' stroke='%233366CC' stroke-width='0.5'/%3E%3C/svg%3E");
   background-size: 60px 60px;
 }

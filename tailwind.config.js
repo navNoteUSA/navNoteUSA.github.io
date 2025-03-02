@@ -4,13 +4,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#2E3D62',      // Dark blue from app logo
-        secondary: '#4D9DE0',    // Light blue from app logo
-        accent: '#78C091',       // Green from app logo
-        dark: '#0A1128',         // Deep dark blue
-        light: '#FFFFFF',        // White
-        highlight: '#00F0FF',    // Cyan highlight for interactive elements
-        purple: '#B026FF',       // Purple for accents
+        primary: '#0A0F1D',      // Deep dark blue-black (more matte)
+        secondary: '#3366CC',    // Professional blue (more solid)
+        accent: '#00C896',       // Vibrant teal (for AI accents)
+        dark: '#050914',         // Almost black matte
+        light: '#FFFFFF',        // Pure white
+        highlight: '#00E6FF',    // Bright cyan for interactive elements
+        purple: '#6E3CBC',       // Deeper purple for accents
       },
       fontFamily: {
         sans: ['Roboto', 'Inter', 'sans-serif'], // Match app's Roboto font
@@ -43,7 +43,7 @@ export default {
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'hero-pattern': 'linear-gradient(to bottom right, rgba(46, 61, 98, 0.9), rgba(10, 17, 40, 0.95))',
+        'hero-pattern': 'linear-gradient(to bottom right, rgba(10, 15, 29, 0.95), rgba(5, 9, 20, 0.98))',
         'hex-pattern': 'url("/hexagon-pattern.svg")',
       },
       backdropFilter: {
@@ -54,8 +54,8 @@ export default {
         'hexagon': '24px',
       },
       boxShadow: {
-        'blue-glow': '0 0 20px rgba(77, 157, 224, 0.5)',
-        'green-glow': '0 0 20px rgba(120, 192, 145, 0.5)',
+        'blue-glow': '0 0 20px rgba(51, 102, 204, 0.4)',
+        'green-glow': '0 0 20px rgba(0, 200, 150, 0.4)',
         'neo': '5px 5px 10px rgba(0, 0, 0, 0.3), -5px -5px 10px rgba(255, 255, 255, 0.05)',
       },
     },
