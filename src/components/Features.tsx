@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Calendar, Brain, Zap, Lock, MessageSquare } from 'lucide-react';
 
+
 const Features: React.FC = () => {
   return (
     <section id="features" className="py-16 md:py-24 bg-gradient-to-b from-black to-slate-900 relative overflow-hidden">
