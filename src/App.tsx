@@ -3,17 +3,23 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Features from './components/Features';
 import LifeMap from './components/LifeMap';
-import Footer from './components/Footer';
-import ContactPage from './components/ContactPage';
+import AppDemo from './components/AppDemo';
+import Technology from './components/Technology';
+import Partners from './components/Partners';
+import CallToAction from './components/CallToAction';
 import TeamPage from './components/TeamPage';
+import ContactPage from './components/ContactPage';
+import Footer from './components/Footer';
+import ParticleBackground from './components/ParticleBackground';
+import CustomCursor from './components/CustomCursor';
 import { X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 function App() {
+  const [currentPage, setCurrentPage] = useState('home');
   const [showDemoForm, setShowDemoForm] = useState(false);
   const [showAuthForm, setShowAuthForm] = useState(false);
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
-  const [currentPage, setCurrentPage] = useState<'home' | 'team' | 'contact'>('home');
   const cursorRef = useRef<HTMLDivElement>(null);
   
   // Custom cursor effect
@@ -82,234 +88,162 @@ function App() {
   }, []);
   
   // Functions for opening modals
-  const openDemoForm = () => setShowDemoForm(true);
+  const openDemoForm = () => {
+    setShowDemoForm(true);
+  };
+
   const openAuthForm = (mode: 'signin' | 'signup' = 'signin') => {
     setAuthMode(mode);
     setShowAuthForm(true);
   };
   
+  const closeDemoForm = () => {
+    setShowDemoForm(false);
+  };
+
+  const closeAuthForm = () => {
+    setShowAuthForm(false);
+  };
+  
   // Navigation functions
-  const navigateTo = (page: 'home' | 'team' | 'contact') => {
+  const navigateTo = (page: string) => {
     setCurrentPage(page);
-    window.scrollTo(0, 0); // Scroll to top when changing pages
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   
   const renderPage = () => {
-    switch(currentPage) {
+    switch (currentPage) {
+      case 'home':
+        return (
+          <>
+            <Hero onOpenDemo={openDemoForm} onOpenAuth={openAuthForm} />
+            <Features />
+            <LifeMap />
+            <AppDemo />
+            <Technology />
+            <Partners />
+            <CallToAction onOpenDemo={openDemoForm} onOpenAuth={openAuthForm} />
+          </>
+        );
       case 'team':
         return <TeamPage />;
       case 'contact':
         return <ContactPage />;
       default:
-        return (
-          <>
-            <Hero 
-              openDemoForm={openDemoForm}
-              openAuthForm={openAuthForm}
-            />
-            <Features />
-            <LifeMap />
-          </>
-        );
+        return <Hero onOpenDemo={openDemoForm} onOpenAuth={openAuthForm} />;
     }
   };
   
   return (
-    <div className="App font-sans bg-slate-950 text-white min-h-screen relative overflow-hidden">
-      {/* Custom cursor */}
-      <div 
-        ref={cursorRef}
-        className="custom-cursor hidden md:block fixed w-8 h-8 pointer-events-none z-50"
-      ></div>
+    <div className="app min-h-screen bg-slate-950 text-white relative overflow-hidden">
+      <CustomCursor />
+      <ParticleBackground />
       
-      {/* Particle background */}
-      <div className="particle-container fixed inset-0 z-0"></div>
+      {/* Glow Effects */}
+      <div className="fixed top-1/4 -left-52 w-96 h-96 bg-blue-500/10 rounded-full filter blur-3xl"></div>
+      <div className="fixed bottom-0 right-0 w-[40rem] h-[40rem] bg-purple-500/10 rounded-full filter blur-3xl"></div>
+
+      <div className="relative z-10">
+        <Navbar 
+          onNavigate={navigateTo} 
+          onOpenDemo={openDemoForm} 
+          onOpenAuth={openAuthForm} 
+        />
+        
+        <main>
+          {renderPage()}
+        </main>
+        
+        <Footer onNavigate={navigateTo} />
+      </div>
       
-      <Navbar 
-        openDemoForm={openDemoForm}
-        openAuthForm={openAuthForm}
-        navigateTo={navigateTo}
-        currentPage={currentPage}
-      />
-      
-      {renderPage()}
-      
-      <Footer />
-      
-      {/* Modal for demo form */}
-      <AnimatePresence>
-        {showDemoForm && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-          >
-            <motion.div 
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 20 }}
-              className="bg-slate-900 rounded-2xl p-6 max-w-md w-full border border-slate-800 shadow-xl relative"
-            >
-              <h2 className="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">Request a Demo</h2>
-              <form className="space-y-4">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium mb-1">Name</label>
-                  <input 
-                    type="text" 
-                    id="name" 
-                    className="w-full bg-slate-800 rounded-lg border border-slate-700 p-2.5 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Your name"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium mb-1">Email</label>
-                  <input 
-                    type="email" 
-                    id="email" 
-                    className="w-full bg-slate-800 rounded-lg border border-slate-700 p-2.5 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="your@email.com"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="company" className="block text-sm font-medium mb-1">Company</label>
-                  <input 
-                    type="text" 
-                    id="company" 
-                    className="w-full bg-slate-800 rounded-lg border border-slate-700 p-2.5 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Company name"
-                  />
-                </div>
+      {/* Demo Request Modal */}
+      {showDemoForm && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm z-50">
+          <div className="bg-slate-900 p-8 rounded-2xl border border-slate-700 max-w-md w-full">
+            <h2 className="text-2xl font-bold mb-6">Request a Demo</h2>
+            <form className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-2">Your Name</label>
+                <input type="text" className="w-full px-4 py-3 bg-slate-800 rounded-lg border border-slate-700" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">Email Address</label>
+                <input type="email" className="w-full px-4 py-3 bg-slate-800 rounded-lg border border-slate-700" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">Company</label>
+                <input type="text" className="w-full px-4 py-3 bg-slate-800 rounded-lg border border-slate-700" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">Message (Optional)</label>
+                <textarea className="w-full px-4 py-3 bg-slate-800 rounded-lg border border-slate-700 h-24"></textarea>
+              </div>
+              <div className="flex justify-end gap-4 mt-6">
+                <button 
+                  type="button" 
+                  onClick={closeDemoForm}
+                  className="px-4 py-2 border border-slate-600 rounded-lg hover:bg-slate-800"
+                >
+                  Cancel
+                </button>
                 <button 
                   type="submit" 
-                  className="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-medium rounded-lg px-5 py-2.5 text-center"
+                  className="px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700"
                 >
                   Submit Request
                 </button>
-              </form>
-              <button 
-                onClick={() => setShowDemoForm(false)}
-                className="absolute top-4 right-4 text-gray-400 hover:text-white"
-                aria-label="Close modal"
-              >
-                <X size={20} />
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
       
-      {/* Modal for auth form */}
-      <AnimatePresence>
-        {showAuthForm && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-          >
-            <motion.div 
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 20 }}
-              className="bg-slate-900 rounded-2xl p-6 max-w-md w-full border border-slate-800 shadow-xl relative"
-            >
-              <h2 className="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">
-                {authMode === 'signin' ? 'Sign In' : 'Sign Up'}
-              </h2>
-              <div className="flex space-x-2 mb-4">
+      {/* Auth Modal */}
+      {showAuthForm && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm z-50">
+          <div className="bg-slate-900 p-8 rounded-2xl border border-slate-700 max-w-md w-full">
+            <h2 className="text-2xl font-bold mb-6">Sign In / Sign Up</h2>
+            <form className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium mb-2">Email Address</label>
+                <input type="email" className="w-full px-4 py-3 bg-slate-800 rounded-lg border border-slate-700" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">Password</label>
+                <input type="password" className="w-full px-4 py-3 bg-slate-800 rounded-lg border border-slate-700" />
+              </div>
+              <div className="flex justify-between items-center">
+                <label className="flex items-center">
+                  <input type="checkbox" className="mr-2" />
+                  <span className="text-sm">Remember me</span>
+                </label>
+                <a href="#" className="text-sm text-blue-400 hover:text-blue-300">Forgot password?</a>
+              </div>
+              <div className="flex justify-end gap-4 mt-6">
                 <button 
-                  className={`flex-1 py-2 border-b-2 transition-colors ${authMode === 'signin' ? 'border-blue-500 text-blue-500' : 'border-transparent hover:border-gray-500'}`}
-                  onClick={() => setAuthMode('signin')}
+                  type="button" 
+                  onClick={closeAuthForm}
+                  className="px-4 py-2 border border-slate-600 rounded-lg hover:bg-slate-800"
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="submit" 
+                  className="px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700"
                 >
                   Sign In
                 </button>
-                <button 
-                  className={`flex-1 py-2 border-b-2 transition-colors ${authMode === 'signup' ? 'border-blue-500 text-blue-500' : 'border-transparent hover:border-gray-500'}`}
-                  onClick={() => setAuthMode('signup')}
-                >
-                  Sign Up
-                </button>
               </div>
-              <form className="space-y-4">
-                {authMode === 'signup' && (
-                  <div>
-                    <label htmlFor="auth-name" className="block text-sm font-medium mb-1">Full Name</label>
-                    <input 
-                      type="text" 
-                      id="auth-name" 
-                      className="w-full bg-slate-800 rounded-lg border border-slate-700 p-2.5 focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="John Doe"
-                    />
-                  </div>
-                )}
-                <div>
-                  <label htmlFor="auth-email" className="block text-sm font-medium mb-1">Email</label>
-                  <input 
-                    type="email" 
-                    id="auth-email" 
-                    className="w-full bg-slate-800 rounded-lg border border-slate-700 p-2.5 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="your@email.com"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="auth-password" className="block text-sm font-medium mb-1">Password</label>
-                  <input 
-                    type="password" 
-                    id="auth-password" 
-                    className="w-full bg-slate-800 rounded-lg border border-slate-700 p-2.5 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="••••••••"
-                  />
-                </div>
-                {authMode === 'signup' && (
-                  <div>
-                    <label htmlFor="auth-confirm-password" className="block text-sm font-medium mb-1">Confirm Password</label>
-                    <input 
-                      type="password" 
-                      id="auth-confirm-password" 
-                      className="w-full bg-slate-800 rounded-lg border border-slate-700 p-2.5 focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="••••••••"
-                    />
-                  </div>
-                )}
-                {authMode === 'signin' && (
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <input 
-                        id="remember-me" 
-                        type="checkbox" 
-                        className="w-4 h-4 bg-slate-800 rounded border border-slate-700" 
-                      />
-                      <label htmlFor="remember-me" className="ml-2 text-sm">Remember me</label>
-                    </div>
-                    <a href="#" className="text-sm text-blue-500 hover:underline">Forgot password?</a>
-                  </div>
-                )}
-                <button 
-                  type="submit" 
-                  className="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-medium rounded-lg px-5 py-2.5 text-center"
-                >
-                  {authMode === 'signin' ? 'Sign In' : 'Sign Up'}
-                </button>
-              </form>
-              <div className="mt-4 text-center text-sm text-gray-400">
-                {authMode === 'signin' ? (
-                  <p>Don't have an account? <button onClick={() => setAuthMode('signup')} className="text-blue-500 hover:underline">Sign up</button></p>
-                ) : (
-                  <p>Already have an account? <button onClick={() => setAuthMode('signin')} className="text-blue-500 hover:underline">Sign in</button></p>
-                )}
+              <div className="mt-4 text-center">
+                <p className="text-sm text-gray-400">
+                  Don't have an account? <a href="#" className="text-blue-400 hover:text-blue-300">Sign up</a>
+                </p>
               </div>
-              <button 
-                onClick={() => setShowAuthForm(false)}
-                className="absolute top-4 right-4 text-gray-400 hover:text-white"
-                aria-label="Close modal"
-              >
-                <X size={20} />
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

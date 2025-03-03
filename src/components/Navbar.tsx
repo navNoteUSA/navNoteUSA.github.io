@@ -1,195 +1,148 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Users } from 'lucide-react';
+import { Menu, X, ChevronDown, Users } from 'lucide-react';
 
 interface NavbarProps {
-  openDemoForm?: () => void;
-  openAuthForm?: () => void;
-  navigateTo: (page: 'home' | 'team' | 'contact') => void;
-  currentPage: 'home' | 'team' | 'contact';
+  onNavigate: (page: string) => void;
+  onOpenDemo: () => void;
+  onOpenAuth: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ openDemoForm, openAuthForm, navigateTo, currentPage }) => {
-  const [isScrolled, setIsScrolled] = useState(false);
+const Navbar: React.FC<NavbarProps> = ({
+  onNavigate,
+  onOpenDemo,
+  onOpenAuth
+}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // Handle scroll event to change navbar appearance
   useEffect(() => {
     const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      if (scrollTop > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 20);
     };
-    
+
     window.addEventListener('scroll', handleScroll);
-    
-    // Check if mobile on mount and when window resizes
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    // Initial check
-    handleResize();
-    
-    window.addEventListener('resize', handleResize);
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleResize);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-  
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-  
-  const closeMenu = () => {
-    setIsMenuOpen(false);
-  };
-  
+
   return (
-    <nav className={`fixed w-full top-0 z-40 transition-all duration-300 ${isScrolled ? 'bg-slate-900/80 backdrop-blur-md shadow-lg' : 'bg-transparent'}`}>
+    <nav className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+      isScrolled ? 'py-3 bg-slate-900/90 backdrop-blur-md shadow-lg' : 'py-5 bg-transparent'
+    }`}>
       <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center py-4">
+        <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center">
-            <a 
-              href="#" 
-              className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-blue-600 to-cyan-400 mr-10"
-              onClick={(e) => {
-                e.preventDefault();
-                navigateTo('home');
-                closeMenu();
-              }}
-            >
-              navNote
-            </a>
+          <div 
+            className="flex items-center cursor-pointer" 
+            onClick={() => onNavigate('home')}
+          >
+            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center mr-3">
+              <span className="text-xl font-bold">n</span>
+            </div>
+            <span className="text-xl font-bold">navNote</span>
           </div>
-          
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center space-x-10 text-gray-300 font-medium">
-            <a 
-              href="#" 
-              className={`hover:text-white transition-colors ${currentPage === 'home' ? 'text-white' : ''}`}
-              onClick={(e) => {
-                e.preventDefault();
-                navigateTo('home');
-              }}
-            >
-              Home
-            </a>
-            <a 
-              href="#" 
-              className={`hover:text-white transition-colors ${currentPage === 'team' ? 'text-white' : ''}`}
-              onClick={(e) => {
-                e.preventDefault();
-                navigateTo('team');
-              }}
-            >
-              Team
-            </a>
-            <a 
-              href="#" 
-              className={`hover:text-white transition-colors ${currentPage === 'contact' ? 'text-white' : ''}`}
-              onClick={(e) => {
-                e.preventDefault();
-                navigateTo('contact');
-              }}
-            >
-              Contact
-            </a>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-8">
+            <div className="flex space-x-6">
+              <button 
+                onClick={() => onNavigate('home')} 
+                className="text-gray-300 hover:text-white transition-colors"
+              >
+                Home
+              </button>
+              <button 
+                onClick={() => onNavigate('team')} 
+                className="text-gray-300 hover:text-white transition-colors flex items-center"
+              >
+                <Users size={18} className="mr-1" />
+                Team
+              </button>
+              <button 
+                onClick={() => onNavigate('contact')} 
+                className="text-gray-300 hover:text-white transition-colors"
+              >
+                Contact
+              </button>
+            </div>
+            
+            <div className="flex items-center space-x-4">
+              <button 
+                onClick={onOpenAuth}
+                className="text-white hover:text-blue-300 transition-colors"
+              >
+                Sign In / Sign Up
+              </button>
+              <button 
+                onClick={onOpenDemo}
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-5 py-2 rounded-lg transition-all shadow-glow-sm hover:shadow-glow-md"
+              >
+                Get a Demo
+              </button>
+            </div>
           </div>
-          
-          {/* Action Buttons */}
-          <div className="hidden md:flex items-center space-x-4">
-            <button 
-              onClick={openAuthForm}
-              className="flex items-center text-gray-300 hover:text-white transition-colors"
-            >
-              <Users size={18} className="mr-2" />
-              Sign In / Sign Up
-            </button>
-            <button 
-              onClick={openDemoForm}
-              className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white px-4 py-2 rounded-lg font-medium shadow-glow-sm"
-            >
-              Get a Demo
-            </button>
-          </div>
-          
+
           {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center">
-            <button 
-              onClick={toggleMenu}
-              className="text-gray-300 hover:text-white transition-colors focus:outline-none"
-              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-            >
-              {isMenuOpen ? (
-                <X size={24} />
-              ) : (
-                <Menu size={24} />
-              )}
-            </button>
-          </div>
+          <button 
+            className="md:hidden text-gray-300 hover:text-white"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
       </div>
-      
-      {/* Mobile Menu */}
+
+      {/* Mobile Navigation */}
       {isMenuOpen && (
-        <div className="md:hidden bg-slate-900 border-t border-slate-800">
-          <div className="container mx-auto px-4 py-4 space-y-3">
-            <a 
-              href="#" 
-              className={`block py-2 ${currentPage === 'home' ? 'text-white font-medium' : 'text-gray-300'}`}
-              onClick={(e) => {
-                e.preventDefault();
-                navigateTo('home');
-                closeMenu();
-              }}
-            >
-              Home
-            </a>
-            <a 
-              href="#" 
-              className={`block py-2 ${currentPage === 'team' ? 'text-white font-medium' : 'text-gray-300'}`}
-              onClick={(e) => {
-                e.preventDefault();
-                navigateTo('team');
-                closeMenu();
-              }}
-            >
-              Team
-            </a>
-            <a 
-              href="#" 
-              className={`block py-2 ${currentPage === 'contact' ? 'text-white font-medium' : 'text-gray-300'}`}
-              onClick={(e) => {
-                e.preventDefault();
-                navigateTo('contact');
-                closeMenu();
-              }}
-            >
-              Contact
-            </a>
-            <div className="pt-2">
+        <div className="md:hidden bg-slate-900/95 backdrop-blur-md">
+          <div className="container mx-auto px-4 py-4 divide-y divide-slate-800">
+            <div className="flex flex-col space-y-4 pb-4">
               <button 
                 onClick={() => {
-                  if (openAuthForm) openAuthForm();
-                  closeMenu();
-                }}
-                className="w-full bg-slate-800 text-white py-2 rounded-lg mb-2 flex items-center justify-center"
+                  onNavigate('home');
+                  setIsMenuOpen(false);
+                }} 
+                className="text-gray-300 hover:text-white transition-colors py-2"
               >
-                <Users size={18} className="mr-2" />
+                Home
+              </button>
+              <button 
+                onClick={() => {
+                  onNavigate('team');
+                  setIsMenuOpen(false);
+                }} 
+                className="text-gray-300 hover:text-white transition-colors py-2 flex items-center"
+              >
+                <Users size={18} className="mr-1" />
+                Team
+              </button>
+              <button 
+                onClick={() => {
+                  onNavigate('contact');
+                  setIsMenuOpen(false);
+                }} 
+                className="text-gray-300 hover:text-white transition-colors py-2"
+              >
+                Contact
+              </button>
+            </div>
+            
+            <div className="flex flex-col space-y-4 pt-4">
+              <button 
+                onClick={() => {
+                  onOpenAuth();
+                  setIsMenuOpen(false);
+                }}
+                className="text-white hover:text-blue-300 transition-colors py-2"
+              >
                 Sign In / Sign Up
               </button>
               <button 
                 onClick={() => {
-                  if (openDemoForm) openDemoForm();
-                  closeMenu();
+                  onOpenDemo();
+                  setIsMenuOpen(false);
                 }}
-                className="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white py-2 rounded-lg font-medium"
+                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-5 py-3 rounded-lg"
               >
                 Get a Demo
               </button>
