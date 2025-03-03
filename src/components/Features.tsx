@@ -139,7 +139,7 @@ const Features: React.FC = () => {
   };
 
   return (
-    <section id="features" className="py-20 relative overflow-hidden">
+    <section id="features" className="py-12 relative overflow-hidden">
       {/* Background elements */}
       <div className="absolute inset-0 bg-gradient-to-b from-slate-950 to-slate-900"></div>
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
@@ -177,7 +177,7 @@ const Features: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-10"
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-4">Redefining Task Management with AI</h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">

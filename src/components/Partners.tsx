@@ -68,7 +68,7 @@ const Partners: React.FC = () => {
   };
 
   return (
-    <section id="partners" className="py-20 bg-gradient-to-b from-slate-950 to-black relative overflow-hidden">
+    <section id="partners" className="py-12 relative overflow-hidden">
       {/* Background elements */}
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
       <div className="absolute inset-0 pointer-events-none">

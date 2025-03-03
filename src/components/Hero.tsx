@@ -85,7 +85,7 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
   return (
     <section 
       ref={heroRef}
-      className="min-h-screen flex items-center relative overflow-hidden pt-20 pb-32"
+      className="min-h-screen flex items-center relative overflow-hidden pt-16 pb-16"
       style={{
         background: "linear-gradient(to bottom, rgb(15, 23, 42), rgb(23, 31, 56))"
       }}
@@ -142,14 +142,14 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
               variants={itemVariants}
               className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight"
             >
-              Your <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">AI-Powered</span> Location-Based Task Manager
+              AI-Driven <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">Virtual Memory</span> That Evolves With You
             </motion.h1>
             
             <motion.p 
               variants={itemVariants}
               className="text-xl text-gray-300 mb-8"
             >
-              navNote revolutionizes task management by understanding your context, location, and schedule. Never forget a task at the right place and time again.
+              navNote intelligently adapts to your life, dynamically organizing tasks based on location, time, and context—because your tasks evolve with you.
             </motion.p>
             
             <motion.div 

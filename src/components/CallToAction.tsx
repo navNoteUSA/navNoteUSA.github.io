@@ -8,7 +8,7 @@ interface CallToActionProps {
 
 const CallToAction: React.FC<CallToActionProps> = ({ onOpenDemo, onOpenAuth }) => {
   return (
-    <section id="call-to-action" className="py-20 relative overflow-hidden">
+    <section id="cta" className="py-12 relative overflow-hidden">
       {/* Background elements */}
       <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-blue-950/20 to-slate-950 z-0"></div>
       
