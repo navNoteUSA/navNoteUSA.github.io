@@ -16,9 +16,11 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           {/* Company info */}
           <div className="col-span-1 md:col-span-1">
             <div className="flex items-center mb-4">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center mr-3">
-                <span className="text-xl font-bold">n</span>
-              </div>
+              <img 
+                src="/navNote_logo.jpeg" 
+                alt="navNote Logo" 
+                className="h-10 w-auto rounded-full mr-3"
+              />
               <span className="text-xl font-bold">navNote</span>
             </div>
             

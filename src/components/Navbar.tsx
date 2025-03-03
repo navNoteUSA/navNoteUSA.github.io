@@ -36,9 +36,11 @@ const Navbar: React.FC<NavbarProps> = ({
             className="flex items-center cursor-pointer" 
             onClick={() => onNavigate('home')}
           >
-            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center mr-3">
-              <span className="text-xl font-bold">n</span>
-            </div>
+            <img 
+              src="/navNote_logo.jpeg" 
+              alt="navNote Logo" 
+              className="h-10 w-auto rounded-full mr-3"
+            />
             <span className="text-xl font-bold">navNote</span>
           </div>
 
