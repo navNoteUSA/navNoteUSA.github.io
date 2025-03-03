@@ -94,78 +94,57 @@ const Features: React.FC = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: 0.05,
         delayChildren: 0.1
       }
     }
   };
 
   const itemVariants = {
-    hidden: { y: 30, opacity: 0 },
+    hidden: { y: 20, opacity: 0 },
     visible: { 
       y: 0, 
       opacity: 1,
       transition: { type: "spring", stiffness: 300, damping: 24 }
-    },
-    hover: {
-      y: -10,
-      transition: { 
-        type: "spring", 
-        stiffness: 500, 
-        damping: 15,
-        duration: 0.1
-      }
     }
   };
 
   const iconVariants = {
-    initial: { scale: 1, rotate: 0 },
+    initial: { scale: 1 },
     hover: { 
-      scale: 1.3,
-      rotate: [0, 15, -15, 0],
+      scale: 1.15,
       transition: {
-        duration: 0.6,
-        repeat: 0,
-        ease: "easeInOut"
-      }
-    },
-    pulse: {
-      scale: [1, 1.15, 1],
-      rotate: [0, 3, 0, -3, 0],
-      transition: {
-        duration: 3,
-        repeat: Infinity,
-        repeatType: "reverse",
-        ease: "easeInOut"
+        duration: 0.3,
+        ease: "easeOut"
       }
     }
   };
 
   return (
-    <section id="features" className="py-12 relative overflow-hidden">
+    <section id="features" className="py-10 relative overflow-hidden">
       {/* Background elements */}
       <div className="absolute inset-0 bg-gradient-to-b from-slate-950 to-slate-900"></div>
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
       
-      {/* Animated particles */}
+      {/* Subtle animated particles */}
       <div className="absolute inset-0 pointer-events-none">
-        {Array.from({ length: 6 }).map((_, i) => (
+        {Array.from({ length: 4 }).map((_, i) => (
           <motion.div 
             key={i} 
-            className="absolute bg-blue-500/30 rounded-full blur-2xl"
+            className="absolute bg-blue-500/20 rounded-full blur-xl"
             style={{
-              width: `${Math.random() * 100 + 50}px`,
-              height: `${Math.random() * 100 + 50}px`,
+              width: `${Math.random() * 80 + 30}px`,
+              height: `${Math.random() * 80 + 30}px`,
               top: `${Math.random() * 100}%`,
               left: `${Math.random() * 100}%`
             }}
             animate={{
-              x: [0, Math.random() * 50 - 25],
-              y: [0, Math.random() * 50 - 25],
-              opacity: [0.2, 0.4, 0.2]
+              x: [0, Math.random() * 30 - 15],
+              y: [0, Math.random() * 30 - 15],
+              opacity: [0.1, 0.2, 0.1]
             }}
             transition={{
-              duration: Math.random() * 10 + 15,
+              duration: Math.random() * 10 + 10,
               repeat: Infinity,
               repeatType: "reverse",
               ease: "easeInOut"
@@ -176,20 +155,25 @@ const Features: React.FC = () => {
       
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-10"
+          transition={{ duration: 0.5 }}
+          className="text-center mb-8"
         >
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-[var(--text-primary)]">Redefining Task Management with AI</h2>
-          <p className="text-xl text-[var(--text-tertiary)] max-w-3xl mx-auto">
+          <div className="inline-flex items-center justify-center mb-2">
+            <div className="h-0.5 w-6 bg-blue-500/50 rounded mr-3"></div>
+            <span className="text-blue-400 text-xs font-medium tracking-wider uppercase">Features</span>
+            <div className="h-0.5 w-6 bg-blue-500/50 rounded ml-3"></div>
+          </div>
+          <h2 className="text-2xl md:text-3xl font-bold mb-3 text-[var(--text-primary)]">Redefining Task Management with AI</h2>
+          <p className="text-base md:text-lg text-[var(--text-tertiary)] max-w-2xl mx-auto">
             navNote combines AI intelligence with location awareness to transform how you organize your life.
           </p>
         </motion.div>
         
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -199,37 +183,36 @@ const Features: React.FC = () => {
             <motion.div
               key={index}
               variants={itemVariants}
-              transition={{ duration: 0.5, delay: feature.delay }}
-              whileHover={{ y: -5, transition: { duration: 0.2 } }}
-              className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-6 shadow-lg hover:shadow-glow-sm transition-all"
+              transition={{ duration: 0.3, delay: feature.delay }}
+              whileHover={{ 
+                y: -3, 
+                boxShadow: '0 4px 12px rgba(59, 130, 246, 0.15)', 
+                transition: { duration: 0.2 } 
+              }}
+              className="bg-slate-900/80 backdrop-blur-sm border border-slate-800/70 rounded-lg p-4 shadow-sm hover:border-slate-700/80 transition-all"
             >
-              <div className="relative mb-6 w-14 h-14">
-                <motion.div 
-                  className={`absolute inset-0 ${feature.bgColor} rounded-full opacity-20`}
-                  animate={{
-                    scale: [1, 1.4, 1],
-                    opacity: [0.2, 0.4, 0.2]
-                  }}
-                  transition={{
-                    duration: 2.5,
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                    ease: "easeInOut"
-                  }}
-                />
-                <motion.div 
-                  className={`w-12 h-12 rounded-full bg-gradient-to-br ${feature.color} flex items-center justify-center shadow-lg`}
-                  variants={iconVariants}
-                  initial="initial"
-                  whileHover="hover"
-                  animate="pulse"
-                >
-                  <feature.icon size={20} className="text-white" />
-                </motion.div>
+              <div className="flex items-start mb-2.5">
+                <div className="relative w-7 h-7 mr-2">
+                  <div className={`absolute inset-0 ${feature.bgColor} rounded-full opacity-10 blur-sm`}></div>
+                  <motion.div 
+                    className={`w-7 h-7 rounded-full bg-gradient-to-br ${feature.color} flex items-center justify-center`}
+                    variants={iconVariants}
+                    whileHover="hover"
+                  >
+                    <feature.icon size={14} className="text-white" />
+                  </motion.div>
+                </div>
+                <h3 className="text-sm font-semibold text-[var(--text-primary)]">{feature.title}</h3>
               </div>
               
-              <h3 className="text-xl font-bold mb-3 text-[var(--text-primary)]">{feature.title}</h3>
-              <p className="text-[var(--text-tertiary)]">{feature.description}</p>
+              <p className="text-xs text-[var(--text-tertiary)] ml-9 leading-relaxed">{feature.description}</p>
+              
+              {/* Tech indicator dots */}
+              <div className="flex space-x-1 mt-2 ml-9">
+                <div className={`w-1 h-1 rounded-full ${feature.bgColor} opacity-60`}></div>
+                <div className={`w-1 h-1 rounded-full ${feature.bgColor} opacity-30`}></div>
+                <div className={`w-1 h-1 rounded-full ${feature.bgColor} opacity-10`}></div>
+              </div>
             </motion.div>
           ))}
         </motion.div>
