@@ -73,12 +73,86 @@ const AppDemo: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center mb-24"
         >
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">Experience navNote</h2>
-          <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
-            See how navNote transforms the way you organize tasks, making life more productive and less stressful.
-          </p>
+          {/* Technology badge */}
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={inView ? { scale: 1, opacity: 1 } : { scale: 0.9, opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center justify-center mb-8"
+          >
+            <div className="flex items-center bg-gradient-to-r from-slate-800 to-slate-900 border border-blue-500/20 px-4 py-2 rounded-full shadow-lg backdrop-blur-sm">
+              <span className="flex h-2 w-2 relative mr-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+              </span>
+              <span className="text-blue-400 text-sm font-medium tracking-wider">DEMO PREVIEW</span>
+            </div>
+          </motion.div>
+          
+          {/* Main heading with gradient and 3D effect */}
+          <div className="relative mb-6">
+            <motion.h2 
+              className="text-4xl md:text-6xl font-bold relative z-20 text-transparent bg-clip-text bg-gradient-to-br from-white via-blue-200 to-blue-400"
+              animate={{ 
+                textShadow: [
+                  "0 0 0 rgba(59, 130, 246, 0)",
+                  "0 0 10px rgba(59, 130, 246, 0.3)",
+                  "0 0 0 rgba(59, 130, 246, 0)"
+                ]
+              }}
+              transition={{ duration: 4, repeat: Infinity }}
+            >
+              Experience navNote
+            </motion.h2>
+            <div className="absolute inset-0 blur-xl bg-blue-500/10 rounded-full z-10 scale-150 opacity-50"></div>
+          </div>
+          
+          {/* Description with animated highlight */}
+          <div className="relative max-w-3xl mx-auto">
+            <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
+              See how navNote transforms the way you organize tasks, making life more
+              <motion.span 
+                className="relative inline-block px-2 text-white"
+                initial={{ color: "rgb(156 163 175)" }}
+                animate={{ color: "rgb(255 255 255)" }}
+                transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
+              >
+                productive
+                <motion.div 
+                  className="absolute -bottom-0.5 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-400 to-indigo-400"
+                  initial={{ width: "0%", left: "50%" }}
+                  animate={{ width: "100%", left: "0%" }}
+                  transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
+                />
+              </motion.span> 
+              and less stressful.
+            </p>
+            
+            {/* Tech dots */}
+            <div className="absolute -right-10 top-1/2 transform -translate-y-1/2 hidden lg:flex flex-col gap-2">
+              {[1, 2, 3].map((i) => (
+                <motion.div 
+                  key={i}
+                  className="w-1.5 h-1.5 rounded-full bg-blue-500"
+                  animate={{ opacity: [0.3, 1, 0.3] }}
+                  transition={{ duration: 1.5, delay: i * 0.3, repeat: Infinity }}
+                />
+              ))}
+            </div>
+            
+            <div className="absolute -left-10 top-1/2 transform -translate-y-1/2 hidden lg:flex flex-col gap-2">
+              {[1, 2, 3].map((i) => (
+                <motion.div 
+                  key={i}
+                  className="w-1.5 h-1.5 rounded-full bg-indigo-500"
+                  animate={{ opacity: [0.3, 1, 0.3] }}
+                  transition={{ duration: 1.5, delay: i * 0.3 + 0.2, repeat: Infinity }}
+                />
+              ))}
+            </div>
+          </div>
         </motion.div>
         
         <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16">

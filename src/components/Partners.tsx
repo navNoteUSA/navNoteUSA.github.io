@@ -103,12 +103,29 @@ const Partners: React.FC = () => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.5 }}
-          className="mt-16 text-center"
+          className="mt-16 relative z-10"
         >
-          <p className="text-lg text-[var(--text-accent)] font-medium">Interested in partnering with us?</p>
-          <a href="mailto:sales@navNote.net" className="inline-block mt-4 px-6 py-3 bg-[var(--text-accent)] hover:bg-blue-700 text-[var(--text-primary)] font-medium rounded-lg transition-colors">
-            Get in Touch
-          </a>
+          <div className="max-w-2xl mx-auto bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 p-8 rounded-2xl border border-blue-500/30 shadow-xl backdrop-blur-sm">
+            <div className="absolute -top-4 -left-4 w-20 h-20 bg-blue-500/10 rounded-full animate-pulse-slow"></div>
+            <div className="absolute -bottom-4 -right-4 w-16 h-16 bg-purple-500/10 rounded-full animate-pulse-slow"></div>
+            
+            <div className="text-center relative z-10">
+              <p className="text-xl text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 font-semibold mb-6">Interested in partnering with us?</p>
+              
+              <a 
+                href="mailto:sales@navNote.net" 
+                className="group relative inline-flex items-center justify-center px-8 py-4 overflow-hidden font-medium rounded-xl transition duration-300 ease-out border-2 border-blue-500 text-[var(--text-primary)]"
+              >
+                <span className="absolute inset-0 flex items-center justify-center w-full h-full text-white duration-300 -translate-x-full bg-gradient-to-r from-blue-600 to-indigo-600 group-hover:translate-x-0 ease-out">
+                  <svg className="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                  </svg>
+                </span>
+                <span className="absolute flex items-center justify-center w-full h-full text-slate-100 transition-all duration-300 transform group-hover:translate-x-full ease-out">Get in Touch</span>
+                <span className="relative invisible">Get in Touch</span>
+              </a>
+            </div>
+          </div>
         </motion.div>
       </div>
     </section>
