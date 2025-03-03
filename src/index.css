@@ -11,6 +11,15 @@
   --nav-height: 80px;
   --animation-timing: cubic-bezier(0.4, 0, 0.2, 1);
   --animation-duration: 0.6s;
+  
+  /* Standardized text colors for a more executive, tech look */
+  --text-primary: #ffffff;
+  --text-secondary: #e2e8f0;
+  --text-tertiary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-accent: #3b82f6;
+  --text-gradient-start: #3b82f6;
+  --text-gradient-end: #8b5cf6;
 }
 
 html {

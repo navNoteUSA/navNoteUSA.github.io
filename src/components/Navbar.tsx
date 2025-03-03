@@ -41,7 +41,7 @@ const Navbar: React.FC<NavbarProps> = ({
               alt="navNote Logo" 
               className="h-10 w-auto rounded-full mr-3"
             />
-            <span className="text-xl font-bold">navNote</span>
+            <span className="text-xl font-bold text-[var(--text-primary)]">navNote</span>
           </div>
 
           {/* Desktop Navigation */}
@@ -49,20 +49,20 @@ const Navbar: React.FC<NavbarProps> = ({
             <div className="flex space-x-6">
               <button 
                 onClick={() => onNavigate('home')} 
-                className="text-gray-300 hover:text-white transition-colors"
+                className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
               >
                 Home
               </button>
               <button 
                 onClick={() => onNavigate('team')} 
-                className="text-gray-300 hover:text-white transition-colors flex items-center"
+                className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors flex items-center"
               >
                 <Users size={18} className="mr-1" />
                 Team
               </button>
               <button 
                 onClick={() => onNavigate('contact')} 
-                className="text-gray-300 hover:text-white transition-colors"
+                className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
               >
                 Contact
               </button>
@@ -71,7 +71,7 @@ const Navbar: React.FC<NavbarProps> = ({
             <div className="flex items-center space-x-4">
               <button 
                 onClick={onOpenAuth}
-                className="text-white hover:text-blue-300 transition-colors"
+                className="text-[var(--text-secondary)] hover:text-[var(--text-accent)] transition-colors"
               >
                 Sign In / Sign Up
               </button>
@@ -86,7 +86,7 @@ const Navbar: React.FC<NavbarProps> = ({
 
           {/* Mobile Menu Button */}
           <button 
-            className="md:hidden text-gray-300 hover:text-white"
+            className="md:hidden text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -98,13 +98,13 @@ const Navbar: React.FC<NavbarProps> = ({
       {isMenuOpen && (
         <div className="md:hidden bg-slate-900/95 backdrop-blur-md">
           <div className="container mx-auto px-4 py-4 divide-y divide-slate-800">
-            <div className="flex flex-col space-y-4 pb-4">
+            <div className="py-4 flex flex-col space-y-3">
               <button 
                 onClick={() => {
                   onNavigate('home');
                   setIsMenuOpen(false);
                 }} 
-                className="text-gray-300 hover:text-white transition-colors py-2"
+                className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors text-left py-2"
               >
                 Home
               </button>
@@ -113,9 +113,9 @@ const Navbar: React.FC<NavbarProps> = ({
                   onNavigate('team');
                   setIsMenuOpen(false);
                 }} 
-                className="text-gray-300 hover:text-white transition-colors py-2 flex items-center"
+                className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors text-left py-2 flex items-center"
               >
-                <Users size={18} className="mr-1" />
+                <Users size={18} className="mr-2" />
                 Team
               </button>
               <button 
@@ -123,7 +123,7 @@ const Navbar: React.FC<NavbarProps> = ({
                   onNavigate('contact');
                   setIsMenuOpen(false);
                 }} 
-                className="text-gray-300 hover:text-white transition-colors py-2"
+                className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors text-left py-2"
               >
                 Contact
               </button>
@@ -135,7 +135,7 @@ const Navbar: React.FC<NavbarProps> = ({
                   onOpenAuth();
                   setIsMenuOpen(false);
                 }}
-                className="text-white hover:text-blue-300 transition-colors py-2"
+                className="text-[var(--text-secondary)] hover:text-[var(--text-accent)] transition-colors py-2 text-left"
               >
                 Sign In / Sign Up
               </button>
@@ -144,7 +144,7 @@ const Navbar: React.FC<NavbarProps> = ({
                   onOpenDemo();
                   setIsMenuOpen(false);
                 }}
-                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-5 py-3 rounded-lg"
+                className="bg-gradient-to-r from-[var(--text-gradient-start)] to-[var(--text-gradient-end)] text-[var(--text-primary)] px-5 py-3 rounded-lg shadow-lg"
               >
                 Get a Demo
               </button>

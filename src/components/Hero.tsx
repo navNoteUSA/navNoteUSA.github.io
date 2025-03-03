@@ -123,8 +123,8 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
         ))}
       </div>
       
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div className="container mx-auto px-4 relative z-10 pt-8 md:pt-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center pt-12 md:pt-16 lg:pt-20">
           {/* Left Content - Text */}
           <motion.div
             variants={containerVariants}
@@ -134,14 +134,14 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
           >
             <motion.h1 
               variants={itemVariants}
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight"
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-[var(--text-primary)]"
             >
-              AI-Driven <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">Virtual Memory</span> That Evolves With You
+              AI-Driven <span className="bg-gradient-to-r from-[var(--text-gradient-start)] to-[var(--text-gradient-end)] bg-clip-text text-transparent">Virtual Memory</span> That Evolves With You
             </motion.h1>
             
             <motion.p 
               variants={itemVariants}
-              className="text-xl text-gray-300 mb-8"
+              className="text-xl text-[var(--text-tertiary)] mb-8"
             >
               navNote intelligently adapts to your life, dynamically organizing tasks based on location, time, and context—because your tasks evolve with you.
             </motion.p>
@@ -155,7 +155,7 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
                 whileHover="hover"
                 whileTap="tap"
                 onClick={handleDemoRequest}
-                className="px-8 py-4 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-medium flex items-center gap-2 shadow-lg shadow-blue-500/30 transition-all"
+                className="px-8 py-4 bg-[var(--text-accent)] hover:bg-blue-700 rounded-lg text-[var(--text-primary)] font-medium flex items-center gap-2 shadow-lg shadow-blue-500/30 transition-all"
               >
                 Request Demo <ArrowRight className="h-5 w-5" />
               </motion.button>

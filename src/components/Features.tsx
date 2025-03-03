@@ -182,8 +182,8 @@ const Features: React.FC = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-10"
         >
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">Redefining Task Management with AI</h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-[var(--text-primary)]">Redefining Task Management with AI</h2>
+          <p className="text-xl text-[var(--text-tertiary)] max-w-3xl mx-auto">
             navNote combines AI intelligence with location awareness to transform how you organize your life.
           </p>
         </motion.div>
@@ -228,8 +228,8 @@ const Features: React.FC = () => {
                 </motion.div>
               </div>
               
-              <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-              <p className="text-gray-300">{feature.description}</p>
+              <h3 className="text-xl font-bold mb-3 text-[var(--text-primary)]">{feature.title}</h3>
+              <p className="text-[var(--text-tertiary)]">{feature.description}</p>
             </motion.div>
           ))}
         </motion.div>
