@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight, Map, BrainCircuit, Cpu, Terminal, Network } from 'lucide-react';
 import gsap from 'gsap';
 
@@ -8,11 +8,86 @@ const Hero: React.FC = () => {
   const logoRef = useRef<HTMLDivElement>(null);
   const hexGridRef = useRef<HTMLDivElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
+
+  // Improved animation variants for smoother transitions
+  const containerVariant = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.3,
+        ease: [0.25, 0.1, 0.25, 1.0],
+        duration: 0.8
+      }
+    }
+  };
+  
+  const itemVariant = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: [0.25, 0.1, 0.25, 1.0]
+      }
+    }
+  };
 
   useEffect(() => {
-    // Mark component as loaded for animations
-    setIsLoaded(true);
-    
+    // Set loaded state
+    const timer = setTimeout(() => {
+      setIsLoaded(true);
+    }, 300);
+
+    // Cancel animation frames when component unmounts
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
+  // Improved animation for logo and grid
+  useEffect(() => {
+    if (logoRef.current && hexGridRef.current && isLoaded && !prefersReducedMotion) {
+      const logo = logoRef.current;
+      const hexGrid = hexGridRef.current;
+      let frameId: number;
+      
+      // Smoother animation with proper cleanup
+      const animate = () => {
+        const scrollY = window.scrollY;
+        
+        // Perspective tilt effect based on mouse position
+        const handleMouseMove = (e: MouseEvent) => {
+          if (!prefersReducedMotion) {
+            const rotateX = -(e.clientY / window.innerHeight - 0.5) * 10;
+            const rotateY = (e.clientX / window.innerWidth - 0.5) * 10;
+            
+            logo.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+          }
+        };
+        
+        window.addEventListener('mousemove', handleMouseMove);
+        
+        // Clean up event listener
+        return () => {
+          window.removeEventListener('mousemove', handleMouseMove);
+        };
+      };
+      
+      const cleanup = animate();
+      
+      // Clean up animations on unmount
+      return () => {
+        if (cleanup) cleanup();
+        cancelAnimationFrame(frameId);
+      };
+    }
+  }, [isLoaded, prefersReducedMotion]);
+
+  useEffect(() => {
     // Create floating particles (representing the dynamic elements in Life Map)
     if (particlesRef.current) {
       const container = particlesRef.current;
@@ -136,24 +211,38 @@ const Hero: React.FC = () => {
           {/* Left column with text */}
           <div className="lg:w-1/2">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: isLoaded ? 1 : 0, y: isLoaded ? 0 : 20 }}
-              transition={{ duration: 0.8 }}
+              variants={containerVariant}
+              initial="hidden"
+              animate="visible"
+              className="max-w-xl"
             >
-              <div className="flex items-center mb-2">
+              <motion.div
+                variants={itemVariant}
+                className="flex items-center mb-2"
+              >
                 <span className="px-3 py-1 bg-accent/20 rounded-full text-xs uppercase tracking-widest font-medium backdrop-blur-sm">Revolutionizing Task Management</span>
-              </div>
+              </motion.div>
               
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-blue-600 to-cyan-400">
+              <motion.h1 
+                variants={itemVariant}
+                className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-blue-600 to-cyan-400"
+              >
                 Your AI-Powered <br />
                 <span className="bg-gradient-to-r from-secondary via-accent to-secondary bg-clip-text text-transparent animate-gradient-text">Virtual Memory</span>
-              </h1>
+              </motion.h1>
               
-              <p className="text-xl text-gray-300 mb-8 parallax max-w-lg" data-speed="0.05">
+              <motion.p 
+                variants={itemVariant}
+                className="text-xl text-gray-300 mb-8 parallax max-w-lg"
+                data-speed="0.05"
+              >
                 navNote intelligently adapts to your life, seamlessly integrating task management with context-aware AI that evolves with you.
-              </p>
+              </motion.p>
               
-              <div className="flex flex-wrap gap-4">
+              <motion.div 
+                variants={itemVariant}
+                className="flex flex-wrap gap-4"
+              >
                 <a 
                   href="#demo" 
                   className="btn-primary group bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 px-6 py-3 rounded-xl font-medium flex items-center justify-center gap-2 shadow-lg shadow-blue-900/20 transition-all"
@@ -168,9 +257,12 @@ const Hero: React.FC = () => {
                   <Map size={18} className="mr-2" />
                   Explore Life Map
                 </a>
-              </div>
+              </motion.div>
               
-              <div className="mt-8 grid grid-cols-2 gap-4">
+              <motion.div 
+                variants={itemVariant}
+                className="mt-8 grid grid-cols-2 gap-4"
+              >
                 <div className="flex items-center">
                   <div className="h-10 w-10 rounded-full bg-blue-600/20 flex items-center justify-center mr-3">
                     <BrainCircuit size={20} className="text-blue-400" />
@@ -187,7 +279,7 @@ const Hero: React.FC = () => {
                     Neural network personalization
                   </p>
                 </div>
-              </div>
+              </motion.div>
             </motion.div>
           </div>
           
@@ -196,12 +288,12 @@ const Hero: React.FC = () => {
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: isLoaded ? 1 : 0, scale: isLoaded ? 1 : 0.8 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative"
+              transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 0.1, 0.25, 1.0] }}
+              className="relative will-change-transform"
             >
               <div className="perspective-1000 relative flex items-center justify-center">
                 {/* 3D Logo Animation */}
-                <div ref={logoRef} className="w-60 h-60 mb-10 relative z-20 flex items-center justify-center">
+                <div ref={logoRef} className="w-60 h-60 mb-10 relative z-20 flex items-center justify-center will-change-transform">
                   <div className="absolute inset-0 rounded-full bg-gradient-radial from-blue-600/30 via-blue-900/10 to-transparent blur-lg"></div>
                   <div className="bg-black/40 backdrop-blur-md p-8 rounded-3xl border border-slate-800/50 shadow-2xl">
                     <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 filter drop-shadow-lg">navNote</h1>
@@ -214,12 +306,12 @@ const Hero: React.FC = () => {
                 {/* Life Map Visualization */}
                 <div 
                   ref={hexGridRef} 
-                  className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full scale-75 sm:scale-90 md:scale-100" 
+                  className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full scale-75 sm:scale-90 md:scale-100 will-change-transform" 
                   style={{ 
                     width: '300px', 
                     height: '300px', 
                     zIndex: 10,
-                    animation: 'float 10s ease-in-out infinite',
+                    animation: prefersReducedMotion ? 'none' : 'float 10s ease-in-out infinite',
                   }}
                 >
                 </div>

@@ -2,6 +2,29 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Calendar, Brain, Zap, Lock, MessageSquare } from 'lucide-react';
 
+// Custom variants for smoother animations
+const containerVariant = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    }
+  }
+};
+
+const itemVariant = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.4, 0.0, 0.2, 1] // Improved easing for smoother motion
+    }
+  }
+};
 
 const Features: React.FC = () => {
   return (
@@ -23,109 +46,121 @@ const Features: React.FC = () => {
           </p>
         </motion.div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          variants={containerVariant}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+        >
           {/* Feature 1 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            className="feature-card p-6 md:p-8 rounded-2xl bg-black/30 backdrop-blur-sm border border-slate-800"
+          <motion.div 
+            className="feature-card"
+            variants={itemVariant}
           >
-            <div className="feature-icon-wrapper mb-4 md:mb-6 w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
-              <MapPin className="text-blue-400 w-5 h-5 md:w-6 md:h-6" />
+            <div className="hexagon bg-secondary/10">
+              <div className="hexagon-content">
+                <div className="w-12 h-12 flex items-center justify-center">
+                  <MapPin className="w-6 h-6 text-secondary" />
+                </div>
+              </div>
             </div>
-            <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3">Location Intelligence</h3>
-            <p className="text-sm md:text-base text-slate-300">
-              Automatically prioritize tasks based on your location and suggest optimal times for completion. Never forget to pick up groceries when you're near the store.
+            <h3 className="text-xl font-semibold mt-6 mb-3">Spatial Organization</h3>
+            <p className="text-gray-300">
+              Arrange tasks and notes by location, creating a spatial map of your digital life that mirrors the real world.
             </p>
           </motion.div>
           
           {/* Feature 2 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            viewport={{ once: true, margin: "-100px" }}
-            className="feature-card p-6 md:p-8 rounded-2xl bg-black/30 backdrop-blur-sm border border-slate-800"
+          <motion.div 
+            className="feature-card"
+            variants={itemVariant}
           >
-            <div className="feature-icon-wrapper mb-4 md:mb-6 w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
-              <Calendar className="text-purple-400 w-5 h-5 md:w-6 md:h-6" />
+            <div className="hexagon bg-accent/10">
+              <div className="hexagon-content">
+                <div className="w-12 h-12 flex items-center justify-center">
+                  <Calendar className="w-6 h-6 text-accent" />
+                </div>
+              </div>
             </div>
-            <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3">Smart Calendar Integration</h3>
-            <p className="text-sm md:text-base text-slate-300">
-              Effortlessly sync with your calendar and intelligently schedule tasks around existing appointments, accounting for travel time and preparation needs.
+            <h3 className="text-xl font-semibold mt-6 mb-3">Time-Aware Tasks</h3>
+            <p className="text-gray-300">
+              Tasks adjust based on time proximity, bringing upcoming events closer and creating a dynamic planning experience.
             </p>
           </motion.div>
           
           {/* Feature 3 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            viewport={{ once: true, margin: "-100px" }}
-            className="feature-card p-6 md:p-8 rounded-2xl bg-black/30 backdrop-blur-sm border border-slate-800"
+          <motion.div 
+            className="feature-card"
+            variants={itemVariant}
           >
-            <div className="feature-icon-wrapper mb-4 md:mb-6 w-12 h-12 rounded-full bg-emerald-500/20 flex items-center justify-center">
-              <Brain className="text-emerald-400 w-5 h-5 md:w-6 md:h-6" />
+            <div className="hexagon bg-purple/10">
+              <div className="hexagon-content">
+                <div className="w-12 h-12 flex items-center justify-center">
+                  <Brain className="w-6 h-6 text-purple" />
+                </div>
+              </div>
             </div>
-            <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3">AI Task Planner</h3>
-            <p className="text-sm md:text-base text-slate-300">
-              The AI algorithm learns your habits and preferences to suggest the most efficient daily schedule, adapting in real-time to changes in your routine.
+            <h3 className="text-xl font-semibold mt-6 mb-3">AI-Powered Insights</h3>
+            <p className="text-gray-300">
+              Advanced AI analyzes your tasks and habits to provide personalized suggestions and optimize your workflow.
             </p>
           </motion.div>
           
           {/* Feature 4 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            viewport={{ once: true, margin: "-100px" }}
-            className="feature-card p-6 md:p-8 rounded-2xl bg-black/30 backdrop-blur-sm border border-slate-800"
+          <motion.div 
+            className="feature-card"
+            variants={itemVariant}
           >
-            <div className="feature-icon-wrapper mb-4 md:mb-6 w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center">
-              <Zap className="text-amber-400 w-5 h-5 md:w-6 md:h-6" />
+            <div className="hexagon bg-secondary/10">
+              <div className="hexagon-content">
+                <div className="w-12 h-12 flex items-center justify-center">
+                  <Zap className="w-6 h-6 text-secondary" />
+                </div>
+              </div>
             </div>
-            <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3">Quick Task Creation</h3>
-            <p className="text-sm md:text-base text-slate-300">
-              Add tasks with natural language input. Simply type or speak your task, and the AI will interpret deadlines, priorities, and required resources.
+            <h3 className="text-xl font-semibold mt-6 mb-3">Rapid Input</h3>
+            <p className="text-gray-300">
+              Natural language processing lets you add tasks conversationally, with automatic categorization and priority setting.
             </p>
           </motion.div>
           
           {/* Feature 5 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-            viewport={{ once: true, margin: "-100px" }}
-            className="feature-card p-6 md:p-8 rounded-2xl bg-black/30 backdrop-blur-sm border border-slate-800"
+          <motion.div 
+            className="feature-card"
+            variants={itemVariant}
           >
-            <div className="feature-icon-wrapper mb-4 md:mb-6 w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
-              <Lock className="text-red-400 w-5 h-5 md:w-6 md:h-6" />
+            <div className="hexagon bg-accent/10">
+              <div className="hexagon-content">
+                <div className="w-12 h-12 flex items-center justify-center">
+                  <Lock className="w-6 h-6 text-accent" />
+                </div>
+              </div>
             </div>
-            <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3">Privacy-First Design</h3>
-            <p className="text-sm md:text-base text-slate-300">
-              Your data stays on your device. Our local-first architecture ensures your personal information never leaves your control without explicit permission.
+            <h3 className="text-xl font-semibold mt-6 mb-3">Privacy-Focused</h3>
+            <p className="text-gray-300">
+              Your data stays on your device with end-to-end encryption, ensuring your personal information remains private.
             </p>
           </motion.div>
           
           {/* Feature 6 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-            viewport={{ once: true, margin: "-100px" }}
-            className="feature-card p-6 md:p-8 rounded-2xl bg-black/30 backdrop-blur-sm border border-slate-800"
+          <motion.div 
+            className="feature-card"
+            variants={itemVariant}
           >
-            <div className="feature-icon-wrapper mb-4 md:mb-6 w-12 h-12 rounded-full bg-cyan-500/20 flex items-center justify-center">
-              <MessageSquare className="text-cyan-400 w-5 h-5 md:w-6 md:h-6" />
+            <div className="hexagon bg-purple/10">
+              <div className="hexagon-content">
+                <div className="w-12 h-12 flex items-center justify-center">
+                  <MessageSquare className="w-6 h-6 text-purple" />
+                </div>
+              </div>
             </div>
-            <h3 className="text-lg md:text-xl font-bold mb-2 md:mb-3">Context-Aware Reminders</h3>
-            <p className="text-sm md:text-base text-slate-300">
-              Receive reminders exactly when they're most actionable, based on time, location, and activity status. No more missed opportunities or poorly timed alerts.
+            <h3 className="text-xl font-semibold mt-6 mb-3">Collaborative Spaces</h3>
+            <p className="text-gray-300">
+              Share and collaborate on projects with team members while maintaining granular control over permissions.
             </p>
           </motion.div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
