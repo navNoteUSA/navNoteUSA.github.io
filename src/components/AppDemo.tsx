@@ -1,40 +1,149 @@
 import React, { useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
+import { Clock, MapPin, Zap, Calendar } from 'lucide-react';
 
 const AppDemo: React.FC = () => {
-  const phoneRef = useRef<HTMLDivElement>(null);
+  const lifeMapRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
   
   useEffect(() => {
-    // Add a subtle floating animation to the phone, but skip for reduced motion preference
-    if (phoneRef.current && !prefersReducedMotion) {
-      const phone = phoneRef.current;
+    // Create the Life Map visualization instead of phone animation
+    if (lifeMapRef.current && !prefersReducedMotion) {
+      const lifeMap = lifeMapRef.current;
+      const width = lifeMap.clientWidth;
+      const height = lifeMap.clientHeight;
       
-      let animationFrame: number;
-      const floatAnimation = () => {
+      // Center coordinates
+      const centerX = width / 2;
+      const centerY = height / 2;
+      
+      // Create center hexagon (represents current time/location)
+      const centerHex = document.createElement('div');
+      centerHex.className = 'hexagon hexagon-center absolute transition-all duration-500';
+      centerHex.style.setProperty('--hexagon-size', '80px');
+      centerHex.style.top = `${centerY - 40}px`;
+      centerHex.style.left = `${centerX - 40}px`;
+      
+      // Add center content
+      const centerContent = document.createElement('div');
+      centerContent.className = 'hexagon-content z-10 flex items-center justify-center';
+      centerContent.innerHTML = `
+        <div class="bg-secondary text-white w-12 h-12 rounded-full flex items-center justify-center shadow-blue-glow">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+        </div>
+      `;
+      centerHex.appendChild(centerContent);
+      lifeMap.appendChild(centerHex);
+      
+      // Sample task data for the Life Map visualization
+      const sampleTasks = [
+        { id: 1, title: 'Team Meeting', type: 'calendar', priority: 'high', date: '10:00 AM' },
+        { id: 2, title: 'Grocery Shopping', type: 'location', priority: 'medium', location: 'Supermarket' },
+        { id: 3, title: 'Pick up Kids', type: 'location', priority: 'high', location: 'School' },
+        { id: 4, title: 'Workout', type: 'calendar', priority: 'medium', date: '5:30 PM' },
+        { id: 5, title: 'Call Mom', type: 'reminder', priority: 'low', date: 'Today' },
+        { id: 6, title: 'Project Deadline', type: 'calendar', priority: 'high', date: 'Tomorrow' },
+      ];
+      
+      // Create task hexagons around the center
+      const radius = Math.min(width, height) * 0.35;
+      
+      sampleTasks.forEach((task, index) => {
+        // Calculate position in a circle around center
+        const angle = (index * (2 * Math.PI / sampleTasks.length));
+        const x = centerX + radius * Math.cos(angle) - 30;
+        const y = centerY + radius * Math.sin(angle) - 30;
+        
+        // Create task hexagon
+        const taskHex = document.createElement('div');
+        taskHex.className = 'hexagon absolute transition-all duration-500';
+        taskHex.style.setProperty('--hexagon-size', '60px');
+        taskHex.style.top = `${y}px`;
+        taskHex.style.left = `${x}px`;
+        
+        // Color based on priority
+        let bgColor = 'rgba(77, 157, 224, 0.2)';
+        let iconColor = '#4D9DE0';
+        
+        if (task.priority === 'high') {
+          bgColor = 'rgba(239, 68, 68, 0.2)';
+          iconColor = '#EF4444';
+        } else if (task.priority === 'medium') {
+          bgColor = 'rgba(120, 192, 145, 0.2)';
+          iconColor = '#78C091';
+        }
+        
+        taskHex.style.backgroundColor = bgColor;
+        
+        // Add task content
+        const taskContent = document.createElement('div');
+        taskContent.className = 'hexagon-content z-10 flex items-center justify-center flex-col';
+        
+        // Icon based on type
+        let icon = '';
+        if (task.type === 'calendar') {
+          icon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>`;
+        } else if (task.type === 'location') {
+          icon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>`;
+        } else {
+          icon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>`;
+        }
+        
+        taskContent.innerHTML = `
+          <div class="mb-1">${icon}</div>
+          <div class="text-xs text-white font-medium max-w-[50px] truncate text-center">${task.title}</div>
+        `;
+        
+        taskHex.appendChild(taskContent);
+        lifeMap.appendChild(taskHex);
+        
+        // Add connecting line
+        const line = document.createElement('div');
+        line.className = 'absolute bg-white/10 rounded-full';
+        
+        // Calculate angle for rotation
+        const lineAngle = angle * (180 / Math.PI);
+        const lineLength = radius;
+        
+        line.style.width = `${lineLength}px`;
+        line.style.height = '1px';
+        line.style.top = `${centerY}px`;
+        line.style.left = `${centerX}px`;
+        line.style.transformOrigin = '0 0';
+        line.style.transform = `rotate(${lineAngle}deg)`;
+        
+        lifeMap.appendChild(line);
+      });
+      
+      // Add animations
+      const hexagons = lifeMap.querySelectorAll('.hexagon');
+      let animationFrames: number[] = [];
+      
+      hexagons.forEach((hex, index) => {
+        if (index === 0) return; // Skip center
+        
+        // Random floating animation
+        const element = hex as HTMLElement;
         let startTime = Date.now();
         
         const animate = () => {
           const elapsed = Date.now() - startTime;
-          const y = Math.sin(elapsed / 1000) * 10; // Subtle floating effect
-          const rotate = Math.sin(elapsed / 2000) * 2; // Subtle rotation
+          const y = Math.sin(elapsed / (1000 + index * 200)) * 10;
+          const rotate = Math.sin(elapsed / (2000 + index * 100)) * 2;
           
-          phone.style.transform = `translateY(${y}px) rotateY(${rotate}deg)`;
-          animationFrame = requestAnimationFrame(animate);
+          element.style.transform = `translateY(${y}px) rotate(${rotate}deg)`;
+          animationFrames[index] = requestAnimationFrame(animate);
         };
         
         animate();
-      };
+      });
       
-      // Only apply animations on non-mobile devices
-      const isMobile = window.innerWidth < 768;
-      if (!isMobile) {
-        floatAnimation();
-      }
-      
-      // Cleanup animation frame on unmount
+      // Cleanup animation frames on unmount
       return () => {
-        cancelAnimationFrame(animationFrame);
+        animationFrames.forEach(frame => cancelAnimationFrame(frame));
       };
     }
   }, [prefersReducedMotion]);
@@ -52,7 +161,7 @@ const AppDemo: React.FC = () => {
         </div>
         
         <div className="flex flex-col lg:flex-row items-center gap-12">
-          {/* iPhone mockup - centered on mobile */}
+          {/* Life Map Visualization - replaces iPhone mockup */}
           <div className="w-full lg:w-1/2 flex justify-center mb-10 lg:mb-0">
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
@@ -60,158 +169,19 @@ const AppDemo: React.FC = () => {
               transition={{ 
                 duration: 0.8, 
                 delay: 0.2,
-                ease: [0.25, 0.1, 0.25, 1.0] // Improved bezier curve for smoother motion
+                ease: [0.25, 0.1, 0.25, 1.0]
               }}
               viewport={{ once: true, margin: "-100px" }}
               className="perspective-800"
             >
-              <div 
-                ref={phoneRef} 
-                className="relative transition-transform duration-300"
-                style={{ transformStyle: 'preserve-3d', willChange: 'transform' }}
-              >
-                {/* iPhone frame - smaller on mobile */}
-                <div className="w-[240px] sm:w-[280px] h-[500px] sm:h-[580px] rounded-[40px] bg-black p-3 shadow-2xl relative z-10">
-                  {/* Screen */}
-                  <div className="w-full h-full rounded-[36px] overflow-hidden bg-primary relative">
-                    {/* App UI */}
-                    <div className="relative h-full w-full">
-                      {/* Status bar */}
-                      <div className="h-12 px-6 flex items-center justify-between bg-dark">
-                        <div className="text-xs font-medium">9:41</div>
-                        <div className="flex items-center space-x-2">
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M18 10a6 6 0 0 0-12 0v8h12v-8z" />
-                            <path d="M12 2v2" />
-                            <path d="M4.93 5.93l1.41 1.41" />
-                            <path d="M2 12h2" />
-                            <path d="M19.07 5.93l-1.41 1.41" />
-                            <path d="M22 12h-2" />
-                          </svg>
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M5 12.55a11 11 0 0 1 14.08 0" />
-                            <path d="M1.42 9a16 16 0 0 1 21.16 0" />
-                            <path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
-                            <circle cx="12" cy="20" r="1" />
-                          </svg>
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M23 6v16h-7a2 2 0 0 1-2-2v-12a2 2 0 0 1 2-2h7z" />
-                            <path d="M1 6v16h7a2 2 0 0 0 2-2v-12a2 2 0 0 0-2-2h-7z" />
-                          </svg>
-                        </div>
-                      </div>
-                      
-                      {/* App header */}
-                      <div className="p-6">
-                        <div className="flex justify-between items-center mb-6">
-                          <h1 className="text-xl font-bold text-gradient">navNote</h1>
-                          <div className="w-8 h-8 rounded-full bg-dark/50 flex items-center justify-center">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                              <circle cx="12" cy="12" r="10" />
-                              <path d="M12 8v8" />
-                              <path d="M8 12h8" />
-                            </svg>
-                          </div>
-                        </div>
-                        
-                        {/* Search */}
-                        <div className="relative mb-8">
-                          <input type="text" className="w-full bg-dark/50 rounded-full py-3 px-5 pl-10 text-sm" placeholder="Search tasks..." disabled />
-                          <svg className="absolute left-3 top-3" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <circle cx="11" cy="11" r="8" />
-                            <path d="m21 21-4.3-4.3" />
-                          </svg>
-                        </div>
-                      </div>
-                      
-                      {/* Life map visualization */}
-                      <div className="px-6 pb-6">
-                        <div className="rounded-2xl p-4 bg-dark/30 mb-5">
-                          <h2 className="text-sm font-medium mb-3">Life Map</h2>
-                          <div className="relative h-40 w-full rounded-lg overflow-hidden bg-black/30">
-                            <div className="absolute inset-0 flex items-center justify-center">
-                              <div className="relative w-32 h-32">
-                                {/* Center hexagon */}
-                                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-secondary/30 rounded-lg"></div>
-                                
-                                {/* Surrounding hexagons */}
-                                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-accent/20 rounded-lg"></div>
-                                <div className="absolute top-1/4 right-0 w-8 h-8 bg-purple/20 rounded-lg"></div>
-                                <div className="absolute bottom-1/4 right-0 w-8 h-8 bg-secondary/20 rounded-lg"></div>
-                                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-accent/20 rounded-lg"></div>
-                                <div className="absolute bottom-1/4 left-0 w-8 h-8 bg-purple/20 rounded-lg"></div>
-                                <div className="absolute top-1/4 left-0 w-8 h-8 bg-secondary/20 rounded-lg"></div>
-                                
-                                {/* Connecting lines */}
-                                <div className="absolute inset-0 connectivity-dots"></div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      {/* Task list */}
-                      <div className="px-6 pb-6">
-                        <h2 className="text-sm font-medium mb-3">Today's Tasks</h2>
-                        <div className="space-y-3">
-                          <div className="p-4 rounded-xl bg-secondary/10 border border-secondary/20">
-                            <div className="flex justify-between mb-1">
-                              <span className="text-sm font-medium">Team Meeting</span>
-                              <span className="text-xs">10:30 AM</span>
-                            </div>
-                            <div className="text-xs text-gray-400">Zoom - Product Planning</div>
-                          </div>
-                          <div className="p-4 rounded-xl bg-dark/30 border border-white/5">
-                            <div className="flex justify-between mb-1">
-                              <span className="text-sm font-medium">Grocery Shopping</span>
-                              <span className="text-xs">4:00 PM</span>
-                            </div>
-                            <div className="text-xs text-gray-400">Whole Foods Market</div>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      {/* Navigation bar */}
-                      <div className="absolute bottom-0 left-0 right-0 h-16 bg-dark/80 backdrop-blur-md border-t border-white/5 px-6 flex items-center justify-around">
-                        <div className="flex flex-col items-center">
-                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-secondary">
-                            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                            <polyline points="9 22 9 12 15 12 15 22" />
-                          </svg>
-                          <span className="text-[10px] mt-1">Home</span>
-                        </div>
-                        <div className="flex flex-col items-center text-gray-500">
-                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <circle cx="12" cy="12" r="10" />
-                            <polyline points="12 6 12 12 16 14" />
-                          </svg>
-                          <span className="text-[10px] mt-1">Tasks</span>
-                        </div>
-                        <div className="flex flex-col items-center text-gray-500">
-                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                            <circle cx="12" cy="10" r="3" />
-                          </svg>
-                          <span className="text-[10px] mt-1">Map</span>
-                        </div>
-                        <div className="flex flex-col items-center text-gray-500">
-                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <circle cx="12" cy="12" r="10" />
-                            <path d="M12 16v-4" />
-                            <path d="M12 8h.01" />
-                          </svg>
-                          <span className="text-[10px] mt-1">Info</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+              <div className="relative bg-primary/50 border border-white/10 rounded-2xl p-6 md:p-8 shadow-blue-glow overflow-hidden h-[350px] md:h-[450px] w-full md:w-[400px]">
+                {/* The hexagon map */}
+                <div ref={lifeMapRef} className="w-full h-full relative">
+                  {/* Hexagons will be created dynamically */}
                 </div>
                 
-                {/* Highlights/reflections */}
-                <div className="absolute inset-0 rounded-[40px] pointer-events-none">
-                  <div className="absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-white/10 to-transparent rounded-t-[40px]"></div>
-                  <div className="absolute bottom-0 left-[10%] right-[10%] h-3/4 bg-gradient-to-t from-blue-900/10 to-transparent blur-xl rounded-b-[40px]"></div>
-                </div>
+                {/* Radial glow in the center */}
+                <div className="absolute inset-0 bg-gradient-radial from-secondary/10 via-transparent to-transparent pointer-events-none"></div>
               </div>
             </motion.div>
           </div>
