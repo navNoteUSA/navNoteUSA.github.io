@@ -7,9 +7,16 @@ interface HeroProps {
   openAuthForm?: () => void;
 }
 
+declare global {
+  interface Window {
+    VANTA: any;
+  }
+}
+
 const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
   const [scrollY, setScrollY] = useState(0);
   const heroRef = useRef<HTMLDivElement>(null);
+  const vantaRef = useRef<any>(null);
   
   // Animation variants
   const containerVariants = {
@@ -60,6 +67,34 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
     }
   };
   
+  // Initialize Vanta.js NET effect
+  useEffect(() => {
+    if (!vantaRef.current && heroRef.current && window.VANTA) {
+      vantaRef.current = window.VANTA.NET({
+        el: heroRef.current,
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.00,
+        minWidth: 200.00,
+        scale: 1.00,
+        scaleMobile: 1.00,
+        color: 0x8282d9,
+        backgroundColor: 0x151520,
+        points: 6.00,
+        maxDistance: 28.00
+      });
+    }
+    
+    // Cleanup function
+    return () => {
+      if (vantaRef.current) {
+        vantaRef.current.destroy();
+        vantaRef.current = null;
+      }
+    };
+  }, []);
+  
   // Handle scroll effect for parallax
   useEffect(() => {
     const handleScroll = () => {
@@ -86,78 +121,8 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
     <section 
       ref={heroRef}
       className="min-h-screen flex items-center relative overflow-hidden pt-16 pb-16"
-      style={{
-        background: "linear-gradient(to bottom, rgb(5, 9, 20), rgb(10, 15, 30))"
-      }}
+      id="vanta-background"
     >
-      {/* Neural Network Background Visualization */}
-      <div className="absolute inset-0 z-0">
-        {/* Dark subtle grid pattern */}
-        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-        
-        {/* Neural Network Nodes and Connections */}
-        <svg className="absolute inset-0 w-full h-full opacity-20" style={{ zIndex: 0 }}>
-          {/* Neural Network Connections */}
-          {Array.from({ length: 15 }).map((_, i) => {
-            const startX = Math.random() * 100;
-            const startY = Math.random() * 100;
-            const endX = Math.random() * 100;
-            const endY = Math.random() * 100;
-            const controlX1 = (startX + endX) / 2 + (Math.random() * 20 - 10);
-            const controlY1 = (startY + endY) / 2 + (Math.random() * 20 - 10);
-            
-            return (
-              <motion.path
-                key={`connection-${i}`}
-                d={`M ${startX}% ${startY}% Q ${controlX1}% ${controlY1}% ${endX}% ${endY}%`}
-                stroke={i % 2 === 0 ? "rgba(51, 102, 204, 0.3)" : "rgba(0, 200, 150, 0.3)"}
-                strokeWidth="0.5"
-                fill="none"
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={{ pathLength: 1, opacity: 0.5 }}
-                transition={{
-                  duration: 3 + Math.random() * 5,
-                  delay: Math.random() * 2,
-                  ease: "easeInOut",
-                  repeat: Infinity,
-                  repeatType: "loop",
-                  repeatDelay: Math.random() * 3
-                }}
-              />
-            );
-          })}
-        </svg>
-        
-        {/* Neural Network Nodes */}
-        {Array.from({ length: 25 }).map((_, i) => (
-          <motion.div
-            key={`node-${i}`}
-            className="absolute rounded-full bg-white"
-            style={{
-              width: `${Math.random() * 4 + 2}px`,
-              height: `${Math.random() * 4 + 2}px`,
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              opacity: Math.random() * 0.3 + 0.1,
-            }}
-            animate={{
-              opacity: [
-                Math.random() * 0.3 + 0.1,
-                Math.random() * 0.5 + 0.3,
-                Math.random() * 0.3 + 0.1
-              ],
-              scale: [1, 1.2, 1]
-            }}
-            transition={{
-              duration: Math.random() * 4 + 4,
-              repeat: Infinity,
-              repeatType: "reverse",
-              ease: "easeInOut"
-            }}
-          />
-        ))}
-      </div>
-      
       <div className="container mx-auto px-4 relative z-10 pt-8 md:pt-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center pt-12 md:pt-16 lg:pt-20">
           {/* Left Content - Text */}

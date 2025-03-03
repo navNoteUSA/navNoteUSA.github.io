@@ -10,7 +10,6 @@ import CallToAction from './components/CallToAction';
 import TeamPage from './components/TeamPage';
 import ContactPage from './components/ContactPage';
 import Footer from './components/Footer';
-import ParticleBackground from './components/ParticleBackground';
 import CookieConsent from './components/CookieConsent';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfUse from './pages/TermsOfUse';
@@ -23,42 +22,6 @@ function App() {
   const [showDemoForm, setShowDemoForm] = useState(false);
   const [showAuthForm, setShowAuthForm] = useState(false);
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
-  
-  // Create particle animation
-  useEffect(() => {
-    const container = document.querySelector('.particle-container');
-    if (!container) return;
-    
-    // Clear existing particles
-    container.innerHTML = '';
-    
-    // Create particles
-    const particleCount = 50;
-    const colors = ['#4D9DE0', '#78C091', '#3e6ef5', '#00ccff'];
-    
-    for (let i = 0; i < particleCount; i++) {
-      const particle = document.createElement('div');
-      particle.classList.add('particle');
-      
-      // Random properties
-      const size = Math.random() * 4 + 1;
-      const color = colors[Math.floor(Math.random() * colors.length)];
-      
-      // Set styles
-      particle.style.width = `${size}px`;
-      particle.style.height = `${size}px`;
-      particle.style.backgroundColor = color;
-      particle.style.left = `${Math.random() * 100}%`;
-      particle.style.top = `${Math.random() * 100}%`;
-      particle.style.opacity = `${Math.random() * 0.3 + 0.1}`;
-      
-      // Animation
-      particle.style.animationDuration = `${Math.random() * 20 + 10}s`;
-      particle.style.animationDelay = `${Math.random() * 5}s`;
-      
-      container.appendChild(particle);
-    }
-  }, []);
   
   // Functions for opening modals
   const openDemoForm = () => {
@@ -118,12 +81,6 @@ function App() {
   
   return (
     <div className="app min-h-screen bg-slate-950 text-white relative overflow-hidden">
-      <ParticleBackground />
-      
-      {/* Glow Effects */}
-      <div className="fixed top-1/4 -left-52 w-96 h-96 bg-blue-500/10 rounded-full filter blur-3xl"></div>
-      <div className="fixed bottom-0 right-0 w-[40rem] h-[40rem] bg-purple-500/10 rounded-full filter blur-3xl"></div>
-
       <div className="relative z-10">
         {showNavbarAndFooter && (
           <Navbar 
