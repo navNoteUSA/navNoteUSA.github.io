@@ -31,7 +31,7 @@ const Technology: React.FC = () => {
   ];
 
   return (
-    <section id="technology" className="py-2 -mt-16 relative overflow-hidden">
+    <section id="technology" className="py-12 relative overflow-hidden">
       {/* Background elements */}
       <div className="absolute inset-0 bg-circuit-pattern opacity-10"></div>
       <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-blue-950/30 to-slate-950"></div>
@@ -47,7 +47,7 @@ const Technology: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-8"
+          className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-4">The navNote AI System</h2>
           <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
@@ -60,7 +60,7 @@ const Technology: React.FC = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.8, delay: 0.1 }}
-          className="mb-10 bg-gradient-to-r from-slate-900 to-slate-800 p-8 rounded-2xl shadow-xl border border-slate-700/50 max-w-4xl mx-auto"
+          className="mb-20 bg-gradient-to-r from-slate-900 to-slate-800 p-8 rounded-2xl shadow-xl border border-slate-700/50 max-w-4xl mx-auto"
         >
           <div className="flex flex-col md:flex-row items-center gap-8">
             <div className="w-full md:w-1/3 flex justify-center">

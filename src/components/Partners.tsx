@@ -49,7 +49,7 @@ const Partners: React.FC = () => {
   const scrollingPartners = [...partners, ...partners, ...partners];
 
   return (
-    <section id="partners" className="py-2 -mt-12 mb-0 relative overflow-hidden">
+    <section id="partners" className="py-12 relative overflow-hidden">
       {/* Background elements */}
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
       <div className="absolute inset-0 pointer-events-none">
@@ -63,7 +63,7 @@ const Partners: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-8"
+          className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-4 text-[var(--text-primary)]">Our Partners & Collaborators</h2>
           <p className="text-lg text-[var(--text-tertiary)] max-w-3xl mx-auto">

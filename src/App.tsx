@@ -88,9 +88,9 @@ function App() {
             <Hero onOpenDemo={openDemoForm} onOpenAuth={openAuthForm} />
             <Features />
             <LifeMap />
-            <Partners />
-            <Technology />
             <AppDemo />
+            <Technology />
+            <Partners />
             <CallToAction onOpenDemo={openDemoForm} onOpenAuth={openAuthForm} />
           </>
         );

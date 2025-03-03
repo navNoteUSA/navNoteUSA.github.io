@@ -42,7 +42,7 @@ const AppDemo: React.FC = () => {
   ];
 
   return (
-    <section id="app-demo" className="py-2 -mt-16 relative overflow-hidden">
+    <section id="app-demo" className="py-12 relative overflow-hidden">
       {/* Background elements */}
       <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-blue-950/20 to-slate-950"></div>
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
@@ -73,7 +73,7 @@ const AppDemo: React.FC = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-8"
+          className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-4">Experience navNote</h2>
           <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
