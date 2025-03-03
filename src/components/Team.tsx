@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Linkedin, Mail } from 'lucide-react';
+import { Linkedin, Mail, User } from 'lucide-react';
 
 interface TeamMemberProps {
   name: string;
@@ -10,14 +10,30 @@ interface TeamMemberProps {
   credentials: string;
   index: number;
   linkedinUrl: string;
+  photoUrl?: string;
   isFounder?: boolean;
 }
 
-const TeamMember: React.FC<TeamMemberProps> = ({ name, role, email, credentials, index, linkedinUrl, isFounder = false }) => {
+const TeamMember: React.FC<TeamMemberProps> = ({ 
+  name, 
+  role, 
+  email, 
+  credentials, 
+  index, 
+  linkedinUrl, 
+  photoUrl, 
+  isFounder = false 
+}) => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
+
+  const [imageError, setImageError] = React.useState(false);
+
+  const handleImageError = () => {
+    setImageError(true);
+  };
 
   return (
     <motion.div
@@ -29,9 +45,20 @@ const TeamMember: React.FC<TeamMemberProps> = ({ name, role, email, credentials,
         isFounder ? 'border border-accent/30' : ''
       }`}
     >
-      <div className="w-24 h-24 mx-auto bg-gradient-to-br from-secondary/20 to-accent/20 rounded-full flex items-center justify-center mb-4">
-        <span className="text-3xl font-bold text-gradient">{name.charAt(0)}</span>
-      </div>
+      {photoUrl && !imageError ? (
+        <div className="w-24 h-24 mx-auto rounded-full overflow-hidden mb-4 border-2 border-accent/30">
+          <img 
+            src={photoUrl} 
+            alt={`${name}`} 
+            className="w-full h-full object-cover"
+            onError={handleImageError}
+          />
+        </div>
+      ) : (
+        <div className="w-24 h-24 mx-auto bg-gradient-to-br from-secondary/20 to-accent/20 rounded-full flex items-center justify-center mb-4">
+          <span className="text-3xl font-bold text-gradient">{name.charAt(0)}</span>
+        </div>
+      )}
       <h3 className="text-xl font-semibold text-center mb-1">{name}</h3>
       <p className="text-gray-400 text-center mb-3">{role}</p>
       <p className="text-sm text-gray-500 text-center mb-4">{credentials}</p>
@@ -76,11 +103,18 @@ const Advisor: React.FC<AdvisorProps> = ({ name, role, credentials, index }) => 
       initial={{ opacity: 0, y: 30 }}
       animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
       transition={{ duration: 0.5, delay: index * 0.05 }}
-      className="glass p-4 rounded-lg hover:bg-white/10 transition-all"
+      className="glass p-6 rounded-lg hover:bg-white/10 transition-all border border-gray-800/50"
     >
-      <h4 className="font-semibold">{name}</h4>
-      <p className="text-sm text-gray-400">{role}</p>
-      <p className="text-xs text-gray-500">{credentials}</p>
+      <div className="flex items-center gap-3 mb-2">
+        <div className="w-8 h-8 bg-gradient-to-br from-accent/30 to-secondary/30 rounded-full flex items-center justify-center flex-shrink-0">
+          <User size={16} className="text-gray-200" />
+        </div>
+        <div>
+          <h4 className="font-semibold text-gradient">{name}</h4>
+          <p className="text-sm text-gray-400">{role}</p>
+        </div>
+      </div>
+      <p className="text-xs text-gray-500 pl-11">{credentials}</p>
     </motion.div>
   );
 };
@@ -97,14 +131,16 @@ const Team: React.FC = () => {
       role: "Founder & Owner",
       email: "esmaeil@navNote.net",
       credentials: "Artificial Intelligence & Machine Learning Lead Researcher / Teaching Fellow, Weber State, MIT, Harvard, NCWQR",
-      linkedinUrl: "https://www.linkedin.com/in/mousavi-ai/"
+      linkedinUrl: "https://www.linkedin.com/in/mousavi-ai/",
+      photoUrl: "/assets/team/esmaeil.jpg"
     },
     {
       name: "Niklas Kennedy",
       role: "Co-Founder & CEO",
       email: "niklas@navNote.net",
       credentials: "Mainframe System Engineer, UX/UI Developer, Association for Computing Machinery President, IBM, ACM, Weber State",
-      linkedinUrl: "https://www.linkedin.com/in/niklas-kennedy-0a1a53198/"
+      linkedinUrl: "https://www.linkedin.com/in/niklas-kennedy-0a1a53198/",
+      photoUrl: "/assets/team/niklas.jpg"
     }
   ];
 
@@ -180,6 +216,7 @@ const Team: React.FC = () => {
               email={founder.email}
               credentials={founder.credentials}
               linkedinUrl={founder.linkedinUrl}
+              photoUrl={founder.photoUrl}
               index={index}
               isFounder={true}
             />
