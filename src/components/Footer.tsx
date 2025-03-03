@@ -32,7 +32,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               <a href="https://github.com" className="text-gray-400 hover:text-white transition-colors" aria-label="GitHub">
                 <Github size={20} />
               </a>
-              <a href="https://twitter.com" className="text-gray-400 hover:text-white transition-colors" aria-label="Twitter">
+              <a href="https://x.com/navNoteHQ" className="text-gray-400 hover:text-white transition-colors" aria-label="Twitter">
                 <Twitter size={20} />
               </a>
               <a href="https://www.linkedin.com/company/navnote/" className="text-gray-400 hover:text-white transition-colors" aria-label="LinkedIn">
