@@ -59,7 +59,7 @@ const Features: React.FC = () => {
     },
     {
       title: 'Offline Functionality',
-      description: 'Seamless AI experience without an internet connection, ensuring you're never without your virtual memory.',
+      description: "Seamless AI experience without an internet connection, ensuring you're never without your virtual memory.",
       icon: Wifi,
       color: 'from-red-600 to-red-400',
       bgColor: 'bg-red-500',
