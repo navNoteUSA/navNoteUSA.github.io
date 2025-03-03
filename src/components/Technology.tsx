@@ -1,5 +1,6 @@
 import React from 'react';
-import { motion, useInView } from 'react-intersection-observer';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 import { Brain, Server, Cpu, Compass, MessageSquare, TrendingUp } from 'lucide-react';
 
 const Technology: React.FC = () => {
