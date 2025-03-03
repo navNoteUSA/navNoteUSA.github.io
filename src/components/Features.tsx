@@ -121,19 +121,22 @@ const Features: React.FC = () => {
   const iconVariants = {
     initial: { scale: 1, rotate: 0 },
     hover: { 
-      scale: 1.2,
-      rotate: [0, 10, -10, 0],
+      scale: 1.3,
+      rotate: [0, 15, -15, 0],
       transition: {
-        duration: 0.5,
+        duration: 0.6,
         repeat: 0,
+        ease: "easeInOut"
       }
     },
     pulse: {
-      scale: [1, 1.1, 1],
+      scale: [1, 1.15, 1],
+      rotate: [0, 3, 0, -3, 0],
       transition: {
-        duration: 2,
+        duration: 3,
         repeat: Infinity,
-        repeatType: "reverse"
+        repeatType: "reverse",
+        ease: "easeInOut"
       }
     }
   };
@@ -200,27 +203,28 @@ const Features: React.FC = () => {
               whileHover={{ y: -5, transition: { duration: 0.2 } }}
               className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-6 shadow-lg hover:shadow-glow-sm transition-all"
             >
-              <div className="relative mb-6 w-16 h-16">
+              <div className="relative mb-6 w-14 h-14">
                 <motion.div 
                   className={`absolute inset-0 ${feature.bgColor} rounded-full opacity-20`}
                   animate={{
-                    scale: [1, 1.2, 1],
-                    opacity: [0.2, 0.3, 0.2]
+                    scale: [1, 1.4, 1],
+                    opacity: [0.2, 0.4, 0.2]
                   }}
                   transition={{
-                    duration: 3,
+                    duration: 2.5,
                     repeat: Infinity,
-                    repeatType: "reverse"
+                    repeatType: "reverse",
+                    ease: "easeInOut"
                   }}
                 />
                 <motion.div 
-                  className={`w-14 h-14 rounded-full bg-gradient-to-br ${feature.color} flex items-center justify-center`}
+                  className={`w-12 h-12 rounded-full bg-gradient-to-br ${feature.color} flex items-center justify-center shadow-lg`}
                   variants={iconVariants}
                   initial="initial"
                   whileHover="hover"
                   animate="pulse"
                 >
-                  <feature.icon size={24} className="text-white" />
+                  <feature.icon size={20} className="text-white" />
                 </motion.div>
               </div>
               

@@ -132,12 +132,6 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
             animate="visible"
             className="text-left"
           >
-            <motion.div variants={itemVariants} className="mb-2">
-              <span className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent text-lg font-semibold px-3 py-1 rounded-full bg-opacity-10 border border-blue-500/30">
-                Location-Aware • AI-Powered
-              </span>
-            </motion.div>
-            
             <motion.h1 
               variants={itemVariants}
               className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight"
