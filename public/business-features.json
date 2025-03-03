@@ -1,0 +1,73 @@
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": "navNote for Business Professionals",
+  "headline": "AI-Powered Task Management for Work-Life Balance",
+  "description": "navNote helps busy professionals manage tight schedules, prioritize important tasks, optimize travel time, and balance work commitments with personal life.",
+  "keywords": "business task management, professional scheduler, meeting organizer, work productivity app, executive time management",
+  "audience": {
+    "@type": "BusinessAudience",
+    "audienceType": "Business Professionals"
+  },
+  "creator": {
+    "@type": "Organization",
+    "name": "navNote",
+    "url": "https://www.navnote.net/"
+  },
+  "hasPart": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Meeting Optimizer",
+      "description": "AI-powered meeting scheduling with travel time accounting and priority-based suggestions.",
+      "applicationCategory": "BusinessApplication"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Client Location Manager",
+      "description": "Location-aware reminders when near client offices for efficient meeting preparation.",
+      "applicationCategory": "BusinessApplication"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Work-Life Balancer",
+      "description": "Intelligent blocking of personal time and family commitments to prevent work overflow.",
+      "applicationCategory": "BusinessApplication"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Travel Time Optimizer",
+      "description": "Task suggestions that minimize travel between locations for maximum efficiency.",
+      "applicationCategory": "BusinessApplication"
+    }
+  ],
+  "offers": [
+    {
+      "@type": "Offer",
+      "name": "Individual Plan",
+      "price": "4.99",
+      "priceCurrency": "USD",
+      "description": "For individual business professionals"
+    },
+    {
+      "@type": "Offer",
+      "name": "Team Plan",
+      "price": "3.99",
+      "priceCurrency": "USD",
+      "description": "Per user for teams of 5+ members"
+    },
+    {
+      "@type": "Offer",
+      "name": "Enterprise Plan",
+      "price": "Custom",
+      "description": "Custom pricing for large organizations with additional security features"
+    }
+  ],
+  "potentialAction": {
+    "@type": "DownloadAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://www.navnote.net/#business-signup",
+      "name": "Try Free for 14 Days"
+    }
+  }
+} 

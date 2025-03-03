@@ -1,0 +1,43 @@
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareCompany",
+  "name": "navNote",
+  "url": "https://www.navnote.net/",
+  "logo": "https://www.navnote.net/navNote_logo.jpeg",
+  "sameAs": [
+    "https://github.com/navNoteUSA",
+    "https://twitter.com/navNote",
+    "https://linkedin.com/company/navNote"
+  ],
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "123 Innovation Way",
+    "addressLocality": "San Francisco",
+    "addressRegion": "CA",
+    "postalCode": "94103",
+    "addressCountry": "US"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 37.7749,
+    "longitude": -122.4194
+  },
+  "telephone": "+1-415-555-0123",
+  "email": "contact@navnote.net",
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ],
+      "opens": "09:00",
+      "closes": "17:00"
+    }
+  ],
+  "priceRange": "Free",
+  "award": "Best Productivity App 2023"
+} 

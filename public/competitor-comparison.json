@@ -1,0 +1,110 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "Task Management App Comparison",
+  "description": "Comparison of navNote with leading task management and AI assistant applications",
+  "url": "https://www.navnote.net/#comparison",
+  "creator": {
+    "@type": "Organization",
+    "name": "navNote",
+    "url": "https://www.navnote.net/"
+  },
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "datePublished": "2023-03-01",
+  "dateModified": "2023-04-15",
+  "variableMeasured": [
+    {
+      "@type": "PropertyValue",
+      "name": "Location-Based Task Management",
+      "description": "Ability to manage tasks based on geographic location",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "navNote",
+          "value": "Advanced",
+          "description": "Automatically suggests and prioritizes tasks based on current location"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Evernote",
+          "value": "Basic",
+          "description": "Simple location tagging without intelligent suggestions"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Notion",
+          "value": "Limited",
+          "description": "Location tagging but no location-aware features"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Siri",
+          "value": "Moderate",
+          "description": "Location-based reminders but limited intelligence"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Offline AI Capabilities",
+      "description": "AI functionality available without internet connection",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "navNote",
+          "value": "Advanced",
+          "description": "Full AI functionality works offline with on-device processing"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Google Assistant",
+          "value": "Limited",
+          "description": "Basic voice commands work offline, but most AI features require internet"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "ChatGPT",
+          "value": "None",
+          "description": "Requires internet connection for all functionality"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Apple Intelligence",
+          "value": "Moderate",
+          "description": "Some features work offline but limited compared to online mode"
+        }
+      ]
+    },
+    {
+      "@type": "PropertyValue",
+      "name": "Context Awareness",
+      "description": "Understanding of personal context for task suggestions",
+      "valueReference": [
+        {
+          "@type": "PropertyValue",
+          "name": "navNote",
+          "value": "Advanced",
+          "description": "Understands time, location, and personal habits for intelligent suggestions"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "AnyDo",
+          "value": "Basic",
+          "description": "Simple contextual reminders based on time"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Notes",
+          "value": "Minimal",
+          "description": "No contextual awareness beyond manual tagging"
+        },
+        {
+          "@type": "PropertyValue",
+          "name": "Claude",
+          "value": "Moderate",
+          "description": "Understands context within conversation but not integrated with tasks"
+        }
+      ]
+    }
+  ]
+} 

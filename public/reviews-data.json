@@ -1,0 +1,26 @@
+{
+  "@context": "https://schema.org/",
+  "@type": "Review",
+  "itemReviewed": {
+    "@type": "SoftwareApplication",
+    "name": "navNote",
+    "image": "https://www.navnote.net/navNote_logo.jpeg",
+    "applicationCategory": "ProductivityApplication"
+  },
+  "reviewRating": {
+    "@type": "Rating",
+    "ratingValue": "5",
+    "bestRating": "5"
+  },
+  "name": "Life-changing productivity app",
+  "author": {
+    "@type": "Person",
+    "name": "Alex Johnson"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "ProductivityReviews"
+  },
+  "datePublished": "2023-02-15",
+  "reviewBody": "navNote has completely transformed how I manage my daily tasks. The location-aware features are incredibly useful, helping me optimize my errands and saving me hours each week."
+} 

@@ -1,0 +1,47 @@
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "navNote Offline AI Assistant",
+  "applicationCategory": "ProductivityApplication",
+  "operatingSystem": "iOS, Android, Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "featureList": [
+    "Works without internet connection",
+    "Provides AI-powered task suggestions offline",
+    "Maintains full functionality when disconnected",
+    "Syncs automatically when connection is restored",
+    "Low battery consumption in offline mode",
+    "Secure local processing of personal data"
+  ],
+  "applicationSuite": "navNote",
+  "downloadUrl": "https://www.navnote.net/#download",
+  "requirements": "iOS 13+, Android 9+, or modern web browser",
+  "softwareVersion": "1.2.3",
+  "description": "navNote's revolutionary offline AI assistant provides intelligent task management even without an internet connection. The assistant continues to suggest task prioritization, location-based reminders, and schedule optimization using on-device AI processing.",
+  "review": {
+    "@type": "Review",
+    "reviewBody": "The offline assistant is what sets navNote apart from other task managers. I can rely on it even in areas with poor connectivity.",
+    "author": {
+      "@type": "Person",
+      "name": "Jordan Smith"
+    },
+    "reviewRating": {
+      "@type": "Rating",
+      "ratingValue": "5",
+      "bestRating": "5"
+    }
+  },
+  "potentialAction": {
+    "@type": "UseAction",
+    "actionStatus": "PotentialActionStatus",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://www.navnote.net/#offline-demo",
+      "name": "Try Offline Mode Demo"
+    }
+  }
+} 

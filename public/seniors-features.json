@@ -1,0 +1,66 @@
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": "navNote for Seniors",
+  "headline": "Simple Task Management for Daily Independence",
+  "description": "navNote helps elderly users remember important appointments, medication schedules, and daily tasks with a simple, easy-to-use interface and helpful reminders.",
+  "keywords": "senior task management, medication reminder, appointment planner, elderly task app, memory assistance, simplified task manager",
+  "audience": {
+    "@type": "PeopleAudience",
+    "suggestedMinAge": "65",
+    "audienceType": "Seniors"
+  },
+  "creator": {
+    "@type": "Organization",
+    "name": "navNote",
+    "url": "https://www.navnote.net/"
+  },
+  "hasPart": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Medication Reminder",
+      "description": "Simple, timely reminders for medication schedules with confirmation and missed dose tracking.",
+      "applicationCategory": "HealthApplication"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Appointment Tracker",
+      "description": "Doctor and personal appointment management with transportation time accounting.",
+      "applicationCategory": "HealthApplication"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Large Text Mode",
+      "description": "Easy-to-read large text option with high contrast for better visibility.",
+      "applicationCategory": "Accessibility"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Family Connection",
+      "description": "Optional sharing of task completion with family members for peace of mind.",
+      "applicationCategory": "SocialApplication"
+    }
+  ],
+  "accessibilityFeature": [
+    "highContrast",
+    "largePrint",
+    "voiceControl",
+    "audioDescription",
+    "tactileOutput"
+  ],
+  "accessibilityHazard": "none",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD",
+    "description": "Free for all seniors with special support options available"
+  },
+  "potentialAction": {
+    "@type": "DownloadAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://www.navnote.net/#senior-signup",
+      "name": "Get Started Today"
+    }
+  }
+} 

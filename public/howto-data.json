@@ -1,0 +1,87 @@
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Get Started with navNote",
+  "description": "Learn how to set up navNote and start organizing your tasks with location awareness in just a few minutes.",
+  "totalTime": "PT5M",
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://www.navnote.net/navNote_logo.jpeg",
+    "width": "512",
+    "height": "512"
+  },
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Smartphone or computer"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Internet connection"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "url": "https://www.navnote.net/#download",
+      "name": "Download the app",
+      "itemListElement": {
+        "@type": "HowToDirection",
+        "text": "Download navNote from the App Store or Google Play, or use it directly on the web."
+      },
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://www.navnote.net/screenshots/download.jpeg",
+        "width": "750",
+        "height": "1334"
+      }
+    },
+    {
+      "@type": "HowToStep",
+      "url": "https://www.navnote.net/#signup",
+      "name": "Create an account",
+      "itemListElement": {
+        "@type": "HowToDirection",
+        "text": "Sign up with your email or use your Google or Apple account to create a navNote profile."
+      },
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://www.navnote.net/screenshots/signup.jpeg",
+        "width": "750",
+        "height": "1334"
+      }
+    },
+    {
+      "@type": "HowToStep",
+      "url": "https://www.navnote.net/#location",
+      "name": "Enable location services",
+      "itemListElement": {
+        "@type": "HowToDirection",
+        "text": "Allow navNote to access your location to optimize task suggestions based on where you are."
+      },
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://www.navnote.net/screenshots/location.jpeg",
+        "width": "750",
+        "height": "1334"
+      }
+    },
+    {
+      "@type": "HowToStep",
+      "url": "https://www.navnote.net/#first-task",
+      "name": "Create your first task",
+      "itemListElement": {
+        "@type": "HowToDirection",
+        "text": "Tap the + button to add your first task, including location, priority, and deadline."
+      },
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://www.navnote.net/screenshots/task.jpeg",
+        "width": "750",
+        "height": "1334"
+      }
+    }
+  ]
+} 

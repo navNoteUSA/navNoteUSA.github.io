@@ -19,5 +19,7 @@ Crawl-delay: 10
 User-agent: SemrushBot
 Crawl-delay: 10
 
-# Sitemap location
-Sitemap: https://www.navnote.net/sitemap.xml 
+# Sitemap locations
+Sitemap: https://www.navnote.net/sitemap.xml
+Sitemap: https://www.navnote.net/image-sitemap.xml
+Sitemap: https://www.navnote.net/news-sitemap.xml 

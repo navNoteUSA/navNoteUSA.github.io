@@ -1,0 +1,59 @@
+{
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "name": "navNote for Students",
+  "headline": "AI-Powered Task Management for Academic Success",
+  "description": "navNote helps students organize assignments, track deadlines, manage study schedules, and balance extracurricular activities with academic responsibilities.",
+  "keywords": "student task management, academic planning, assignment tracker, study planner, student organization app",
+  "educationalUse": "Self-Improvement",
+  "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": "Student"
+  },
+  "creator": {
+    "@type": "Organization",
+    "name": "navNote",
+    "url": "https://www.navnote.net/"
+  },
+  "learningResourceType": "Tool",
+  "hasPart": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "Assignment Tracker",
+      "description": "Track assignments, due dates, and completion status with automatic prioritization.",
+      "applicationCategory": "EducationalApplication"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Study Time Optimizer",
+      "description": "AI-powered suggestions for optimal study times based on personal productivity patterns.",
+      "applicationCategory": "EducationalApplication"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Campus Navigator",
+      "description": "Location-aware task reminders based on campus location (library, dorm, classroom building).",
+      "applicationCategory": "EducationalApplication"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "Group Project Coordinator",
+      "description": "Coordinate group assignments and track individual contributions.",
+      "applicationCategory": "EducationalApplication"
+    }
+  ],
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD",
+    "description": "Free for students with .edu email addresses"
+  },
+  "potentialAction": {
+    "@type": "DownloadAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://www.navnote.net/#student-signup",
+      "name": "Sign Up with Student Email"
+    }
+  }
+} 

@@ -1,0 +1,61 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "navNote Task Management",
+  "serviceType": "AI-Powered Task Management",
+  "description": "AI-powered task management app that understands context, time, and location to help you organize your life more efficiently.",
+  "provider": {
+    "@type": "Organization",
+    "name": "navNote",
+    "url": "https://www.navnote.net/"
+  },
+  "audience": [
+    {
+      "@type": "Audience",
+      "audienceType": "Students",
+      "description": "Perfect for students juggling classes, assignments, extracurricular activities, and social life."
+    },
+    {
+      "@type": "Audience",
+      "audienceType": "Seniors",
+      "description": "Designed for elderly users who need assistance remembering appointments, medication schedules, and daily tasks."
+    },
+    {
+      "@type": "Audience",
+      "audienceType": "Business Professionals",
+      "description": "Ideal for busy professionals managing tight schedules, meetings, deadlines, and work-life balance."
+    },
+    {
+      "@type": "Audience",
+      "audienceType": "General Smartphone Users",
+      "description": "User-friendly for anyone with a smartphone looking to better organize their daily tasks."
+    }
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "navNote Plans",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "navNote Free",
+          "description": "Basic task management with AI assistance and location awareness."
+        },
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "navNote Premium",
+          "description": "Advanced AI features, offline assistant, and unlimited task storage."
+        },
+        "price": "4.99",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock"
+      }
+    ]
+  }
+} 

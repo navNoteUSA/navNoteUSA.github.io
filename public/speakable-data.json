@@ -1,0 +1,21 @@
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "navNote - AI-Powered Task Management",
+  "url": "https://www.navnote.net/",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      ".hero-headline",
+      ".feature-description",
+      ".app-benefits",
+      ".quick-start-guide"
+    ]
+  },
+  "mainEntity": {
+    "@type": "SoftwareApplication",
+    "name": "navNote",
+    "applicationCategory": "ProductivityApplication",
+    "description": "navNote is an AI-powered task management app that understands context, time, and location to help you organize your life more efficiently."
+  }
+} 

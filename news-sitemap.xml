@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  <url>
+    <loc>https://www.navnote.net/blog/introducing-location-aware-tasks</loc>
+    <news:news>
+      <news:publication>
+        <news:name>navNote Blog</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2023-03-01T08:00:00+00:00</news:publication_date>
+      <news:title>Introducing Location-Aware Tasks: A New Way to Organize Your Day</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.navnote.net/blog/ai-productivity-revolution</loc>
+    <news:news>
+      <news:publication>
+        <news:name>navNote Blog</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2023-02-15T09:30:00+00:00</news:publication_date>
+      <news:title>The AI Productivity Revolution: How Smart Assistants Are Changing Work</news:title>
+    </news:news>
+  </url>
+  <url>
+    <loc>https://www.navnote.net/blog/case-study-time-optimization</loc>
+    <news:news>
+      <news:publication>
+        <news:name>navNote Blog</news:name>
+        <news:language>en</news:language>
+      </news:publication>
+      <news:publication_date>2023-01-20T11:00:00+00:00</news:publication_date>
+      <news:title>Case Study: How Users Saved 5+ Hours Weekly With Location-Based Task Management</news:title>
+    </news:news>
+  </url>
+</urlset> 

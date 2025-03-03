@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://www.navnote.net/</loc>
+    <image:image>
+      <image:loc>https://www.navnote.net/navNote_logo.jpeg</image:loc>
+      <image:title>navNote Logo</image:title>
+      <image:caption>AI-Powered Location-Aware Task Management</image:caption>
+      <image:geo_location>United States</image:geo_location>
+      <image:license>https://www.navnote.net/license</image:license>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.navnote.net/screenshots/app-interface.jpeg</image:loc>
+      <image:title>navNote App Interface</image:title>
+      <image:caption>User-friendly interface of the navNote task management app</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.navnote.net/screenshots/location-feature.jpeg</image:loc>
+      <image:title>Location-Aware Task Management</image:title>
+      <image:caption>navNote's location features optimize your tasks based on where you are</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.navnote.net/#features</loc>
+    <image:image>
+      <image:loc>https://www.navnote.net/screenshots/ai-suggestions.jpeg</image:loc>
+      <image:title>AI-Powered Task Suggestions</image:title>
+      <image:caption>navNote's AI suggests tasks based on your habits and location</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.navnote.net/screenshots/calendar-view.jpeg</image:loc>
+      <image:title>Calendar Integration</image:title>
+      <image:caption>Seamless calendar integration for better task scheduling</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.navnote.net/#team</loc>
+    <image:image>
+      <image:loc>https://www.navnote.net/team/founder.jpeg</image:loc>
+      <image:title>navNote Founder</image:title>
+      <image:caption>Meet the founding team behind navNote</image:caption>
+    </image:image>
+  </url>
+</urlset> 

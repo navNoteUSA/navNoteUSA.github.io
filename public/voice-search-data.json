@@ -1,0 +1,53 @@
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "navNote",
+  "description": "AI-powered task management app that understands context, time, and location to help you organize your life more efficiently",
+  "applicationCategory": "ProductivityApplication",
+  "operatingSystem": "iOS, Android, Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "potentialAction": [
+    {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://www.navnote.net/search?q={search_term_string}"
+      },
+      "query-input": {
+        "@type": "PropertyValueSpecification",
+        "valueRequired": true,
+        "valueName": "search_term_string"
+      }
+    },
+    {
+      "@type": "DownloadAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://www.navnote.net/#download",
+        "actionPlatform": [
+          "http://schema.org/AndroidPlatform",
+          "http://schema.org/IOSPlatform",
+          "http://schema.org/DesktopWebPlatform"
+        ]
+      },
+      "name": "Download navNote"
+    },
+    {
+      "@type": "ViewAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://www.navnote.net/#features"
+      },
+      "name": "View Features"
+    }
+  ],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "name": "navNote - AI-Powered Task Management",
+    "url": "https://www.navnote.net/"
+  }
+} 
