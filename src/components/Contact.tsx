@@ -164,7 +164,7 @@ const Contact: React.FC = () => {
                 />
                 <button
                   type="submit"
-                  className="absolute right-1 top-1 bg-gradient-to-r from-secondary to-accent p-2 rounded-full hover:shadow-lg hover:shadow-accent/20 transition-all"
+                  className="absolute right-1 top-1 btn-accent btn-icon"
                 >
                   <Send size={20} />
                 </button>

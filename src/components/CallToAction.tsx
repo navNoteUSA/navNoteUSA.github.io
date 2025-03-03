@@ -56,7 +56,7 @@ const CallToAction: React.FC<CallToActionProps> = ({ onOpenDemo, onOpenAuth }) =
                 onClick={onOpenDemo}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl font-bold text-lg shadow-glow-sm hover:shadow-glow-md transition-all"
+                className="btn-gradient btn-large"
               >
                 Get a Demo
               </motion.button>
@@ -65,7 +65,7 @@ const CallToAction: React.FC<CallToActionProps> = ({ onOpenDemo, onOpenAuth }) =
                 onClick={onOpenAuth}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-slate-800 border border-slate-600 rounded-xl font-bold text-lg hover:bg-slate-700 transition-all"
+                className="btn-glass btn-large"
               >
                 Sign In / Sign Up
               </motion.button>

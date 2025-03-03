@@ -155,7 +155,7 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
                 whileHover="hover"
                 whileTap="tap"
                 onClick={handleDemoRequest}
-                className="px-8 py-4 bg-[var(--text-accent)] hover:bg-blue-700 rounded-lg text-[var(--text-primary)] font-medium flex items-center gap-2 shadow-lg shadow-blue-500/30 transition-all"
+                className="btn-primary btn-large"
               >
                 Request Demo <ArrowRight className="h-5 w-5" />
               </motion.button>
@@ -165,7 +165,7 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
                 whileHover="hover"
                 whileTap="tap"
                 onClick={handleGetStarted}
-                className="px-8 py-4 bg-slate-800 hover:bg-slate-700 rounded-lg text-white font-medium border border-slate-700 flex items-center gap-2 transition-all"
+                className="btn-secondary btn-large"
               >
                 Early Access
               </motion.button>
