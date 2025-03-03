@@ -15,8 +15,26 @@ declare global {
 
 const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
   const [scrollY, setScrollY] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
   const vantaRef = useRef<any>(null);
+  
+  // Check if screen is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    // Initial check
+    checkMobile();
+    
+    // Add resize listener
+    window.addEventListener('resize', checkMobile);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
   
   // Animation variants
   const containerVariants = {
@@ -69,31 +87,71 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
   
   // Initialize Vanta.js NET effect
   useEffect(() => {
-    if (!vantaRef.current && heroRef.current && window.VANTA) {
-      vantaRef.current = window.VANTA.NET({
-        el: heroRef.current,
-        mouseControls: true,
-        touchControls: true,
-        gyroControls: false,
-        minHeight: 200.00,
-        minWidth: 200.00,
-        scale: 1.00,
-        scaleMobile: 1.00,
-        color: 0x2121eb,
-        backgroundColor: 0x0,
-        points: 5.00,
-        maxDistance: 21.00
+    // Make sure VANTA is available in window
+    if (heroRef.current && window.VANTA) {
+      console.log(`Initializing VANTA effect, isMobile: ${isMobile}`);
+      
+      // Destroy existing effect if it exists
+      if (vantaRef.current) {
+        console.log('Destroying existing VANTA effect');
+        vantaRef.current.destroy();
+        vantaRef.current = null;
+      }
+
+      // Desktop configuration
+      if (!isMobile) {
+        console.log('Using desktop configuration');
+        vantaRef.current = window.VANTA.NET({
+          el: heroRef.current,
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.00,
+          minWidth: 200.00,
+          scale: 1.00,
+          scaleMobile: 1.00,
+          color: 0x2a2a5f,
+          backgroundColor: 0x141422,
+          points: 9.00,
+          maxDistance: 26.00,
+          spacing: 16.00
+        });
+      } 
+      // Mobile configuration
+      else {
+        console.log('Using mobile configuration');
+        vantaRef.current = window.VANTA.NET({
+          el: heroRef.current,
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.00,
+          minWidth: 200.00,
+          scale: 1.00,
+          scaleMobile: 1.00,
+          color: 0x2a2a5f,
+          backgroundColor: 0x141422,
+          points: 7.00,
+          maxDistance: 14.00,
+          spacing: 16.00
+        });
+      }
+    } else {
+      console.log('VANTA not available or heroRef not set', { 
+        vantaAvailable: !!window.VANTA, 
+        heroRefAvailable: !!heroRef.current
       });
     }
     
     // Cleanup function
     return () => {
       if (vantaRef.current) {
+        console.log('Cleanup: Destroying VANTA effect');
         vantaRef.current.destroy();
         vantaRef.current = null;
       }
     };
-  }, []);
+  }, [isMobile]); // Re-initialize when mobile status changes
   
   // Handle scroll effect for parallax
   useEffect(() => {
@@ -120,8 +178,11 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
   return (
     <section 
       ref={heroRef}
-      className="min-h-screen flex items-center relative overflow-hidden pt-16 pb-16"
       id="vanta-background"
+      className="min-h-screen flex items-center relative overflow-hidden pt-16 pb-16"
+      style={{
+        backgroundColor: "#141422"
+      }}
     >
       <div className="container mx-auto px-4 relative z-10 pt-8 md:pt-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center pt-12 md:pt-16 lg:pt-20">
