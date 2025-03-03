@@ -112,7 +112,7 @@ const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onBack }) => {
             If you have any questions about this Privacy Policy, please contact us at:
           </p>
           <ul className="list-none pl-6 text-gray-300 mb-4 space-y-2">
-            <li>Email: privacy@navNote.net</li>
+            <li>Email: contact@navNote.net</li>
             <li>Address: Utah, United States</li>
           </ul>
         </div>

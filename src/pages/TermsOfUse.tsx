@@ -110,7 +110,7 @@ const TermsOfUse: React.FC<TermsOfUseProps> = ({ onBack }) => {
             If you have any questions about these Terms, please contact us at:
           </p>
           <ul className="list-none pl-6 text-gray-300 mb-4 space-y-2">
-            <li>Email: legal@navNote.net</li>
+            <li>Email: contact@navNote.net</li>
             <li>Address: Utah, United States</li>
           </ul>
         </div>
