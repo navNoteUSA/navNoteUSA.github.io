@@ -106,7 +106,7 @@ const Partners: React.FC = () => {
           className="mt-16 text-center"
         >
           <p className="text-lg text-[var(--text-accent)] font-medium">Interested in partnering with us?</p>
-          <a href="#contact" className="inline-block mt-4 px-6 py-3 bg-[var(--text-accent)] hover:bg-blue-700 text-[var(--text-primary)] font-medium rounded-lg transition-colors">
+          <a href="mailto:sales@navNote.net" className="inline-block mt-4 px-6 py-3 bg-[var(--text-accent)] hover:bg-blue-700 text-[var(--text-primary)] font-medium rounded-lg transition-colors">
             Get in Touch
           </a>
         </motion.div>
