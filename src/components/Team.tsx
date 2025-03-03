@@ -100,21 +100,14 @@ const Advisor: React.FC<AdvisorProps> = ({ name, role, credentials, index }) => 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.5, delay: index * 0.05 }}
-      className="glass p-6 rounded-lg hover:bg-white/10 transition-all border border-gray-800/50"
+      initial={{ opacity: 0, y: 20 }}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+      transition={{ duration: 0.4, delay: index * 0.05 }}
+      className="glass-subtle py-3 px-4 rounded border-l-2 border-accent/30 hover:bg-white/5 transition-all"
     >
-      <div className="flex items-center gap-3 mb-2">
-        <div className="w-8 h-8 bg-gradient-to-br from-accent/30 to-secondary/30 rounded-full flex items-center justify-center flex-shrink-0">
-          <User size={16} className="text-gray-200" />
-        </div>
-        <div>
-          <h4 className="font-semibold text-gradient">{name}</h4>
-          <p className="text-sm text-gray-400">{role}</p>
-        </div>
-      </div>
-      <p className="text-xs text-gray-500 pl-11">{credentials}</p>
+      <h4 className="font-semibold text-sm mb-0.5 text-white">{name}</h4>
+      <p className="text-xs text-accent/80 mb-1">{role}</p>
+      <p className="text-xs text-gray-500 line-clamp-2">{credentials}</p>
     </motion.div>
   );
 };
@@ -230,8 +223,9 @@ const Team: React.FC = () => {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="mb-12"
         >
-          <h3 className="text-2xl font-semibold mb-6 text-center">Special Thanks to the Advisory Board Members</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <h3 className="text-xl font-semibold mb-2 text-center text-gradient">Advisory Board</h3>
+          <p className="text-center text-sm text-gray-400 mb-6">Distinguished professionals guiding our vision</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3 max-w-5xl mx-auto">
             {advisors.map((advisor, index) => (
               <Advisor
                 key={index}

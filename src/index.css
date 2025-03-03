@@ -46,6 +46,10 @@ body {
   @apply bg-dark/50 backdrop-blur-lg border border-white/5;
 }
 
+.glass-subtle {
+  @apply bg-dark/30 backdrop-blur-sm transition-all duration-200;
+}
+
 .glass-card {
   @apply bg-dark/60 backdrop-blur-lg border border-white/10 rounded-2xl shadow-lg transition-all duration-300;
   transition-timing-function: var(--animation-timing);
