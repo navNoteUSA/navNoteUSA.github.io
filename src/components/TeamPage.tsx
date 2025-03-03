@@ -1,261 +1,195 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { Linkedin, Mail } from 'lucide-react';
-
-interface TeamMemberProps {
-  name: string;
-  role: string;
-  email: string;
-  credentials: string;
-  index: number;
-  linkedinUrl: string;
-  isFounder?: boolean;
-}
-
-const TeamMember: React.FC<TeamMemberProps> = ({ name, role, email, credentials, index, linkedinUrl, isFounder = false }) => {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 50 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className={`glass p-6 rounded-xl hover:shadow-lg transition-all ${
-        isFounder ? 'border border-accent/30' : ''
-      }`}
-    >
-      <div className="w-24 h-24 mx-auto bg-gradient-to-br from-secondary/20 to-accent/20 rounded-full flex items-center justify-center mb-4">
-        <span className="text-3xl font-bold text-gradient">{name.charAt(0)}</span>
-      </div>
-      <h3 className="text-xl font-semibold text-center mb-1">{name}</h3>
-      <p className="text-gray-400 text-center mb-3">{role}</p>
-      <p className="text-sm text-gray-500 text-center mb-4">{credentials}</p>
-      <div className="flex justify-center gap-3">
-        <a 
-          href={`mailto:${email}`} 
-          className="p-2 glass rounded-full hover:bg-accent/20 transition-colors"
-          aria-label={`Email ${name}`}
-        >
-          <Mail size={18} />
-        </a>
-        <a 
-          href={linkedinUrl} 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="p-2 glass rounded-full hover:bg-accent/20 transition-colors"
-          aria-label={`${name}'s LinkedIn`}
-        >
-          <Linkedin size={18} />
-        </a>
-      </div>
-    </motion.div>
-  );
-};
-
-interface AdvisorProps {
-  name: string;
-  role: string;
-  credentials: string;
-  index: number;
-}
-
-const Advisor: React.FC<AdvisorProps> = ({ name, role, credentials, index }) => {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="glass p-5 rounded-xl hover:shadow-lg transition-all"
-    >
-      <div className="w-16 h-16 mx-auto bg-gradient-to-br from-purple/20 to-accent/20 rounded-full flex items-center justify-center mb-3">
-        <span className="text-xl font-bold">{name.charAt(0)}</span>
-      </div>
-      <h3 className="text-lg font-semibold text-center mb-1">{name}</h3>
-      <p className="text-gray-400 text-sm text-center mb-2">{role}</p>
-      <p className="text-xs text-gray-500 text-center">{credentials}</p>
-    </motion.div>
-  );
-};
+import { Linkedin, Mail, Globe } from 'lucide-react';
 
 const TeamPage: React.FC = () => {
-  // Team members data
-  const teamMembers = [
+  const founders = [
     {
-      name: "Sarah Johnson",
-      role: "Founder & CEO",
-      email: "sarah@navnote.com",
-      credentials: "Former Product Lead at Google, Stanford MBA",
-      linkedinUrl: "https://linkedin.com/",
-      isFounder: true
+      name: "Esmaeil Mousavi",
+      title: "Founder & Owner",
+      description: "Artificial Intelligence & Machine Learning Lead Researcher / Teaching Fellow at Weber State, MIT, Harvard, NCWQR",
+      image: "/esmaeil-mousavi.jpg", 
+      linkedin: "https://www.linkedin.com/in/mousavi-ai",
+      email: "contact@navnote.net",
+      website: "weber.edu/east/mousavi"
     },
     {
-      name: "Michael Chen",
-      role: "CTO",
-      email: "michael@navnote.com",
-      credentials: "MIT Computer Science, Ex-Amazon",
-      linkedinUrl: "https://linkedin.com/",
-      isFounder: false
-    },
-    {
-      name: "Aisha Patel",
-      role: "Head of Design",
-      email: "aisha@navnote.com",
-      credentials: "RISD Graduate, 10+ years in UX/UI",
-      linkedinUrl: "https://linkedin.com/",
-      isFounder: false
-    },
-    {
-      name: "David Williams",
-      role: "VP of Engineering",
-      email: "david@navnote.com",
-      credentials: "Ex-Microsoft, 15+ years in software development",
-      linkedinUrl: "https://linkedin.com/",
-      isFounder: false
-    },
-    {
-      name: "Elena Rodriguez",
-      role: "Head of Marketing",
-      email: "elena@navnote.com",
-      credentials: "Harvard Business School, Former CMO at Trello",
-      linkedinUrl: "https://linkedin.com/",
-      isFounder: false
-    },
-    {
-      name: "James Wilson",
-      role: "Head of AI Research",
-      email: "james@navnote.com",
-      credentials: "PhD in Machine Learning, Published Researcher",
-      linkedinUrl: "https://linkedin.com/",
-      isFounder: false
+      name: "Niklas Kennedy",
+      title: "Co-Founder & CEO",
+      description: "Mainframe System Engineer, UX/UI Developer, Association for Computing Machinery President at IBM, ACM, Weber State",
+      image: "/niklas-kennedy.jpg", 
+      linkedin: "https://www.linkedin.com/in/niklas-kennedy-0a1a53198/",
+      email: "niklas@navnote.net",
+      website: ""
     }
   ];
-
-  // Advisory board data
-  const advisors = [
+  
+  const advisoryBoard = [
     {
-      name: "Dr. Robert Zhang",
-      role: "AI Ethics Advisor",
-      credentials: "Professor of AI Ethics at Stanford"
+      name: "Fadi Chehadé",
+      title: "CEO & Founder",
+      description: "Ethos Capital, ICANN, RosettaNet, Sr. Advisor: World Economic Forum, United Nations, Abry Partners, Microsoft, IBM, Oracle, HP and Nokia",
+      image: "/advisor-placeholder.jpg"
     },
     {
-      name: "Maria Santos",
-      role: "Business Strategy",
-      credentials: "Partner at TechVentures Capital"
+      name: "Todd Kammeyer",
+      title: "President",
+      description: "Fred Meyer, Kroger Co.",
+      image: "/advisor-placeholder.jpg"
     },
     {
-      name: "John Andersson",
-      role: "Technical Advisor",
-      credentials: "Former CTO at Dropbox"
+      name: "Mohammad Ehteshami",
+      title: "Founder, Chairman, CEO",
+      description: "Beehive Industries, Ehteshami Construction, GE Aviation, Additive",
+      image: "/advisor-placeholder.jpg"
     },
     {
-      name: "Patricia Okonkwo",
-      role: "UX Research Advisor",
-      credentials: "Head of Research at Adobe"
+      name: "Majid Samarghandi",
+      title: "Chairman & CEO",
+      description: "Triton Service Inc.",
+      image: "/advisor-placeholder.jpg"
+    },
+    {
+      name: "Cody Squadroni",
+      title: "Business Owner, Professor",
+      description: "Weber State University",
+      image: "/advisor-placeholder.jpg"
+    },
+    {
+      name: "Siavash Aa'rabi",
+      title: "Tech Co-Founder & Entrepreneur",
+      description: "University of Southern California",
+      image: "/advisor-placeholder.jpg"
+    },
+    {
+      name: "Tim Border",
+      title: "Entrepreneur, Professor",
+      description: "Fortune 500 Companies Consultant, Weber State University, TED X Special Speaker",
+      image: "/advisor-placeholder.jpg"
+    },
+    {
+      name: "Brent Warnock",
+      title: "Founder, President, Business Owner & Professor",
+      description: "Landvoice, Inc., Three Fountains, Weber State University",
+      image: "/advisor-placeholder.jpg"
     }
   ];
 
   return (
-    <>
-      <section id="team" className="py-20 md:py-32 relative overflow-hidden">
-        {/* Background elements */}
-        <div className="absolute inset-0 bg-hex-pattern opacity-10"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-primary via-primary/80 to-black/90"></div>
-        <div className="absolute left-0 right-0 top-0 h-40 bg-gradient-to-b from-black to-transparent"></div>
-        
-        <div className="container mx-auto px-4 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+    <div className="min-h-screen bg-gradient-to-b from-slate-950 to-slate-900 pt-20 pb-20">
+      <div className="container mx-auto px-4">
+        {/* Founders Section */}
+        <section className="mb-20">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
-            viewport={{ once: true, margin: "-100px" }}
-            className="text-center max-w-3xl mx-auto mb-20"
+            className="text-center mb-16"
           >
             <h1 className="text-4xl md:text-5xl font-bold mb-6">Our Team</h1>
-            <p className="text-lg text-gray-300">
-              Meet the passionate individuals behind navNote who are dedicated to creating a revolutionary 
-              experience for organizing your digital life.
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Meet the innovators behind navNote who are redefining task management with AI.
             </p>
           </motion.div>
           
-          {/* Team members */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
-            {teamMembers.map((member, index) => (
-              <TeamMember
-                key={member.name}
-                name={member.name}
-                role={member.role}
-                email={member.email}
-                credentials={member.credentials}
-                index={index}
-                linkedinUrl={member.linkedinUrl}
-                isFounder={member.isFounder}
-              />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            {founders.map((member, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: index * 0.2 }}
+                className="bg-slate-900/50 backdrop-blur-sm border border-slate-800/50 rounded-xl overflow-hidden shadow-xl"
+              >
+                <div className="flex flex-col md:flex-row">
+                  <div className="w-full md:w-2/5 h-64 md:h-auto relative overflow-hidden bg-blue-900/20">
+                    <img 
+                      src={member.image} 
+                      alt={member.name}
+                      className="h-full w-full object-cover"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = 'https://placehold.co/600x400/1e3a8a/ffffff?text=navNote';
+                      }}
+                    />
+                  </div>
+                  <div className="w-full md:w-3/5 p-6 flex flex-col justify-between">
+                    <div>
+                      <h2 className="text-2xl font-bold mb-1">{member.name}</h2>
+                      <p className="text-blue-400 font-medium mb-4">{member.title}</p>
+                      <p className="text-gray-300">{member.description}</p>
+                    </div>
+                    <div className="flex space-x-4 mt-6">
+                      {member.linkedin && (
+                        <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-blue-400 transition-colors">
+                          <Linkedin size={20} />
+                        </a>
+                      )}
+                      {member.email && (
+                        <a href={`mailto:${member.email}`} className="text-gray-300 hover:text-blue-400 transition-colors">
+                          <Mail size={20} />
+                        </a>
+                      )}
+                      {member.website && (
+                        <a href={member.website} target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-blue-400 transition-colors">
+                          <Globe size={20} />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
             ))}
           </div>
-          
-          {/* Advisory Board */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
+        </section>
+
+        {/* Advisory Board Section */}
+        <section>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            viewport={{ once: true, margin: "-100px" }}
-            className="text-center max-w-3xl mx-auto mb-12"
+            className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-6">Advisory Board</h2>
-            <p className="text-gray-300">
-              Our advisory board consists of industry leaders who provide guidance and expertise 
-              to help navNote achieve its mission.
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Special thanks to our distinguished advisory board members who provide invaluable guidance and expertise.
             </p>
           </motion.div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-            {advisors.map((advisor, index) => (
-              <Advisor
-                key={advisor.name}
-                name={advisor.name}
-                role={advisor.role}
-                credentials={advisor.credentials}
-                index={index}
-              />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {advisoryBoard.map((advisor, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-slate-900/30 backdrop-blur-sm border border-slate-800/50 rounded-lg overflow-hidden shadow-lg"
+              >
+                <div className="h-48 overflow-hidden bg-blue-900/20">
+                  <img 
+                    src={advisor.image} 
+                    alt={advisor.name}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = 'https://placehold.co/600x400/1e3a8a/ffffff?text=Advisor';
+                    }}
+                  />
+                </div>
+                <div className="p-5">
+                  <h3 className="text-xl font-bold mb-1">{advisor.name}</h3>
+                  <p className="text-blue-400 text-sm font-medium mb-3">{advisor.title}</p>
+                  <p className="text-gray-300 text-sm">{advisor.description}</p>
+                </div>
+              </motion.div>
             ))}
           </div>
-          
-          {/* Join the team section */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            viewport={{ once: true, margin: "-100px" }}
-            className="max-w-3xl mx-auto mt-24 text-center"
-          >
-            <div className="bg-dark/50 backdrop-blur-md border border-white/10 rounded-2xl p-8 shadow-blue-glow">
-              <h2 className="text-2xl md:text-3xl font-bold mb-4">Join Our Team</h2>
-              <p className="text-gray-300 mb-6">
-                We're always looking for talented individuals who are passionate about creating 
-                intuitive, AI-powered solutions. Check out our open positions.
-              </p>
-              <a 
-                href="mailto:careers@navnote.com" 
-                className="inline-flex items-center justify-center px-6 py-3 bg-secondary hover:bg-secondary/90 text-white rounded-lg transition-colors shadow-lg shadow-secondary/20"
-              >
-                View Open Positions
-              </a>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-    </>
+        </section>
+      </div>
+    </div>
   );
 };
 

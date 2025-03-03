@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Brain, Server, Cpu, Compass, MessageSquare, TrendingUp } from 'lucide-react';
+import { Brain, Server, Cpu, Lock } from 'lucide-react';
 
 const Technology: React.FC = () => {
   const [ref, inView] = useInView({
@@ -11,40 +11,22 @@ const Technology: React.FC = () => {
 
   const technologies = [
     {
-      title: "Neural Network",
-      description: "Custom-trained neural networks that learn your habits and preferences to provide increasingly personalized suggestions.",
+      title: 'On-Device AI Processing',
+      description: 'Faster, secure, and private AI processing that keeps your sensitive data on your device.',
+      icon: <Cpu className="w-6 h-6 text-blue-400" />,
+      delay: 0.1
+    },
+    {
+      title: 'Next-Gen AI Integration',
+      description: 'Cutting-edge technology including CNN compression, Diffusion Models, and advanced Sensor Fusion.',
       icon: <Brain className="w-6 h-6 text-blue-400" />,
       delay: 0.2
     },
     {
-      title: "On-Device Processing",
-      description: "Advanced edge computing allows most AI operations to run locally on your device, enhancing privacy and reducing latency.",
-      icon: <Server className="w-6 h-6 text-green-400" />,
+      title: 'Privacy-First Design',
+      description: 'End-to-end encryption and local data processing ensure your information remains secure.',
+      icon: <Lock className="w-6 h-6 text-blue-400" />,
       delay: 0.3
-    },
-    {
-      title: "Adaptive Learning",
-      description: "The system continuously improves based on your interactions, becoming more accurate and helpful over time.",
-      icon: <Cpu className="w-6 h-6 text-purple-400" />,
-      delay: 0.4
-    },
-    {
-      title: "Natural Language",
-      description: "Communicate with navNote in everyday language. The AI understands context, slang, and even your personal shorthand.",
-      icon: <MessageSquare className="w-6 h-6 text-orange-400" />,
-      delay: 0.5
-    },
-    {
-      title: "Spatial Awareness",
-      description: "Our algorithm understands physical spaces and geographic context, optimizing your tasks based on location efficiency.",
-      icon: <Compass className="w-6 h-6 text-blue-400" />,
-      delay: 0.6
-    },
-    {
-      title: "Predictive Analytics",
-      description: "The system learns from your behavior patterns to anticipate your needs and suggest optimal scheduling solutions.",
-      icon: <TrendingUp className="w-6 h-6 text-green-400" />,
-      delay: 0.7
     }
   ];
 
@@ -67,7 +49,7 @@ const Technology: React.FC = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">Our Technology</h2>
+          <h2 className="text-3xl md:text-5xl font-bold mb-4">The navNote AI System</h2>
           <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
             We've built a cutting-edge AI system that understands context, location, and time to deliver a truly intuitive experience.
           </p>
@@ -101,7 +83,7 @@ const Technology: React.FC = () => {
         </motion.div>
         
         {/* Technology features grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {technologies.map((tech, index) => (
             <motion.div
               key={index}
@@ -117,18 +99,6 @@ const Technology: React.FC = () => {
               <p className="text-gray-300">{tech.description}</p>
             </motion.div>
           ))}
-        </div>
-        
-        {/* Animated code snippets in background */}
-        <div className="absolute top-1/4 -left-32 opacity-10 blur-sm code-animation">
-          <pre className="text-green-500 font-mono">
-            {`function analyzeContext(data) {\n  const patterns = extractPatterns(data);\n  return predictNextAction(patterns);\n}`}
-          </pre>
-        </div>
-        <div className="absolute bottom-1/4 -right-32 opacity-10 blur-sm code-animation">
-          <pre className="text-blue-500 font-mono">
-            {`async function spatialMapping(location) {\n  const relevantTasks = await findNearbyTasks(location);\n  return prioritize(relevantTasks);\n}`}
-          </pre>
         </div>
       </div>
     </section>
