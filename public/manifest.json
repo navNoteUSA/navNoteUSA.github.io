@@ -1,21 +1,84 @@
 {
-  "name": "navNote",
+  "name": "navNote - AI-Powered Task Management",
   "short_name": "navNote",
-  "description": "AI-Powered Location-Aware Task Management",
-  "start_url": "/",
+  "description": "AI-Powered Location-Aware Task Management that helps you organize your life more efficiently",
+  "start_url": "https://www.navnote.net/",
+  "scope": "https://www.navnote.net/",
+  "id": "https://www.navnote.net/",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "browser"],
+  "orientation": "any",
   "background_color": "#ffffff",
-  "theme_color": "#ffffff",
+  "theme_color": "#007bff",
+  "categories": ["productivity", "business", "lifestyle", "utilities"],
+  "launch_handler": {
+    "client_mode": ["auto", "focus-existing"]
+  },
+  "lang": "en-US",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "screenshots": [
+    {
+      "src": "https://www.navnote.net/screenshots/mobile.jpeg",
+      "sizes": "750x1334",
+      "type": "image/jpeg",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "https://www.navnote.net/screenshots/desktop.jpeg",
+      "sizes": "1280x800",
+      "type": "image/jpeg",
+      "form_factor": "wide"
+    }
+  ],
   "icons": [
     {
       "src": "/navNote_logo.jpeg",
       "sizes": "192x192",
-      "type": "image/jpeg"
+      "type": "image/jpeg",
+      "purpose": "any"
     },
     {
       "src": "/navNote_logo.jpeg",
       "sizes": "512x512",
-      "type": "image/jpeg"
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "/navNote_logo.jpeg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/navNote_logo.jpeg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Create New Task",
+      "url": "https://www.navnote.net/#new-task",
+      "description": "Quickly create a new task",
+      "icons": [
+        {
+          "src": "/navNote_logo.jpeg",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "View Calendar",
+      "url": "https://www.navnote.net/#calendar",
+      "description": "View your task calendar",
+      "icons": [
+        {
+          "src": "/navNote_logo.jpeg",
+          "sizes": "96x96"
+        }
+      ]
     }
   ]
 } 

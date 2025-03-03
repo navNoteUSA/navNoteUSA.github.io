@@ -1,0 +1,19 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://www.navnote.net/#organization",
+  "name": "navNote",
+  "url": "https://www.navnote.net/",
+  "logo": {
+    "@type": "ImageObject",
+    "url": "https://www.navnote.net/navNote_logo.jpeg",
+    "width": "192",
+    "height": "192"
+  },
+  "sameAs": [
+    "https://github.com/navNoteUSA",
+    "https://twitter.com/navNote",
+    "https://linkedin.com/company/navNote"
+  ],
+  "description": "AI-powered task management app that understands context, time, and location to help you organize your life more efficiently."
+} 

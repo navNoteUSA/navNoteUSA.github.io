@@ -1,0 +1,17 @@
+/* TEAM */
+	Creator: navNote Team
+	Contact: hello@navnote.ai
+	Twitter: @navNote
+	Location: San Francisco, California, USA
+
+/* THANKS */
+	Thanks to all our users and contributors
+
+/* SITE */
+	Last update: 2023/03/03
+	Standards: HTML5, CSS3, TypeScript, React
+	Components: Vite, Tailwind CSS
+	Software: VS Code, Adobe XD, Git
+	Language: English
+	Doctype: HTML5
+	IDE: Visual Studio Code 

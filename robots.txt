@@ -1,0 +1,23 @@
+# navNote Website Robots.txt
+User-agent: *
+Allow: /
+Disallow: /src/
+Disallow: /.git/
+Disallow: /.bolt/
+
+# Allow all images to be indexed
+Allow: /public/*.jpg
+Allow: /public/*.jpeg
+Allow: /public/*.png
+Allow: /public/*.svg
+Allow: /public/*.webp
+
+# Crawl delay for heavy bots
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+# Sitemap location
+Sitemap: https://www.navnote.net/sitemap.xml 
