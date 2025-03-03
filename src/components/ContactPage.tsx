@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Mail, Phone, MapPin, Send, Building } from 'lucide-react';
-import Navbar from './Navbar';
-import Footer from './Footer';
 
 const ContactCard: React.FC<{
   title: string;
@@ -103,7 +101,6 @@ const ContactPage: React.FC = () => {
 
   return (
     <>
-      <Navbar />
       <section id="contact" className="py-20 md:py-32 relative overflow-hidden">
         {/* Background elements */}
         <div className="absolute inset-0 bg-hex-pattern opacity-10"></div>
@@ -326,7 +323,6 @@ const ContactPage: React.FC = () => {
           </motion.div>
         </div>
       </section>
-      <Footer onOpenPrivacyPolicy={() => {}} />
     </>
   );
 };

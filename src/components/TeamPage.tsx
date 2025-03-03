@@ -2,8 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Linkedin, Mail } from 'lucide-react';
-import Navbar from './Navbar';
-import Footer from './Footer';
 
 interface TeamMemberProps {
   name: string;
@@ -169,8 +167,6 @@ const TeamPage: React.FC = () => {
 
   return (
     <>
-      <Navbar />
-      
       <section id="team" className="py-20 md:py-32 relative overflow-hidden">
         {/* Background elements */}
         <div className="absolute inset-0 bg-hex-pattern opacity-10"></div>
@@ -259,8 +255,6 @@ const TeamPage: React.FC = () => {
           </motion.div>
         </div>
       </section>
-      
-      <Footer onOpenPrivacyPolicy={() => {}} />
     </>
   );
 };

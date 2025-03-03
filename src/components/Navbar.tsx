@@ -1,237 +1,203 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Download, HelpCircle, Shield, MapPin, Mail, Users } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Menu, X, Users } from 'lucide-react';
 
 interface NavbarProps {
   openDemoForm?: () => void;
   openAuthForm?: () => void;
+  navigateTo: (page: 'home' | 'team' | 'contact') => void;
+  currentPage: 'home' | 'team' | 'contact';
 }
 
-const Navbar: React.FC<NavbarProps> = ({ openDemoForm, openAuthForm }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const Navbar: React.FC<NavbarProps> = ({ openDemoForm, openAuthForm, navigateTo, currentPage }) => {
   const [isScrolled, setIsScrolled] = useState(false);
-
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
+      const scrollTop = window.scrollY;
+      if (scrollTop > 50) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
       }
     };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
-    // Prevent body scrolling when menu is open
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
     
-    // Close menu when clicking outside on mobile
+    window.addEventListener('scroll', handleScroll);
+    
+    // Check if mobile on mount and when window resizes
     const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        setIsOpen(false);
-      }
+      setIsMobile(window.innerWidth < 768);
     };
+    
+    // Initial check
+    handleResize();
     
     window.addEventListener('resize', handleResize);
     
     return () => {
-      document.body.style.overflow = '';
+      window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleResize);
     };
-  }, [isOpen]);
-
+  }, []);
+  
   const toggleMenu = () => {
-    setIsOpen(!isOpen);
+    setIsMenuOpen(!isMenuOpen);
   };
-
+  
   const closeMenu = () => {
-    setIsOpen(false);
+    setIsMenuOpen(false);
   };
-
+  
   return (
-    <>
-      <header className={`${isScrolled ? 'navbar-sticky glass' : 'absolute'} top-0 left-0 w-full z-50 transition-all duration-300`}>
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-20">
-            {/* Logo */}
-            <div className="flex items-center">
-              <Link to="/" className="flex items-center">
-                <span className="text-2xl font-bold text-gradient">navNote</span>
-              </Link>
-            </div>
-
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-8">
-              <a href="#features" className="nav-link">Features</a>
-              <a href="#lifemap" className="nav-link">Life Map</a>
-              <a href="#technology" className="nav-link">Technology</a>
-              <Link to="/team" className="nav-link">Team</Link>
-              <Link to="/contact" className="nav-link">Contact</Link>
-              <button
-                onClick={openAuthForm}
-                className="nav-link font-medium hover:text-secondary transition-colors"
-              >
-                Sign In/Sign Up
-              </button>
-              <button 
-                onClick={openDemoForm}
-                className="bg-secondary text-white px-5 py-2 rounded-full hover:shadow-blue-glow transition-all duration-300 flex items-center gap-2"
-              >
-                <Download size={16} />
-                Get a Demo
-              </button>
-            </nav>
-
-            {/* Mobile Menu Button */}
+    <nav className={`fixed w-full top-0 z-40 transition-all duration-300 ${isScrolled ? 'bg-slate-900/80 backdrop-blur-md shadow-lg' : 'bg-transparent'}`}>
+      <div className="container mx-auto px-4">
+        <div className="flex justify-between items-center py-4">
+          {/* Logo */}
+          <div className="flex items-center">
+            <a 
+              href="#" 
+              className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-blue-600 to-cyan-400 mr-10"
+              onClick={(e) => {
+                e.preventDefault();
+                navigateTo('home');
+                closeMenu();
+              }}
+            >
+              navNote
+            </a>
+          </div>
+          
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center space-x-10 text-gray-300 font-medium">
+            <a 
+              href="#" 
+              className={`hover:text-white transition-colors ${currentPage === 'home' ? 'text-white' : ''}`}
+              onClick={(e) => {
+                e.preventDefault();
+                navigateTo('home');
+              }}
+            >
+              Home
+            </a>
+            <a 
+              href="#" 
+              className={`hover:text-white transition-colors ${currentPage === 'team' ? 'text-white' : ''}`}
+              onClick={(e) => {
+                e.preventDefault();
+                navigateTo('team');
+              }}
+            >
+              Team
+            </a>
+            <a 
+              href="#" 
+              className={`hover:text-white transition-colors ${currentPage === 'contact' ? 'text-white' : ''}`}
+              onClick={(e) => {
+                e.preventDefault();
+                navigateTo('contact');
+              }}
+            >
+              Contact
+            </a>
+          </div>
+          
+          {/* Action Buttons */}
+          <div className="hidden md:flex items-center space-x-4">
+            <button 
+              onClick={openAuthForm}
+              className="flex items-center text-gray-300 hover:text-white transition-colors"
+            >
+              <Users size={18} className="mr-2" />
+              Sign In / Sign Up
+            </button>
+            <button 
+              onClick={openDemoForm}
+              className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white px-4 py-2 rounded-lg font-medium shadow-glow-sm"
+            >
+              Get a Demo
+            </button>
+          </div>
+          
+          {/* Mobile Menu Button */}
+          <div className="md:hidden flex items-center">
             <button 
               onClick={toggleMenu}
-              className="md:hidden p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
-              aria-label="Toggle menu"
+              className="text-gray-300 hover:text-white transition-colors focus:outline-none"
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
+              {isMenuOpen ? (
+                <X size={24} />
+              ) : (
+                <Menu size={24} />
+              )}
             </button>
           </div>
         </div>
-      </header>
-
-      {/* Mobile Menu - Fixed at top of screen */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden fixed top-0 left-0 right-0 bottom-0 z-50 flex flex-col bg-black bg-opacity-95 backdrop-blur-lg"
-          >
-            <div className="container mx-auto px-4 border-b border-white/10">
-              <div className="flex items-center justify-between h-20">
-                {/* Logo */}
-                <div className="flex items-center">
-                  <Link to="/" className="flex items-center" onClick={closeMenu}>
-                    <span className="text-2xl font-bold text-gradient">navNote</span>
-                  </Link>
-                </div>
-                
-                {/* Close Button */}
-                <button
-                  onClick={toggleMenu}
-                  className="p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
-                  aria-label="Close menu"
-                >
-                  <X size={24} />
-                </button>
-              </div>
+      </div>
+      
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-slate-900 border-t border-slate-800">
+          <div className="container mx-auto px-4 py-4 space-y-3">
+            <a 
+              href="#" 
+              className={`block py-2 ${currentPage === 'home' ? 'text-white font-medium' : 'text-gray-300'}`}
+              onClick={(e) => {
+                e.preventDefault();
+                navigateTo('home');
+                closeMenu();
+              }}
+            >
+              Home
+            </a>
+            <a 
+              href="#" 
+              className={`block py-2 ${currentPage === 'team' ? 'text-white font-medium' : 'text-gray-300'}`}
+              onClick={(e) => {
+                e.preventDefault();
+                navigateTo('team');
+                closeMenu();
+              }}
+            >
+              Team
+            </a>
+            <a 
+              href="#" 
+              className={`block py-2 ${currentPage === 'contact' ? 'text-white font-medium' : 'text-gray-300'}`}
+              onClick={(e) => {
+                e.preventDefault();
+                navigateTo('contact');
+                closeMenu();
+              }}
+            >
+              Contact
+            </a>
+            <div className="pt-2">
+              <button 
+                onClick={() => {
+                  if (openAuthForm) openAuthForm();
+                  closeMenu();
+                }}
+                className="w-full bg-slate-800 text-white py-2 rounded-lg mb-2 flex items-center justify-center"
+              >
+                <Users size={18} className="mr-2" />
+                Sign In / Sign Up
+              </button>
+              <button 
+                onClick={() => {
+                  if (openDemoForm) openDemoForm();
+                  closeMenu();
+                }}
+                className="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white py-2 rounded-lg font-medium"
+              >
+                Get a Demo
+              </button>
             </div>
-            
-            <nav className="container mx-auto px-4 py-6 overflow-y-auto flex-1">
-              <div className="flex flex-col space-y-3">
-                <a 
-                  href="#features" 
-                  className="py-4 px-5 flex items-center space-x-3 rounded-lg hover:bg-white/10 active:bg-white/20 transition-colors"
-                  onClick={closeMenu}
-                >
-                  <div className="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center">
-                    <HelpCircle size={20} className="text-secondary" />
-                  </div>
-                  <div>
-                    <span className="font-medium">Features</span>
-                    <p className="text-xs text-gray-400">Explore what makes navNote unique</p>
-                  </div>
-                </a>
-                <a 
-                  href="#lifemap" 
-                  className="py-4 px-5 flex items-center space-x-3 rounded-lg hover:bg-white/10 active:bg-white/20 transition-colors"
-                  onClick={closeMenu}
-                >
-                  <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center">
-                    <MapPin size={20} className="text-accent" />
-                  </div>
-                  <div>
-                    <span className="font-medium">Life Map</span>
-                    <p className="text-xs text-gray-400">See your tasks in a spatial context</p>
-                  </div>
-                </a>
-                
-                {/* Continue with other navigation items */}
-                <a 
-                  href="#technology" 
-                  className="py-4 px-5 flex items-center space-x-3 rounded-lg hover:bg-white/10 active:bg-white/20 transition-colors"
-                  onClick={closeMenu}
-                >
-                  <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center">
-                    <Shield size={20} className="text-blue-400" />
-                  </div>
-                  <div>
-                    <span className="font-medium">Technology</span>
-                    <p className="text-xs text-gray-400">Learn about our AI-powered stack</p>
-                  </div>
-                </a>
-                
-                <Link 
-                  to="/team"
-                  className="py-4 px-5 flex items-center space-x-3 rounded-lg hover:bg-white/10 active:bg-white/20 transition-colors"
-                  onClick={closeMenu}
-                >
-                  <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center">
-                    <Users size={20} className="text-purple-400" />
-                  </div>
-                  <div>
-                    <span className="font-medium">Team</span>
-                    <p className="text-xs text-gray-400">Meet the people behind navNote</p>
-                  </div>
-                </Link>
-                
-                <Link 
-                  to="/contact"
-                  className="py-4 px-5 flex items-center space-x-3 rounded-lg hover:bg-white/10 active:bg-white/20 transition-colors"
-                  onClick={closeMenu}
-                >
-                  <div className="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center">
-                    <Mail size={20} className="text-green-400" />
-                  </div>
-                  <div>
-                    <span className="font-medium">Contact</span>
-                    <p className="text-xs text-gray-400">Get in touch with our team</p>
-                  </div>
-                </Link>
-              </div>
-              
-              <div className="mt-8 space-y-4">
-                <button
-                  onClick={() => {
-                    closeMenu();
-                    openAuthForm && openAuthForm();
-                  }}
-                  className="w-full bg-slate-800/70 text-white py-3 rounded-lg hover:bg-slate-700/70 transition-colors flex items-center justify-center"
-                >
-                  Sign In / Sign Up
-                </button>
-                
-                <button 
-                  onClick={() => {
-                    closeMenu();
-                    openDemoForm && openDemoForm();
-                  }}
-                  className="w-full bg-secondary text-white py-3 rounded-lg hover:bg-secondary/90 transition-colors flex items-center justify-center gap-2"
-                >
-                  <Download size={18} />
-                  Get a Demo
-                </button>
-              </div>
-            </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+          </div>
+        </div>
+      )}
+    </nav>
   );
 };
 
