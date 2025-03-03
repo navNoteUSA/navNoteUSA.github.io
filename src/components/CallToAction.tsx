@@ -97,17 +97,7 @@ const CallToAction: React.FC<CallToActionProps> = ({ onOpenDemo, onOpenAuth }) =
             transition={{ duration: 0.5, delay: 0.4 }}
             className="mt-12 text-center"
           >
-            <h3 className="text-xl font-semibold mb-6">Trusted by Organizations Worldwide</h3>
-            <div className="flex flex-wrap justify-center items-center gap-8 opacity-70">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <div 
-                  key={i} 
-                  className="h-8 md:h-10 bg-white/10 rounded-md px-4 flex items-center justify-center"
-                >
-                  <div className="w-20 h-4 bg-gradient-to-r from-slate-300 to-slate-400 rounded opacity-60"></div>
-                </div>
-              ))}
-            </div>
+            {/* Removed "Trusted by Organizations Worldwide" section */}
           </motion.div>
         </div>
       </div>
