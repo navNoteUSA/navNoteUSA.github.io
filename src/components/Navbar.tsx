@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Download, HelpCircle, Shield, MapPin, Mail } from 'lucide-react';
+import { Menu, X, Download, HelpCircle, Shield, MapPin, Mail, Users } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  openDemoForm?: () => void;
+  openAuthForm?: () => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ openDemoForm, openAuthForm }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -57,9 +63,9 @@ const Navbar: React.FC = () => {
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <div className="flex items-center">
-              <a href="#" className="flex items-center">
+              <Link to="/" className="flex items-center">
                 <span className="text-2xl font-bold text-gradient">navNote</span>
-              </a>
+              </Link>
             </div>
 
             {/* Desktop Navigation */}
@@ -67,15 +73,21 @@ const Navbar: React.FC = () => {
               <a href="#features" className="nav-link">Features</a>
               <a href="#lifemap" className="nav-link">Life Map</a>
               <a href="#technology" className="nav-link">Technology</a>
-              <a href="#privacy" className="nav-link">Privacy</a>
-              <a href="#contact" className="nav-link">Contact</a>
-              <a 
-                href="#download" 
+              <Link to="/team" className="nav-link">Team</Link>
+              <Link to="/contact" className="nav-link">Contact</Link>
+              <button
+                onClick={openAuthForm}
+                className="nav-link font-medium hover:text-secondary transition-colors"
+              >
+                Sign In/Sign Up
+              </button>
+              <button 
+                onClick={openDemoForm}
                 className="bg-secondary text-white px-5 py-2 rounded-full hover:shadow-blue-glow transition-all duration-300 flex items-center gap-2"
               >
                 <Download size={16} />
                 Get a Demo
-              </a>
+              </button>
             </nav>
 
             {/* Mobile Menu Button */}
@@ -104,9 +116,9 @@ const Navbar: React.FC = () => {
               <div className="flex items-center justify-between h-20">
                 {/* Logo */}
                 <div className="flex items-center">
-                  <a href="#" className="flex items-center">
+                  <Link to="/" className="flex items-center" onClick={closeMenu}>
                     <span className="text-2xl font-bold text-gradient">navNote</span>
-                  </a>
+                  </Link>
                 </div>
                 
                 {/* Close Button */}
@@ -164,22 +176,22 @@ const Navbar: React.FC = () => {
                   </div>
                 </a>
                 
-                <a 
-                  href="#privacy" 
+                <Link 
+                  to="/team"
                   className="py-4 px-5 flex items-center space-x-3 rounded-lg hover:bg-white/10 active:bg-white/20 transition-colors"
                   onClick={closeMenu}
                 >
                   <div className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center">
-                    <Shield size={20} className="text-purple-400" />
+                    <Users size={20} className="text-purple-400" />
                   </div>
                   <div>
-                    <span className="font-medium">Privacy</span>
-                    <p className="text-xs text-gray-400">Your data, protected</p>
+                    <span className="font-medium">Team</span>
+                    <p className="text-xs text-gray-400">Meet the people behind navNote</p>
                   </div>
-                </a>
+                </Link>
                 
-                <a 
-                  href="#contact" 
+                <Link 
+                  to="/contact"
                   className="py-4 px-5 flex items-center space-x-3 rounded-lg hover:bg-white/10 active:bg-white/20 transition-colors"
                   onClick={closeMenu}
                 >
@@ -190,18 +202,30 @@ const Navbar: React.FC = () => {
                     <span className="font-medium">Contact</span>
                     <p className="text-xs text-gray-400">Get in touch with our team</p>
                   </div>
-                </a>
+                </Link>
               </div>
               
-              <div className="mt-8 p-5 bg-white/5 rounded-xl border border-white/10">
-                <a 
-                  href="#demo" 
+              <div className="mt-8 space-y-4">
+                <button
+                  onClick={() => {
+                    closeMenu();
+                    openAuthForm && openAuthForm();
+                  }}
+                  className="w-full bg-slate-800/70 text-white py-3 rounded-lg hover:bg-slate-700/70 transition-colors flex items-center justify-center"
+                >
+                  Sign In / Sign Up
+                </button>
+                
+                <button 
+                  onClick={() => {
+                    closeMenu();
+                    openDemoForm && openDemoForm();
+                  }}
                   className="w-full bg-secondary text-white py-3 rounded-lg hover:bg-secondary/90 transition-colors flex items-center justify-center gap-2"
-                  onClick={closeMenu}
                 >
                   <Download size={18} />
                   Get a Demo
-                </a>
+                </button>
               </div>
             </nav>
           </motion.div>

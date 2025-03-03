@@ -3,7 +3,12 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight, Map, BrainCircuit, Cpu, Terminal, Network } from 'lucide-react';
 import gsap from 'gsap';
 
-const Hero: React.FC = () => {
+interface HeroProps {
+  openDemoForm?: () => void;
+  openAuthForm?: () => void;
+}
+
+const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
   const particlesRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const hexGridRef = useRef<HTMLDivElement>(null);
@@ -48,104 +53,42 @@ const Hero: React.FC = () => {
     };
   }, []);
 
-  // Improved animation for logo and grid
+  // Create a hex grid for the visualization
   useEffect(() => {
-    if (logoRef.current && hexGridRef.current && isLoaded && !prefersReducedMotion) {
-      const logo = logoRef.current;
-      const hexGrid = hexGridRef.current;
-      let frameId: number;
-      
-      // Smoother animation with proper cleanup
-      const animate = () => {
-        const scrollY = window.scrollY;
-        
-        // Perspective tilt effect based on mouse position
-        const handleMouseMove = (e: MouseEvent) => {
-          if (!prefersReducedMotion) {
-            const rotateX = -(e.clientY / window.innerHeight - 0.5) * 10;
-            const rotateY = (e.clientX / window.innerWidth - 0.5) * 10;
-            
-            logo.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-          }
-        };
-        
-        window.addEventListener('mousemove', handleMouseMove);
-        
-        // Clean up event listener
-        return () => {
-          window.removeEventListener('mousemove', handleMouseMove);
-        };
-      };
-      
-      const cleanup = animate();
-      
-      // Clean up animations on unmount
-      return () => {
-        if (cleanup) cleanup();
-        cancelAnimationFrame(frameId);
-      };
-    }
-  }, [isLoaded, prefersReducedMotion]);
-
-  useEffect(() => {
-    // Create floating particles (representing the dynamic elements in Life Map)
-    if (particlesRef.current) {
-      const container = particlesRef.current;
-      const colors = ['#4D9DE0', '#78C091', '#FFFFFF', '#3e6ef5', '#00ccff'];
-      
-      for (let i = 0; i < 30; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-        
-        // Random properties
-        const size = Math.random() * 8 + 4;
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        
-        // Set styles
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        particle.style.backgroundColor = color;
-        particle.style.left = `${Math.random() * 100}%`;
-        particle.style.top = `${Math.random() * 100}%`;
-        particle.style.opacity = `${Math.random() * 0.5 + 0.1}`;
-        
-        // Random animation delay
-        particle.style.animationDelay = `${Math.random() * 5}s`;
-        
-        container.appendChild(particle);
-      }
-    }
-
-    // Create hexagon grid animation (Life Map visualization)
-    if (hexGridRef.current) {
+    if (hexGridRef.current && isLoaded) {
       const grid = hexGridRef.current;
-      const gridSize = 5;
-      const hexSize = 40;
+      grid.innerHTML = '';
       
-      // Create a grid of hexagons similar to the Life Map in the app
-      for (let row = 0; row < gridSize; row++) {
-        for (let col = 0; col < gridSize; col++) {
+      const hexSize = 30;
+      const rows = 7;
+      const cols = 7;
+      
+      // Create hexagon grid
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+          // Skip some hexagons for a more organic feel
+          if (Math.random() > 0.7) continue;
+          
+          // Create hexagon
           const hexagon = document.createElement('div');
-          hexagon.classList.add('hexagon');
-          
-          // Calculate position with offset for odd rows
-          const xPos = col * hexSize * 1.5;
-          const yPos = row * hexSize * 0.866 * 2;
-          const offset = row % 2 === 1 ? hexSize * 0.75 : 0;
-          
-          // Style the hexagon
+          hexagon.className = 'absolute hexagon';
           hexagon.style.setProperty('--hexagon-size', `${hexSize}px`);
-          hexagon.style.position = 'absolute';
-          hexagon.style.left = `${xPos + offset}px`;
-          hexagon.style.top = `${yPos}px`;
           
-          // Random animation delay
-          hexagon.style.animationDelay = `${Math.random() * 3}s`;
+          // Position hexagon with offset for even rows
+          const xOffset = row % 2 === 0 ? 0 : hexSize * 0.866 * 0.5;
+          const x = col * hexSize * 0.866 * 1.5 + xOffset;
+          const y = row * hexSize * 1.5;
           
-          // Add random content (some hexagons will have a "task" circle)
-          if (Math.random() > 0.6) {
+          hexagon.style.left = `${x}px`;
+          hexagon.style.top = `${y}px`;
+          
+          // Vary opacity for depth
+          hexagon.style.opacity = (0.1 + Math.random() * 0.3).toString();
+          
+          // Add circle inside some hexagons
+          if (Math.random() > 0.5) {
             const circle = document.createElement('div');
-            circle.classList.add('hexagon-content');
+            circle.className = 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2';
             circle.style.width = `${hexSize * 0.4}px`;
             circle.style.height = `${hexSize * 0.4}px`;
             circle.style.borderRadius = '50%';
@@ -174,7 +117,7 @@ const Hero: React.FC = () => {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isLoaded]);
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden pt-20 pb-12">
@@ -243,20 +186,20 @@ const Hero: React.FC = () => {
                 variants={itemVariant}
                 className="flex flex-wrap gap-4"
               >
-                <a 
-                  href="#demo" 
+                <button 
+                  onClick={openDemoForm}
                   className="btn-primary group bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 px-6 py-3 rounded-xl font-medium flex items-center justify-center gap-2 shadow-lg shadow-blue-900/20 transition-all"
                 >
-                  See the App
+                  Get a Demo
                   <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                </a>
-                <a 
-                  href="#lifemap" 
+                </button>
+                <button 
+                  onClick={openAuthForm}
                   className="btn-secondary bg-slate-800/50 backdrop-blur-sm hover:bg-slate-700/60 px-6 py-3 rounded-xl font-medium flex items-center justify-center gap-2 transition-colors border border-slate-700/50"
                 >
                   <Map size={18} className="mr-2" />
-                  Explore Life Map
-                </a>
+                  Sign In/Sign Up
+                </button>
               </motion.div>
               
               <motion.div 
