@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { Calendar, Clock, MapPin, Zap } from 'lucide-react';
 
 // Sample task data for the Life Map visualization
@@ -10,15 +10,64 @@ const sampleTasks = [
   { id: 4, title: 'Workout', type: 'calendar', priority: 'medium', date: '5:30 PM' },
   { id: 5, title: 'Call Mom', type: 'reminder', priority: 'low', date: 'Today' },
   { id: 6, title: 'Project Deadline', type: 'calendar', priority: 'high', date: 'Tomorrow' },
+  { id: 7, title: 'Dentist Appointment', type: 'calendar', priority: 'high', date: 'Friday' },
+  { id: 8, title: 'Coffee with Alex', type: 'location', priority: 'medium', location: 'Starbucks' },
 ];
+
+// For the keyframe animation of hexagons
+const keyframeAnimation = `
+  @keyframes hexagon-hover {
+    0% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+    25% { transform: translateY(-10px) translateX(5px) rotate(2deg); }
+    50% { transform: translateY(0px) translateX(10px) rotate(0deg); }
+    75% { transform: translateY(8px) translateX(3px) rotate(-2deg); }
+    100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+  }
+  
+  @keyframes pulse-glow {
+    0% { box-shadow: 0 0 8px 2px rgba(77, 157, 224, 0.3); }
+    50% { box-shadow: 0 0 15px 5px rgba(77, 157, 224, 0.5); }
+    100% { box-shadow: 0 0 8px 2px rgba(77, 157, 224, 0.3); }
+  }
+  
+  @keyframes connection-pulse {
+    0% { opacity: 0.1; }
+    50% { opacity: 0.4; }
+    100% { opacity: 0.1; }
+  }
+  
+  @keyframes phone-float {
+    0%, 100% { transform: translateY(0) rotateY(0deg); }
+    25% { transform: translateY(-8px) rotateY(1deg); }
+    75% { transform: translateY(8px) rotateY(-1deg); }
+  }
+`;
 
 const LifeMap: React.FC = () => {
   const hexMapRef = useRef<HTMLDivElement>(null);
+  const phoneRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+  const [hoveredTaskId, setHoveredTaskId] = useState<number | null>(null);
+
+  // Add our custom keyframes to the document
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.innerHTML = keyframeAnimation;
+    document.head.appendChild(style);
+
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
 
   useEffect(() => {
     // Create the hexagon map animation
     if (hexMapRef.current) {
       const hexMap = hexMapRef.current;
+      
+      // Clear existing content first (for re-renders)
+      hexMap.innerHTML = '';
+      
       const width = hexMap.clientWidth;
       const height = hexMap.clientHeight;
       
@@ -32,6 +81,8 @@ const LifeMap: React.FC = () => {
       centerHex.style.setProperty('--hexagon-size', '80px');
       centerHex.style.top = `${centerY - 40}px`;
       centerHex.style.left = `${centerX - 40}px`;
+      centerHex.style.animation = 'pulse-glow 3s ease-in-out infinite';
+      centerHex.style.zIndex = '10';
       
       // Add center content
       const centerContent = document.createElement('div');
@@ -47,12 +98,14 @@ const LifeMap: React.FC = () => {
       centerHex.appendChild(centerContent);
       hexMap.appendChild(centerHex);
       
-      // Create task hexagons around the center
-      const radius = Math.min(width, height) * 0.35;
+      // Create task hexagons around the center in a spiral pattern
+      const taskHexagons: HTMLElement[] = [];
       
       sampleTasks.forEach((task, index) => {
-        // Calculate position in a circle around center
-        const angle = (index * (2 * Math.PI / sampleTasks.length));
+        // Calculate position in a spiral pattern
+        const angle = (index * ((2 * Math.PI) / sampleTasks.length)) + (index * 0.2);
+        const radiusMultiplier = 1 + (index * 0.08); // Increase radius for spiral effect
+        const radius = Math.min(width, height) * 0.28 * radiusMultiplier;
         const x = centerX + radius * Math.cos(angle) - 30;
         const y = centerY + radius * Math.sin(angle) - 30;
         
@@ -62,6 +115,7 @@ const LifeMap: React.FC = () => {
         taskHex.style.setProperty('--hexagon-size', '60px');
         taskHex.style.top = `${y}px`;
         taskHex.style.left = `${x}px`;
+        taskHex.dataset.taskId = String(task.id);
         
         // Color based on priority
         let bgColor = 'rgba(77, 157, 224, 0.2)';
@@ -98,8 +152,9 @@ const LifeMap: React.FC = () => {
         
         taskHex.appendChild(taskContent);
         hexMap.appendChild(taskHex);
+        taskHexagons.push(taskHex);
         
-        // Add connecting line
+        // Add connecting line with animated gradient
         const line = document.createElement('div');
         line.className = 'absolute bg-white/10 rounded-full';
         
@@ -108,26 +163,75 @@ const LifeMap: React.FC = () => {
         const lineLength = radius;
         
         line.style.width = `${lineLength}px`;
-        line.style.height = '1px';
+        line.style.height = '2px';
         line.style.top = `${centerY}px`;
         line.style.left = `${centerX}px`;
         line.style.transformOrigin = '0 0';
         line.style.transform = `rotate(${lineAngle}deg)`;
+        line.style.animation = 'connection-pulse 3s ease-in-out infinite';
+        line.style.animationDelay = `${index * 0.3}s`;
         
         hexMap.appendChild(line);
+        
+        // Add event listeners for hover effect
+        taskHex.addEventListener('mouseenter', () => {
+          setHoveredTaskId(task.id);
+        });
+        
+        taskHex.addEventListener('mouseleave', () => {
+          setHoveredTaskId(null);
+        });
       });
       
-      // Add animations
-      const hexagons = hexMap.querySelectorAll('.hexagon');
-      hexagons.forEach((hex, index) => {
-        if (index === 0) return; // Skip center
+      // Add dynamic animations
+      taskHexagons.forEach((hex, index) => {
+        // Random floating animation with more dynamic movement
+        hex.style.animation = `hexagon-hover ${3 + (index % 4)}s ease-in-out infinite`;
+        hex.style.animationDelay = `${index * 0.3}s`;
+      });
+      
+      // Add click interactions for more dynamism
+      hexMap.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        const taskHex = target.closest('.hexagon:not(.hexagon-center)') as HTMLElement;
         
-        // Random floating animation
-        (hex as HTMLElement).style.animation = `hexagon-hover ${3 + index % 3}s ease-in-out infinite`;
-        (hex as HTMLElement).style.animationDelay = `${index * 0.5}s`;
+        if (taskHex) {
+          // Create a ripple effect on click
+          const ripple = document.createElement('div');
+          ripple.className = 'absolute w-full h-full bg-white/20 rounded-full scale-0 z-0';
+          ripple.style.top = '0';
+          ripple.style.left = '0';
+          ripple.style.transformOrigin = 'center';
+          ripple.style.animation = 'ripple 1s ease-out forwards';
+          taskHex.appendChild(ripple);
+          
+          // Remove after animation completes
+          setTimeout(() => {
+            ripple.remove();
+          }, 1000);
+          
+          // Also make the hexagon "jump" slightly
+          taskHex.style.transform = 'scale(1.2) translateY(-5px)';
+          setTimeout(() => {
+            taskHex.style.transform = '';
+          }, 300);
+        }
       });
     }
   }, []);
+  
+  // Phone floating animation
+  useEffect(() => {
+    if (phoneRef.current && !prefersReducedMotion) {
+      const phone = phoneRef.current;
+      
+      // Only apply animations on non-mobile devices
+      const isMobile = window.innerWidth < 768;
+      if (!isMobile) {
+        phone.style.animation = 'phone-float 6s ease-in-out infinite';
+      }
+    }
+  }, [prefersReducedMotion]);
 
   return (
     <section id="lifemap" className="py-24 relative overflow-hidden">
@@ -165,78 +269,251 @@ const LifeMap: React.FC = () => {
               </div>
               
               {/* Radial glow in the center */}
-              <div className="absolute inset-0 bg-gradient-radial from-secondary/10 via-transparent to-transparent pointer-events-none"></div>
+              <div className="absolute inset-0 bg-gradient-radial from-secondary/30 via-transparent to-transparent pointer-events-none"></div>
+              
+              {/* Task detail panel that appears when hovering over a task */}
+              {hoveredTaskId && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="absolute bottom-4 right-4 bg-dark/80 backdrop-blur-md p-4 rounded-xl border border-white/10 max-w-[250px] shadow-blue-glow"
+                >
+                  {(() => {
+                    const task = sampleTasks.find(t => t.id === hoveredTaskId);
+                    if (!task) return null;
+                    
+                    return (
+                      <div>
+                        <h3 className="font-bold text-lg mb-2">{task.title}</h3>
+                        <div className="flex items-center text-sm mb-1">
+                          {task.type === 'calendar' && (
+                            <>
+                              <Clock className="w-4 h-4 mr-2 text-secondary" />
+                              <span>{task.date}</span>
+                            </>
+                          )}
+                          {task.type === 'location' && (
+                            <>
+                              <MapPin className="w-4 h-4 mr-2 text-accent" />
+                              <span>{task.location}</span>
+                            </>
+                          )}
+                        </div>
+                        <div className="mt-3 text-xs text-gray-300">
+                          Tap to view details and actions
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </motion.div>
+              )}
             </div>
           </motion.div>
           
-          {/* Features - Shown below on mobile */}
-          <div className="w-full lg:w-2/5 mt-10 lg:mt-0">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              viewport={{ once: true, margin: "-100px" }}
+          {/* Mobile Phone Display - New Addition */}
+          <motion.div 
+            className="w-full lg:w-2/5 mt-10 lg:mt-0 flex flex-col items-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            viewport={{ once: true, margin: "-100px" }}
+          >
+            {/* Phone container */}
+            <div 
+              ref={phoneRef} 
+              className="perspective-800 will-change-transform"
+              style={{ transformStyle: 'preserve-3d' }}
             >
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 md:gap-6">
-                <div className="feature-card">
-                  <div className="flex items-start">
-                    <div className="bg-secondary/20 p-3 rounded-lg mr-4 flex-shrink-0">
-                      <Clock className="text-secondary w-5 h-5 md:w-6 md:h-6" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg md:text-xl font-bold mb-1 md:mb-2">Time-Based Relationships</h3>
-                      <p className="text-sm md:text-base text-gray-300">
-                        Events reorganize based on time proximity, bringing upcoming tasks closer to center.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="feature-card">
-                  <div className="flex items-start">
-                    <div className="bg-accent/20 p-3 rounded-lg mr-4 flex-shrink-0">
-                      <MapPin className="text-accent w-5 h-5 md:w-6 md:h-6" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg md:text-xl font-bold mb-1 md:mb-2">Location Awareness</h3>
-                      <p className="text-sm md:text-base text-gray-300">
-                        Tasks tied to specific locations move dynamically as you navigate through your day.
-                      </p>
+              {/* Phone frame */}
+              <div className="w-[220px] sm:w-[260px] h-[460px] sm:h-[520px] rounded-[36px] bg-black p-3 shadow-2xl relative">
+                {/* Phone screen */}
+                <div className="w-full h-full rounded-[32px] overflow-hidden bg-dark relative">
+                  {/* Status bar */}
+                  <div className="h-10 px-5 flex items-center justify-between bg-black/50">
+                    <div className="text-xs font-medium">9:41</div>
+                    <div className="flex items-center space-x-2">
+                      <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M18 10a6 6 0 0 0-12 0v8h12v-8z" />
+                        <path d="M12 2v2" />
+                      </svg>
+                      <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M5 12.55a11 11 0 0 1 14.08 0" />
+                        <circle cx="12" cy="20" r="1" />
+                      </svg>
+                      <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M23 6v16h-7a2 2 0 0 1-2-2v-12a2 2 0 0 1 2-2h7z" />
+                        <path d="M1 6v16h7a2 2 0 0 0 2-2v-12a2 2 0 0 0-2-2h-7z" />
+                      </svg>
                     </div>
                   </div>
-                </div>
-                
-                <div className="feature-card">
-                  <div className="flex items-start">
-                    <div className="bg-secondary/20 p-3 rounded-lg mr-4 flex-shrink-0">
-                      <Zap className="text-secondary w-5 h-5 md:w-6 md:h-6" />
+                  
+                  {/* App header */}
+                  <div className="p-4">
+                    <div className="flex justify-between items-center mb-4">
+                      <h3 className="text-lg font-bold text-gradient">navNote</h3>
+                      <div className="w-7 h-7 rounded-full bg-dark/50 flex items-center justify-center">
+                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <circle cx="12" cy="12" r="10" />
+                          <path d="M12 8v8" />
+                          <path d="M8 12h8" />
+                        </svg>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="text-lg md:text-xl font-bold mb-1 md:mb-2">AI-Powered Connections</h3>
-                      <p className="text-sm md:text-base text-gray-300">
-                        Intelligent algorithms discover relationships between tasks and visually connect related items.
-                      </p>
+                    
+                    {/* Life Map mini view */}
+                    <div className="rounded-xl bg-primary/20 p-3 mb-4">
+                      <div className="flex justify-between items-center mb-2">
+                        <h4 className="text-sm font-medium">Life Map</h4>
+                        <span className="text-xs text-gray-400">Now</span>
+                      </div>
+                      
+                      {/* Mini hexagon map */}
+                      <div className="relative h-32 w-full rounded-lg overflow-hidden bg-primary/30 mb-2">
+                        <div className="absolute inset-0">
+                          {/* Dynamically created mini-version of the hexagon map */}
+                          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-secondary/50 rounded-lg animate-pulse"></div>
+                          
+                          {/* Surrounding hexagons with animations */}
+                          <div className="absolute top-[30%] left-[35%] w-6 h-6 bg-accent/30 rounded-lg animate-[float_4s_ease-in-out_infinite]" style={{ animationDelay: '0.1s' }}></div>
+                          <div className="absolute top-[30%] right-[35%] w-6 h-6 bg-purple/30 rounded-lg animate-[float_5s_ease-in-out_infinite]" style={{ animationDelay: '0.3s' }}></div>
+                          <div className="absolute bottom-[30%] left-[35%] w-6 h-6 bg-secondary/30 rounded-lg animate-[float_3s_ease-in-out_infinite]" style={{ animationDelay: '0.5s' }}></div>
+                          <div className="absolute bottom-[30%] right-[35%] w-6 h-6 bg-accent/30 rounded-lg animate-[float_4.5s_ease-in-out_infinite]" style={{ animationDelay: '0.7s' }}></div>
+                          
+                          {/* Connecting lines */}
+                          <div className="absolute inset-0 bg-grid-lines opacity-20"></div>
+                        </div>
+                      </div>
+                      
+                      <div className="flex justify-between items-center">
+                        <div className="text-xs font-medium">8 Active Tasks</div>
+                        <button className="text-xs text-secondary">Expand</button>
+                      </div>
+                    </div>
+                    
+                    {/* Tasks list preview */}
+                    <div className="space-y-3">
+                      {sampleTasks.slice(0, 3).map((task) => (
+                        <div key={task.id} className="flex items-center p-2 rounded-lg bg-dark/30 hover:bg-dark/50 transition-all">
+                          <div className={`w-2 h-2 rounded-full mr-2 ${
+                            task.priority === 'high' ? 'bg-red-500' : 
+                            task.priority === 'medium' ? 'bg-green-500' : 'bg-blue-500'
+                          }`}></div>
+                          <div className="flex-1 truncate">{task.title}</div>
+                          <div className="text-xs text-gray-400">
+                            {task.type === 'calendar' ? task.date : task.type === 'location' ? task.location : ''}
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                </div>
-                
-                <div className="feature-card">
-                  <div className="flex items-start">
-                    <div className="bg-accent/20 p-3 rounded-lg mr-4 flex-shrink-0">
-                      <Calendar className="text-accent w-5 h-5 md:w-6 md:h-6" />
+                  
+                  {/* Bottom tab bar */}
+                  <div className="absolute bottom-0 left-0 right-0 h-14 bg-black/40 backdrop-blur-md flex items-center justify-around px-6">
+                    <div className="flex flex-col items-center">
+                      <div className="w-6 h-6 rounded-full bg-secondary/80 flex items-center justify-center mb-1">
+                        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+                          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                      </div>
+                      <span className="text-[10px]">Home</span>
                     </div>
-                    <div>
-                      <h3 className="text-lg md:text-xl font-bold mb-1 md:mb-2">Calendar Integration</h3>
-                      <p className="text-sm md:text-base text-gray-300">
-                        Seamlessly syncs with your calendar events and gives them spatial context in your Life Map.
-                      </p>
+                    <div className="flex flex-col items-center opacity-60">
+                      <div className="w-6 h-6 rounded-full bg-dark flex items-center justify-center mb-1">
+                        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                          <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                      </div>
+                      <span className="text-[10px]">Profile</span>
+                    </div>
+                    <div className="flex flex-col items-center opacity-60">
+                      <div className="w-6 h-6 rounded-full bg-dark flex items-center justify-center mb-1">
+                        <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <circle cx="12" cy="12" r="1"></circle>
+                          <circle cx="12" cy="5" r="1"></circle>
+                          <circle cx="12" cy="19" r="1"></circle>
+                        </svg>
+                      </div>
+                      <span className="text-[10px]">More</span>
                     </div>
                   </div>
                 </div>
               </div>
-            </motion.div>
-          </div>
+            </div>
+            
+            <p className="text-center text-sm mt-6 max-w-sm text-gray-300">
+              Experience a revolutionary way to visualize your tasks and goals spatially on your phone
+            </p>
+          </motion.div>
         </div>
+        
+        {/* Features - Now below the visualization */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          viewport={{ once: true, margin: "-100px" }}
+          className="mt-16 lg:mt-24"
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+            <div className="feature-card">
+              <div className="flex items-start">
+                <div className="bg-secondary/20 p-3 rounded-lg mr-4 flex-shrink-0">
+                  <Clock className="text-secondary w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-lg md:text-xl font-bold mb-2">Time-Based Dynamics</h3>
+                  <p className="text-sm md:text-base text-gray-300">
+                    Events reorganize in real-time as deadlines approach, visually representing their importance.
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="feature-card">
+              <div className="flex items-start">
+                <div className="bg-accent/20 p-3 rounded-lg mr-4 flex-shrink-0">
+                  <MapPin className="text-accent w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-lg md:text-xl font-bold mb-2">Spatial Context</h3>
+                  <p className="text-sm md:text-base text-gray-300">
+                    Tasks tied to locations move dynamically as you navigate, showing proximity and relevance.
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="feature-card">
+              <div className="flex items-start">
+                <div className="bg-secondary/20 p-3 rounded-lg mr-4 flex-shrink-0">
+                  <Zap className="text-secondary w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-lg md:text-xl font-bold mb-2">Intelligent Movement</h3>
+                  <p className="text-sm md:text-base text-gray-300">
+                    Watch as AI-powered algorithms find relationships between tasks and animate them meaningfully.
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="feature-card">
+              <div className="flex items-start">
+                <div className="bg-accent/20 p-3 rounded-lg mr-4 flex-shrink-0">
+                  <Calendar className="text-accent w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-lg md:text-xl font-bold mb-2">Living Calendar</h3>
+                  <p className="text-sm md:text-base text-gray-300">
+                    Your calendar isn't static anymore—watch events flow and adjust based on your changing schedule.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
