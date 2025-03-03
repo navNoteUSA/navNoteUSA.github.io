@@ -1,7 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
-import { ArrowRight, Map, BrainCircuit, Cpu, Terminal, Network } from 'lucide-react';
-import gsap from 'gsap';
+import React, { useEffect, useState, useRef } from 'react';
+import { motion } from 'framer-motion';
+import { ArrowRight, MapPin, Clock, Brain, Shield, ChevronRight } from 'lucide-react';
 
 interface HeroProps {
   openDemoForm?: () => void;
@@ -9,197 +8,398 @@ interface HeroProps {
 }
 
 const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
-  const particlesRef = useRef<HTMLDivElement>(null);
-  const logoRef = useRef<HTMLDivElement>(null);
-  const hexGridRef = useRef<HTMLDivElement>(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const prefersReducedMotion = useReducedMotion();
-
-  // Improved animation variants for smoother transitions
-  const containerVariant = {
+  const [scrollY, setScrollY] = useState(0);
+  const heroRef = useRef<HTMLDivElement>(null);
+  
+  // Animation variants
+  const containerVariants = {
     hidden: { opacity: 0 },
-    visible: { 
+    visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.3,
-        ease: [0.25, 0.1, 0.25, 1.0],
-        duration: 0.8
+        staggerChildren: 0.2,
+        delayChildren: 0.3
       }
     }
   };
   
-  const itemVariant = {
-    hidden: { opacity: 0, y: 20 },
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1 }
+  };
+  
+  const buttonVariants = {
+    hover: { 
+      scale: 1.05,
+      boxShadow: "0 10px 25px rgba(59, 130, 246, 0.5)",
+      transition: { type: "spring", stiffness: 400, damping: 10 }
+    },
+    tap: { scale: 0.95 }
+  };
+  
+  const iconVariants = {
+    initial: { scale: 1 },
+    animate: { 
+      scale: [1, 1.2, 1],
+      transition: { 
+        repeat: Infinity,
+        repeatType: "reverse",
+        duration: 2
+      }
+    }
+  };
+  
+  const fadeInUpVariants = {
+    hidden: { opacity: 0, y: 30 },
     visible: { 
       opacity: 1, 
       y: 0,
       transition: {
-        duration: 0.6,
-        ease: [0.25, 0.1, 0.25, 1.0]
+        duration: 0.6
       }
     }
   };
-
+  
+  // Handle scroll effect for parallax
   useEffect(() => {
-    // Set loaded state
-    const timer = setTimeout(() => {
-      setIsLoaded(true);
-    }, 300);
-
-    // Cancel animation frames when component unmounts
-    return () => {
-      clearTimeout(timer);
-    };
-  }, []);
-
-  // Create a hex grid for the visualization
-  useEffect(() => {
-    if (hexGridRef.current && isLoaded) {
-      const grid = hexGridRef.current;
-      grid.innerHTML = '';
-      
-      const hexSize = 30;
-      const rows = 7;
-      const cols = 7;
-      
-      // Create hexagon grid
-      for (let row = 0; row < rows; row++) {
-        for (let col = 0; col < cols; col++) {
-          // Skip some hexagons for a more organic feel
-          if (Math.random() > 0.7) continue;
-          
-          // Create hexagon
-          const hexagon = document.createElement('div');
-          hexagon.className = 'absolute hexagon';
-          hexagon.style.setProperty('--hexagon-size', `${hexSize}px`);
-          
-          // Position hexagon with offset for even rows
-          const xOffset = row % 2 === 0 ? 0 : hexSize * 0.866 * 0.5;
-          const x = col * hexSize * 0.866 * 1.5 + xOffset;
-          const y = row * hexSize * 1.5;
-          
-          hexagon.style.left = `${x}px`;
-          hexagon.style.top = `${y}px`;
-          
-          // Vary opacity for depth
-          hexagon.style.opacity = (0.1 + Math.random() * 0.3).toString();
-          
-          // Add circle inside some hexagons
-          if (Math.random() > 0.5) {
-            const circle = document.createElement('div');
-            circle.className = 'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2';
-            circle.style.width = `${hexSize * 0.4}px`;
-            circle.style.height = `${hexSize * 0.4}px`;
-            circle.style.borderRadius = '50%';
-            circle.style.backgroundColor = Math.random() > 0.5 ? '#4D9DE0' : '#78C091';
-            circle.style.opacity = `${Math.random() * 0.4 + 0.6}`;
-            hexagon.appendChild(circle);
-          }
-          
-          // Add to grid
-          grid.appendChild(hexagon);
-        }
-      }
-    }
-
-    // Parallax effect on scroll
     const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const parallaxElements = document.querySelectorAll('.parallax');
-      
-      parallaxElements.forEach((el) => {
-        const speed = (el as HTMLElement).dataset.speed || "0.1";
-        const y = scrollY * parseFloat(speed);
-        (el as HTMLElement).style.setProperty('--parallax-y', `${y}px`);
-      });
+      setScrollY(window.scrollY);
     };
-
+    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [isLoaded]);
+  }, []);
+  
+  const handleDemoRequest = () => {
+    if (openDemoForm) {
+      openDemoForm();
+    }
+  };
 
+  const handleGetStarted = () => {
+    if (openAuthForm) {
+      openAuthForm();
+    }
+  };
+  
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden pt-20 pb-12">
-      {/* Background with advanced tech styling */}
-      <div className="absolute inset-0 bg-black">
-        {/* Neural network patterns */}
-        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+    <section 
+      ref={heroRef}
+      className="min-h-screen flex items-center relative overflow-hidden pt-20 pb-32"
+      style={{
+        background: "linear-gradient(to bottom, rgb(15, 23, 42), rgb(23, 31, 56))"
+      }}
+    >
+      {/* Animated background elements */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
         
-        {/* Glowing orbs */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full filter blur-3xl"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600/10 rounded-full filter blur-3xl"></div>
-        
-        {/* Floating elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div 
-              key={i} 
-              className="absolute bg-blue-500/5 rounded-full animate-float-slow"
-              style={{
-                width: `${Math.random() * 100 + 50}px`,
-                height: `${Math.random() * 100 + 50}px`,
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                animationDuration: `${Math.random() * 10 + 15}s`,
-                animationDelay: `${Math.random() * 5}s`
-              }}
-            ></div>
-          ))}
-        </div>
+        {/* Floating orbs */}
+        {Array.from({ length: 10 }).map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute rounded-full blur-xl opacity-20"
+            style={{
+              background: i % 2 === 0 ? 
+                "radial-gradient(circle, rgba(59,130,246,0.8) 0%, rgba(37,99,235,0.4) 70%)" : 
+                "radial-gradient(circle, rgba(139,92,246,0.8) 0%, rgba(124,58,237,0.4) 70%)",
+              height: `${Math.random() * 200 + 100}px`,
+              width: `${Math.random() * 200 + 100}px`,
+              top: `${Math.random() * 100}vh`,
+              left: `${Math.random() * 100}vw`,
+              transform: `translateY(${scrollY * (Math.random() * 0.2)}px)`
+            }}
+            animate={{
+              x: [0, Math.random() * 30 - 15],
+              y: [0, Math.random() * 30 - 15],
+            }}
+            transition={{
+              duration: Math.random() * 5 + 10,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "easeInOut"
+            }}
+          />
+        ))}
       </div>
       
       <div className="container mx-auto px-4 relative z-10">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="text-center"
-        >
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6"
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Left Content - Text */}
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="text-left"
           >
-            Your <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">AI-Powered</span> Virtual Memory
-          </motion.h1>
-          
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-xl text-gray-300 mb-10 max-w-3xl mx-auto"
-          >
-            navNote intelligently adapts to your life, seamlessly integrating task management with context-aware AI that evolves with you.
-          </motion.p>
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="flex flex-col sm:flex-row justify-center gap-4"
-          >
-            <motion.button
-              onClick={openDemoForm}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl font-bold text-lg shadow-glow-sm hover:shadow-glow-md transition-all"
-            >
-              Join the Waitlist
-            </motion.button>
+            <motion.div variants={itemVariants} className="mb-2">
+              <span className="inline-block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent text-lg font-semibold px-3 py-1 rounded-full bg-opacity-10 border border-blue-500/30">
+                Location-Aware • AI-Powered
+              </span>
+            </motion.div>
             
-            <motion.button
-              onClick={openAuthForm}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 bg-slate-800 border border-slate-600 rounded-xl font-bold text-lg hover:bg-slate-700 transition-all"
+            <motion.h1 
+              variants={itemVariants}
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight"
             >
-              Watch Demo
-            </motion.button>
+              Your <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">AI-Powered</span> Location-Based Task Manager
+            </motion.h1>
+            
+            <motion.p 
+              variants={itemVariants}
+              className="text-xl text-gray-300 mb-8"
+            >
+              navNote revolutionizes task management by understanding your context, location, and schedule. Never forget a task at the right place and time again.
+            </motion.p>
+            
+            <motion.div 
+              variants={itemVariants}
+              className="flex flex-wrap gap-4 mb-12"
+            >
+              <motion.button
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="tap"
+                onClick={handleDemoRequest}
+                className="px-8 py-4 bg-blue-600 hover:bg-blue-700 rounded-lg text-white font-medium flex items-center gap-2 shadow-lg shadow-blue-500/30 transition-all"
+              >
+                Request Demo <ArrowRight className="h-5 w-5" />
+              </motion.button>
+              
+              <motion.button
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="tap"
+                onClick={handleGetStarted}
+                className="px-8 py-4 bg-slate-800 hover:bg-slate-700 rounded-lg text-white font-medium border border-slate-700 flex items-center gap-2 transition-all"
+              >
+                Early Access
+              </motion.button>
+            </motion.div>
+            
+            {/* Feature highlights */}
+            <motion.div variants={itemVariants} className="grid grid-cols-2 gap-6">
+              <div className="flex items-start gap-3">
+                <motion.div 
+                  variants={iconVariants}
+                  initial="initial"
+                  animate="animate"
+                  className="p-2 bg-blue-500/10 rounded-lg text-blue-500"
+                >
+                  <MapPin className="h-5 w-5" />
+                </motion.div>
+                <div>
+                  <h3 className="font-semibold mb-1">Location-Aware</h3>
+                  <p className="text-gray-400 text-sm">Tasks that appear when you need them, where you need them</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <motion.div 
+                  variants={iconVariants}
+                  initial="initial"
+                  animate="animate"
+                  className="p-2 bg-indigo-500/10 rounded-lg text-indigo-500"
+                >
+                  <Clock className="h-5 w-5" />
+                </motion.div>
+                <div>
+                  <h3 className="font-semibold mb-1">Time-Optimized</h3>
+                  <p className="text-gray-400 text-sm">Dynamic rescheduling based on your real-time availability</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <motion.div 
+                  variants={iconVariants}
+                  initial="initial"
+                  animate="animate"
+                  className="p-2 bg-purple-500/10 rounded-lg text-purple-500"
+                >
+                  <Brain className="h-5 w-5" />
+                </motion.div>
+                <div>
+                  <h3 className="font-semibold mb-1">AI-Powered</h3>
+                  <p className="text-gray-400 text-sm">Advanced neural networks that learn your habits and preferences</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <motion.div 
+                  variants={iconVariants}
+                  initial="initial"
+                  animate="animate"
+                  className="p-2 bg-teal-500/10 rounded-lg text-teal-500"
+                >
+                  <Shield className="h-5 w-5" />
+                </motion.div>
+                <div>
+                  <h3 className="font-semibold mb-1">Privacy-First</h3>
+                  <p className="text-gray-400 text-sm">On-device processing keeps your data private and secure</p>
+                </div>
+              </div>
+            </motion.div>
           </motion.div>
-        </motion.div>
+          
+          {/* Right Content - App Mockup */}
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="relative"
+          >
+            <div className="relative overflow-hidden rounded-3xl border-8 border-gray-800 shadow-2xl mx-auto max-w-xs sm:max-w-sm">
+              <div className="absolute top-0 inset-x-0 h-2 bg-gray-800 z-10"></div>
+              
+              {/* App screen mockup */}
+              <div className="bg-gradient-to-br from-slate-900 to-slate-800 aspect-[9/16] overflow-hidden relative">
+                {/* App header */}
+                <div className="p-5 bg-blue-600/20 backdrop-blur-sm border-b border-white/10">
+                  <h3 className="font-bold text-lg mb-1">navNote</h3>
+                  <p className="text-sm text-gray-300">Your location-based tasks</p>
+                </div>
+                
+                {/* Tasks with location markers */}
+                <div className="p-4">
+                  <motion.div 
+                    variants={fadeInUpVariants}
+                    initial="hidden"
+                    animate="visible"
+                    transition={{ delay: 0.7 }}
+                    className="mb-4 p-4 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 relative"
+                  >
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h4 className="font-medium text-blue-400">Grocery Shopping</h4>
+                        <p className="text-sm text-gray-400 mt-1">Whole Foods Market</p>
+                      </div>
+                      <div className="bg-blue-500/20 p-1 rounded-full">
+                        <MapPin className="h-4 w-4 text-blue-400" />
+                      </div>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-2 italic">Will activate when you're nearby</p>
+                    <div className="mt-2 flex gap-1">
+                      <span className="text-xs px-2 py-0.5 bg-blue-500/20 rounded-full">Groceries</span>
+                      <span className="text-xs px-2 py-0.5 bg-purple-500/20 rounded-full">5pm</span>
+                    </div>
+                  </motion.div>
+                  
+                  <motion.div 
+                    variants={fadeInUpVariants}
+                    initial="hidden"
+                    animate="visible"
+                    transition={{ delay: 0.9 }}
+                    className="mb-4 p-4 bg-gradient-to-r from-purple-500/20 to-blue-500/10 backdrop-blur-sm rounded-lg border border-white/10"
+                  >
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h4 className="font-medium text-purple-300">Team Meeting</h4>
+                        <p className="text-sm text-gray-400 mt-1">Office - Conference Room</p>
+                      </div>
+                      <div className="bg-purple-500/20 p-1 rounded-full">
+                        <Clock className="h-4 w-4 text-purple-400" />
+                      </div>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-2">Starts in 45 minutes</p>
+                    <div className="mt-2 flex gap-1">
+                      <span className="text-xs px-2 py-0.5 bg-purple-500/20 rounded-full">Work</span>
+                      <span className="text-xs px-2 py-0.5 bg-blue-500/20 rounded-full">Important</span>
+                    </div>
+                  </motion.div>
+                  
+                  <motion.div 
+                    variants={fadeInUpVariants}
+                    initial="hidden"
+                    animate="visible"
+                    transition={{ delay: 1.1 }}
+                    className="p-4 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10"
+                  >
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h4 className="font-medium text-teal-400">Dentist Appointment</h4>
+                        <p className="text-sm text-gray-400 mt-1">Dr. Smith's Clinic</p>
+                      </div>
+                      <div className="bg-teal-500/20 p-1 rounded-full">
+                        <MapPin className="h-4 w-4 text-teal-400" />
+                      </div>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-2 italic">Tomorrow at 10:00 AM</p>
+                    <div className="mt-2 flex gap-1">
+                      <span className="text-xs px-2 py-0.5 bg-teal-500/20 rounded-full">Health</span>
+                      <span className="text-xs px-2 py-0.5 bg-red-500/20 rounded-full">Priority</span>
+                    </div>
+                  </motion.div>
+                </div>
+                
+                {/* Floating action button */}
+                <div className="absolute bottom-4 right-4">
+                  <motion.div 
+                    animate={{ 
+                      scale: [1, 1.1, 1],
+                      boxShadow: [
+                        "0 0 0 0 rgba(59, 130, 246, 0.5)",
+                        "0 0 0 10px rgba(59, 130, 246, 0)",
+                        "0 0 0 0 rgba(59, 130, 246, 0.5)",
+                      ]
+                    }}
+                    transition={{ 
+                      duration: 2, 
+                      repeat: Infinity,
+                      repeatType: "loop"
+                    }}
+                    className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center shadow-lg"
+                  >
+                    <div className="text-white text-2xl font-bold">+</div>
+                  </motion.div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Decorative elements */}
+            <motion.div 
+              className="absolute -top-16 -right-16 w-32 h-32 bg-purple-600/30 rounded-full blur-3xl"
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.3, 0.5, 0.3]
+              }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                repeatType: "reverse"
+              }}
+            />
+            
+            <motion.div 
+              className="absolute -bottom-20 -left-10 w-40 h-40 bg-blue-600/30 rounded-full blur-3xl"
+              animate={{
+                scale: [1, 1.3, 1],
+                opacity: [0.3, 0.6, 0.3]
+              }}
+              transition={{
+                duration: 10,
+                repeat: Infinity,
+                repeatType: "reverse"
+              }}
+            />
+          </motion.div>
+        </div>
       </div>
+      
+      {/* Scroll indicator */}
+      <motion.div 
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.5, duration: 0.5 }}
+      >
+        <p className="text-sm text-gray-400 mb-2">Scroll to explore</p>
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          <ChevronRight size={20} className="text-gray-400 transform rotate-90" />
+        </motion.div>
+      </motion.div>
     </section>
   );
 };

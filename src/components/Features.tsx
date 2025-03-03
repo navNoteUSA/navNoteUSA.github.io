@@ -4,90 +4,138 @@ import {
   MapPin, 
   Clock, 
   Brain, 
-  MessageSquare, 
-  Shield, 
-  Users, 
+  MessageSquare,
+  Shield,
+  Users,
   Map,
-  ShoppingBag,
-  Video,
-  Search,
-  Wifi,
-  Store
+  Zap,
+  Sparkles
 } from 'lucide-react';
 
 const Features: React.FC = () => {
   const features = [
     {
-      title: 'Location-Based Reminders',
-      description: 'Get reminded when and where you need it with our intelligent location-aware system.',
+      title: 'Spatial Organization',
+      description: "Organize tasks by location with smart geofencing that triggers reminders when you're where you need to be.",
       icon: MapPin,
       color: 'from-blue-600 to-blue-400',
       bgColor: 'bg-blue-500',
       delay: 0
     },
     {
-      title: 'Video Memory Triggers',
-      description: 'Capture quick videos as memory aids for locations to enhance your recall and task context.',
-      icon: Video,
+      title: 'Time-Aware Tasks',
+      description: "Tasks that adapt to your schedule, automatically prioritizing based on time constraints and proximity.",
+      icon: Clock, 
       color: 'from-purple-600 to-purple-400',
       bgColor: 'bg-purple-500',
       delay: 0.1
     },
     {
-      title: 'Smart Search Engine',
-      description: 'Instantly find notes, reminders, and files with our powerful AI-driven search capabilities.',
-      icon: Search,
-      color: 'from-cyan-600 to-cyan-400',
-      bgColor: 'bg-cyan-500',
+      title: 'AI-Powered Insights',
+      description: "Advanced neural networks analyze your patterns and suggest the optimal times and places for completing tasks.",
+      icon: Brain,
+      color: 'from-indigo-600 to-indigo-400',
+      bgColor: 'bg-indigo-500',
       delay: 0.2
     },
     {
-      title: 'Retail Integration',
-      description: 'Connect with major stores for AI-driven shopping lists that know what you need and where to find it.',
-      icon: Store,
+      title: 'Rapid Input',
+      description: "Voice-to-task conversion with natural language processing - simply speak and we'll organize it for you.",
+      icon: MessageSquare,
       color: 'from-green-600 to-green-400',
       bgColor: 'bg-green-500',
       delay: 0.3
     },
     {
-      title: 'AI-Powered Suggestions',
-      description: 'Smart task predictions based on your habits, creating a truly personalized experience.',
-      icon: Brain,
-      color: 'from-orange-600 to-orange-400',
-      bgColor: 'bg-orange-500',
+      title: 'Privacy-Focused',
+      description: "On-device processing and end-to-end encryption ensure your personal data stays private and secure.",
+      icon: Shield,
+      color: 'from-cyan-600 to-cyan-400',
+      bgColor: 'bg-cyan-500',
       delay: 0.4
     },
     {
-      title: 'Offline Functionality',
-      description: "Seamless AI experience without an internet connection, ensuring you're never without your virtual memory.",
-      icon: Wifi,
-      color: 'from-red-600 to-red-400',
-      bgColor: 'bg-red-500',
+      title: 'Collaborative Spaces',
+      description: "Share location-based task lists with family, teams, or event attendees - perfect for coordinated activities.",
+      icon: Users,
+      color: 'from-amber-600 to-amber-400',
+      bgColor: 'bg-amber-500',
       delay: 0.5
+    },
+    {
+      title: 'Life Map',
+      description: "Visualize your tasks and routines on an interactive map, revealing patterns and opportunities for optimization.",
+      icon: Map,
+      color: 'from-teal-600 to-teal-400',
+      bgColor: 'bg-teal-500',
+      delay: 0.6
+    },
+    {
+      title: 'Smart Notifications',
+      description: "Context-aware alerts that know when to notify you - and when to stay quiet.",
+      icon: Zap,
+      color: 'from-orange-600 to-orange-400',
+      bgColor: 'bg-orange-500',
+      delay: 0.7
+    },
+    {
+      title: 'Intelligent Suggestions',
+      description: "AI that learns your preferences and suggests the optimal organization of your tasks and time.",
+      icon: Sparkles,
+      color: 'from-rose-600 to-rose-400',
+      bgColor: 'bg-rose-500',
+      delay: 0.8
     }
   ];
 
-  // Animation variants for staggered animations
+  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1
+        staggerChildren: 0.1,
+        delayChildren: 0.1
       }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+    hidden: { y: 30, opacity: 0 },
+    visible: { 
+      y: 0, 
+      opacity: 1,
+      transition: { type: "spring", stiffness: 300, damping: 24 }
+    },
+    hover: {
+      y: -10,
+      transition: { 
+        type: "spring", 
+        stiffness: 500, 
+        damping: 15,
+        duration: 0.1
+      }
+    }
   };
 
-  // Animation for icon hover effect
   const iconVariants = {
-    hidden: { scale: 1 },
-    visible: { scale: 1 },
-    hover: { scale: 1.1, rotate: 5, transition: { duration: 0.3 } }
+    initial: { scale: 1, rotate: 0 },
+    hover: { 
+      scale: 1.2,
+      rotate: [0, 10, -10, 0],
+      transition: {
+        duration: 0.5,
+        repeat: 0,
+      }
+    },
+    pulse: {
+      scale: [1, 1.1, 1],
+      transition: {
+        duration: 2,
+        repeat: Infinity,
+        repeatType: "reverse"
+      }
+    }
   };
 
   return (
@@ -99,18 +147,27 @@ const Features: React.FC = () => {
       {/* Animated particles */}
       <div className="absolute inset-0 pointer-events-none">
         {Array.from({ length: 6 }).map((_, i) => (
-          <div 
+          <motion.div 
             key={i} 
-            className="absolute bg-blue-500/30 rounded-full blur-2xl animate-float-slow"
+            className="absolute bg-blue-500/30 rounded-full blur-2xl"
             style={{
               width: `${Math.random() * 100 + 50}px`,
               height: `${Math.random() * 100 + 50}px`,
               top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              animationDuration: `${Math.random() * 10 + 15}s`,
-              animationDelay: `${Math.random() * 5}s`
+              left: `${Math.random() * 100}%`
             }}
-          ></div>
+            animate={{
+              x: [0, Math.random() * 50 - 25],
+              y: [0, Math.random() * 50 - 25],
+              opacity: [0.2, 0.4, 0.2]
+            }}
+            transition={{
+              duration: Math.random() * 10 + 15,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "easeInOut"
+            }}
+          />
         ))}
       </div>
       
@@ -144,11 +201,24 @@ const Features: React.FC = () => {
               className="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-6 shadow-lg hover:shadow-glow-sm transition-all"
             >
               <div className="relative mb-6 w-16 h-16">
-                <div className={`absolute inset-0 ${feature.bgColor} rounded-full opacity-20 animate-pulse-slow`}></div>
+                <motion.div 
+                  className={`absolute inset-0 ${feature.bgColor} rounded-full opacity-20`}
+                  animate={{
+                    scale: [1, 1.2, 1],
+                    opacity: [0.2, 0.3, 0.2]
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    repeatType: "reverse"
+                  }}
+                />
                 <motion.div 
                   className={`w-14 h-14 rounded-full bg-gradient-to-br ${feature.color} flex items-center justify-center`}
                   variants={iconVariants}
+                  initial="initial"
                   whileHover="hover"
+                  animate="pulse"
                 >
                   <feature.icon size={24} className="text-white" />
                 </motion.div>
