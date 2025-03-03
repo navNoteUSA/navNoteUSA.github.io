@@ -3,8 +3,6 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Features from './components/Features';
 import LifeMap from './components/LifeMap';
-import Pricing from './components/Pricing';
-import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import ContactPage from './components/ContactPage';
 import TeamPage from './components/TeamPage';
@@ -111,8 +109,6 @@ function App() {
             />
             <Features />
             <LifeMap />
-            <Pricing />
-            <FAQ />
           </>
         );
     }
