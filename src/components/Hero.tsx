@@ -239,280 +239,305 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
+            transition={{ duration: 1.2, delay: 0.5 }}
             className="relative flex justify-center"
           >
             {/* 3D Phone Perspective Container */}
             <motion.div
               className="relative perspective-1000 w-full max-w-xs sm:max-w-sm mx-auto"
               animate={{ 
-                rotateY: [0, 5, 0, -5, 0],
-                rotateX: [0, -3, 0, 3, 0]
+                rotateY: [0, 3, 0, -3, 0],
+                rotateX: [0, -2, 0, 2, 0]
               }}
               transition={{
-                duration: 8,
+                duration: 12,
                 repeat: Infinity,
                 repeatType: "loop",
                 ease: "easeInOut"
               }}
             >
-              {/* Phone Frame with realistic shadows and reflections */}
-              <div className="relative overflow-hidden rounded-[40px] border-[10px] border-gray-900 shadow-2xl mx-auto max-w-xs sm:max-w-sm transform rotate-0 transition-all duration-500 hover:rotate-1">
-                {/* Phone Notch */}
-                <div className="absolute top-0 inset-x-0 h-6 bg-gray-900 z-10 flex justify-center items-end pb-1 rounded-b-xl">
-                  <div className="w-20 h-[5px] bg-gray-800 rounded-full"></div>
+              {/* Phone Frame with subtle, professional design */}
+              <div className="relative overflow-hidden rounded-[32px] border-[8px] border-gray-900 shadow-xl mx-auto max-w-xs sm:max-w-sm">
+                {/* Status Bar */}
+                <div className="absolute top-0 inset-x-0 h-5 bg-gray-900 z-10 flex justify-center items-end">
+                  <div className="w-16 h-[3px] bg-gray-800 rounded-full mb-0.5"></div>
                 </div>
                 
-                {/* Reflective screen effect */}
+                {/* Subtle screen reflection */}
                 <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/5 to-transparent z-20 pointer-events-none"></div>
                 
-                {/* App screen mockup with Life Map visualization */}
-                <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 aspect-[9/19] overflow-hidden relative">
-                  {/* App header with redesigned navNote branding */}
-                  <div className="p-5 bg-gradient-to-r from-blue-900/40 to-indigo-900/40 backdrop-blur-md border-b border-white/10 flex justify-between items-center">
+                {/* App screen mockup with focused Life Map */}
+                <div className="bg-slate-950 aspect-[9/19] overflow-hidden relative">
+                  {/* Clean, minimalist app header */}
+                  <div className="p-4 bg-slate-900 border-b border-slate-800/80 flex justify-between items-center">
                     <div>
-                      <h3 className="font-bold text-lg mb-0 bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">navNote</h3>
-                      <p className="text-xs text-blue-300/80">Life Map Dashboard</p>
+                      <h3 className="font-bold text-base text-white">navNote</h3>
+                      <p className="text-[10px] text-slate-400">Life Map</p>
                     </div>
-                    <div className="flex space-x-2">
-                      <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center">
-                        <motion.div
-                          animate={{ rotate: 360 }}
-                          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                        >
-                          <MapPin className="h-4 w-4 text-blue-400" />
-                        </motion.div>
-                      </div>
-                      <div className="w-8 h-8 rounded-full bg-indigo-500/10 flex items-center justify-center">
-                        <div className="w-3 h-3 rounded-full bg-indigo-500"></div>
-                      </div>
+                    <div className="w-7 h-7 rounded-full bg-blue-500/10 flex items-center justify-center">
+                      <MapPin className="h-3.5 w-3.5 text-blue-400" />
                     </div>
                   </div>
                   
-                  {/* Life Map Visualization with animated connections */}
-                  <div className="relative h-48 bg-slate-900/60 overflow-hidden">
+                  {/* Enhanced Life Map Visualization - Core feature */}
+                  <div className="relative h-52 bg-slate-950 overflow-hidden">
+                    {/* Map background */}
+                    <div className="absolute inset-0 bg-[linear-gradient(rgba(30,41,59,0.8)_1px,transparent_1px),linear-gradient(90deg,rgba(30,41,59,0.8)_1px,transparent_1px)] bg-[size:20px_20px] opacity-20"></div>
+                    
+                    {/* Life Map visualization - more organized with clear paths */}
                     <div className="absolute inset-0">
-                      {/* Map Grid Lines */}
-                      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48cGF0aCBzdHJva2U9InJnYmEoMTQ2LCAxNzEsIDI1NSwgMC4wNSkiIGQ9Ik0wIDBMMjAgMjBNMjAgMEwwIDIwIi8+PC9nPjwvc3ZnPg==')] opacity-30"></div>
-                      
-                      {/* Animated Map Points */}
-                      {Array.from({ length: 6 }).map((_, i) => (
-                        <motion.div
-                          key={i}
-                          className="absolute w-3 h-3 rounded-full"
-                          style={{
-                            backgroundColor: i % 3 === 0 ? '#60a5fa' : i % 3 === 1 ? '#818cf8' : '#a78bfa',
-                            top: `${20 + Math.random() * 60}%`,
-                            left: `${10 + Math.random() * 80}%`,
-                          }}
-                          initial={{ scale: 0.5, opacity: 0.5 }}
-                          animate={{ 
-                            scale: [0.5, 1, 0.5],
-                            opacity: [0.5, 1, 0.5],
-                            boxShadow: [
-                              '0 0 0 0 rgba(96, 165, 250, 0)',
-                              '0 0 0 4px rgba(96, 165, 250, 0.3)',
-                              '0 0 0 0 rgba(96, 165, 250, 0)'
-                            ]
-                          }}
+                      {/* Path lines - simplified and more structured */}
+                      <svg className="absolute inset-0 w-full h-full opacity-60" style={{ zIndex: 0 }}>
+                        {/* Home to Work Path */}
+                        <motion.path
+                          d="M110 80 C 140 50, 160 50, 190 80"
+                          stroke="#60a5fa"
+                          strokeWidth="1.5"
+                          fill="none"
+                          initial={{ pathLength: 0 }}
+                          animate={{ pathLength: 1 }}
                           transition={{
-                            duration: 3 + i,
+                            duration: 8,
                             repeat: Infinity,
-                            ease: "easeInOut",
-                            delay: i * 0.5
+                            repeatType: "loop",
+                            ease: "easeInOut"
                           }}
                         />
-                      ))}
-                      
-                      {/* Connecting Lines */}
-                      <svg className="absolute inset-0 w-full h-full" style={{ zIndex: -1 }}>
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <motion.path
-                            key={i}
-                            d={`M${20 + Math.random() * 80} ${20 + Math.random() * 60} Q ${40 + Math.random() * 40} ${20 + Math.random() * 60}, ${20 + Math.random() * 80} ${20 + Math.random() * 60}`}
-                            stroke={i % 2 === 0 ? '#60a5fa' : '#818cf8'}
-                            strokeWidth="1"
-                            fill="none"
-                            strokeDasharray="5,5"
-                            initial={{ pathLength: 0, opacity: 0 }}
-                            animate={{ 
-                              pathLength: [0, 1],
-                              opacity: [0, 0.3, 0]
-                            }}
-                            transition={{
-                              duration: 4,
-                              repeat: Infinity,
-                              ease: "easeInOut",
-                              delay: i * 0.7
-                            }}
-                          />
-                        ))}
+                        
+                        {/* Home to Store Path */}
+                        <motion.path
+                          d="M110 80 C 90 130, 90 150, 110 170"
+                          stroke="#818cf8"
+                          strokeWidth="1.5"
+                          fill="none"
+                          initial={{ pathLength: 0 }}
+                          animate={{ pathLength: 1 }}
+                          transition={{
+                            duration: 10,
+                            repeat: Infinity,
+                            repeatType: "loop",
+                            ease: "easeInOut",
+                            delay: 1
+                          }}
+                        />
+                        
+                        {/* Work to Meeting Path */}
+                        <motion.path
+                          d="M190 80 C 240 100, 240 120, 220 160"
+                          stroke="#a78bfa"
+                          strokeWidth="1.5"
+                          fill="none" 
+                          initial={{ pathLength: 0 }}
+                          animate={{ pathLength: 1 }}
+                          transition={{
+                            duration: 12,
+                            repeat: Infinity,
+                            repeatType: "loop",
+                            ease: "easeInOut",
+                            delay: 2
+                          }}
+                        />
                       </svg>
                       
-                      {/* Current Location Pulse */}
+                      {/* Location Points - Consistent, meaningful locations */}
+                      {/* Home Location */}
                       <motion.div
-                        className="absolute w-6 h-6 rounded-full"
-                        style={{
-                          top: '50%',
-                          left: '50%',
-                          transform: 'translate(-50%, -50%)',
-                          backgroundColor: 'rgba(59, 130, 246, 0.3)'
-                        }}
+                        className="absolute w-5 h-5 rounded-full bg-blue-500/20 flex items-center justify-center"
+                        style={{ top: '80px', left: '110px' }}
                         animate={{ 
-                          scale: [1, 2, 1],
-                          opacity: [0.7, 0, 0.7]
+                          boxShadow: ['0 0 0 0 rgba(59, 130, 246, 0)', '0 0 0 8px rgba(59, 130, 246, 0.1)', '0 0 0 0 rgba(59, 130, 246, 0)']
                         }}
                         transition={{
-                          duration: 3,
+                          duration: 8,
+                          repeat: Infinity,
+                          ease: "easeInOut"
+                        }}
+                      >
+                        <div className="w-2.5 h-2.5 rounded-full bg-blue-500"></div>
+                      </motion.div>
+                      
+                      {/* Work Location */}
+                      <motion.div
+                        className="absolute w-5 h-5 rounded-full bg-indigo-500/20 flex items-center justify-center"
+                        style={{ top: '80px', left: '190px' }}
+                        animate={{ 
+                          boxShadow: ['0 0 0 0 rgba(99, 102, 241, 0)', '0 0 0 8px rgba(99, 102, 241, 0.1)', '0 0 0 0 rgba(99, 102, 241, 0)']
+                        }}
+                        transition={{
+                          duration: 8,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                          delay: 1
+                        }}
+                      >
+                        <div className="w-2.5 h-2.5 rounded-full bg-indigo-500"></div>
+                      </motion.div>
+                      
+                      {/* Store Location */}
+                      <motion.div
+                        className="absolute w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center"
+                        style={{ top: '170px', left: '110px' }}
+                        animate={{ 
+                          boxShadow: ['0 0 0 0 rgba(34, 197, 94, 0)', '0 0 0 8px rgba(34, 197, 94, 0.1)', '0 0 0 0 rgba(34, 197, 94, 0)']
+                        }}
+                        transition={{
+                          duration: 8,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                          delay: 2
+                        }}
+                      >
+                        <div className="w-2.5 h-2.5 rounded-full bg-green-500"></div>
+                      </motion.div>
+                      
+                      {/* Meeting Location */}
+                      <motion.div
+                        className="absolute w-5 h-5 rounded-full bg-purple-500/20 flex items-center justify-center"
+                        style={{ top: '160px', left: '220px' }}
+                        animate={{ 
+                          boxShadow: ['0 0 0 0 rgba(168, 85, 247, 0)', '0 0 0 8px rgba(168, 85, 247, 0.1)', '0 0 0 0 rgba(168, 85, 247, 0)']
+                        }}
+                        transition={{
+                          duration: 8,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                          delay: 3
+                        }}
+                      >
+                        <div className="w-2.5 h-2.5 rounded-full bg-purple-500"></div>
+                      </motion.div>
+                      
+                      {/* Current Location Indicator - Subtle pulse */}
+                      <motion.div
+                        className="absolute w-8 h-8 rounded-full"
+                        style={{
+                          top: '80px',
+                          left: '110px',
+                          backgroundColor: 'rgba(59, 130, 246, 0.15)'
+                        }}
+                        animate={{ 
+                          scale: [1, 1.5, 1],
+                          opacity: [0.5, 0.2, 0.5]
+                        }}
+                        transition={{
+                          duration: 6,
                           repeat: Infinity,
                           ease: "easeInOut"
                         }}
                       />
-                      <div className="absolute w-3 h-3 rounded-full bg-blue-500"
-                        style={{
-                          top: '50%',
-                          left: '50%',
-                          transform: 'translate(-50%, -50%)'
-                        }}
-                      />
                     </div>
                     
-                    {/* Map Labels */}
-                    <div className="absolute bottom-3 left-3 bg-black/30 backdrop-blur-sm rounded-lg px-2 py-1 text-xs text-blue-300 border border-blue-500/30">
+                    {/* Professional UI Overlay */}
+                    <div className="absolute top-3 left-3 bg-slate-900/70 backdrop-blur-sm rounded px-2 py-1 text-[10px] text-slate-300 border border-slate-800">
+                      <span>Home</span>
+                    </div>
+                    
+                    <div className="absolute bottom-3 right-3 bg-slate-900/70 backdrop-blur-sm rounded-lg px-2 py-1 text-[10px] text-slate-300 border border-slate-800">
                       <div className="flex items-center gap-1">
-                        <MapPin className="h-3 w-3" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
                         <span>Life Map Active</span>
                       </div>
                     </div>
                   </div>
                   
-                  {/* Smart Task Cards */}
-                  <div className="px-4 pt-2 pb-16">
+                  {/* Task Section - Simplified and more professional */}
+                  <div className="px-4 pt-2 pb-12">
                     <div className="flex justify-between items-center mb-2">
-                      <h4 className="text-xs font-medium text-gray-400">NEARBY TASKS</h4>
-                      <motion.div 
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                        className="h-4 w-4 text-blue-400"
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
-                          <circle cx="12" cy="12" r="10"></circle>
-                          <path d="M12 2a14 14 0 0 0 0 20 14 14 0 0 0 0-20"></path>
-                          <path d="M2 12h20"></path>
-                        </svg>
-                      </motion.div>
+                      <h4 className="text-xs font-medium text-slate-400">LOCATION-BASED TASKS</h4>
                     </div>
                     
+                    {/* Home Task */}
                     <motion.div 
-                      variants={fadeInUpVariants}
-                      initial="hidden"
-                      animate="visible"
-                      transition={{ delay: 0.7 }}
-                      className="mb-2.5 p-3 bg-gradient-to-r from-blue-900/20 to-blue-800/10 backdrop-blur-sm rounded-lg border border-blue-500/20 relative overflow-hidden"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 1, delay: 0.2 }}
+                      className="mb-2 p-3 bg-slate-900 rounded-lg border border-slate-800 relative"
                     >
-                      <div className="absolute right-0 top-0 w-20 h-20 bg-blue-500/10 rounded-full blur-xl -mr-10 -mt-10"></div>
-                      <div className="flex justify-between items-start relative">
+                      <div className="flex justify-between items-start">
                         <div>
-                          <h4 className="font-medium text-blue-400">Grocery Shopping</h4>
-                          <p className="text-[10px] text-gray-400 mt-0.5 flex items-center gap-1">
-                            <MapPin className="h-3 w-3" /> Whole Foods Market
-                          </p>
+                          <div className="flex items-center gap-1.5">
+                            <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
+                            <h4 className="font-medium text-sm text-white">Morning Routine</h4>
+                          </div>
+                          <p className="text-[10px] text-slate-400 mt-1 ml-3">Current location: Home</p>
                         </div>
-                        <div className="bg-blue-500/20 p-1.5 rounded-full">
-                          <span className="block h-2 w-2 bg-blue-400 rounded-full"></span>
+                        <div className="text-[10px] px-1.5 py-0.5 bg-blue-500/10 rounded text-blue-400 font-medium">
+                          Now
                         </div>
-                      </div>
-                      <div className="mt-1.5 flex gap-1">
-                        <span className="text-[10px] px-2 py-0.5 bg-blue-500/20 rounded-full">5m away</span>
-                        <span className="text-[10px] px-2 py-0.5 bg-purple-500/20 rounded-full">5pm</span>
                       </div>
                     </motion.div>
                     
+                    {/* Work Task */}
                     <motion.div 
-                      variants={fadeInUpVariants}
-                      initial="hidden"
-                      animate="visible"
-                      transition={{ delay: 0.9 }}
-                      className="mb-2.5 p-3 bg-gradient-to-r from-indigo-900/20 to-violet-800/10 backdrop-blur-sm rounded-lg border border-indigo-500/20 relative overflow-hidden"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 1, delay: 0.3 }}
+                      className="mb-2 p-3 bg-slate-900 rounded-lg border border-slate-800 relative"
                     >
-                      <div className="absolute right-0 top-0 w-16 h-16 bg-indigo-500/10 rounded-full blur-xl -mr-8 -mt-8"></div>
-                      <div className="flex justify-between items-start relative">
+                      <div className="flex justify-between items-start">
                         <div>
-                          <h4 className="font-medium text-indigo-400">Team Meeting</h4>
-                          <p className="text-[10px] text-gray-400 mt-0.5 flex items-center gap-1">
-                            <Clock className="h-3 w-3" /> Office - Conference Room
-                          </p>
+                          <div className="flex items-center gap-1.5">
+                            <div className="w-1.5 h-1.5 rounded-full bg-indigo-500"></div>
+                            <h4 className="font-medium text-sm text-white">Team Meeting</h4>
+                          </div>
+                          <p className="text-[10px] text-slate-400 mt-1 ml-3">Office - Conference Room</p>
                         </div>
-                        <div className="bg-indigo-500/20 p-1.5 rounded-full">
-                          <span className="block h-2 w-2 bg-indigo-400 rounded-full"></span>
+                        <div className="text-[10px] px-1.5 py-0.5 bg-indigo-500/10 rounded text-indigo-400 font-medium">
+                          9:30 AM
                         </div>
-                      </div>
-                      <div className="mt-1.5 flex gap-1">
-                        <span className="text-[10px] px-2 py-0.5 bg-indigo-500/20 rounded-full">Work</span>
-                        <span className="text-[10px] px-2 py-0.5 bg-blue-500/20 rounded-full">45m</span>
                       </div>
                     </motion.div>
                   </div>
                   
-                  {/* Navigation Bar with Glowing Effects */}
-                  <div className="absolute bottom-0 inset-x-0 h-16 bg-slate-900/80 backdrop-blur-lg border-t border-white/5 flex items-center justify-around px-6">
-                    <motion.div 
-                      whileHover={{ scale: 1.2 }}
-                      className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5 text-blue-400">
-                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                        <line x1="3" y1="9" x2="21" y2="9"></line>
-                        <line x1="9" y1="21" x2="9" y2="9"></line>
+                  {/* Minimal Navigation Bar */}
+                  <div className="absolute bottom-0 inset-x-0 h-12 bg-slate-900 border-t border-slate-800 flex items-center justify-around px-6">
+                    <div className="w-6 h-6 flex items-center justify-center opacity-50">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 text-slate-400">
+                        <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                        <line x1="9" y1="3" x2="9" y2="21"></line>
                       </svg>
-                    </motion.div>
+                    </div>
                     
-                    <motion.div 
-                      whileHover={{ scale: 1.2 }}
-                      className="w-10 h-10 rounded-full bg-indigo-900/40 flex items-center justify-center relative"
-                    >
+                    <div className="w-10 h-10 bg-blue-500/10 rounded-full flex items-center justify-center relative">
                       <motion.div
                         className="absolute inset-0 rounded-full"
                         animate={{
                           boxShadow: [
-                            '0 0 0 0 rgba(79, 70, 229, 0)',
-                            '0 0 0 3px rgba(79, 70, 229, 0.3)',
-                            '0 0 0 0 rgba(79, 70, 229, 0)'
+                            '0 0 0 0 rgba(59, 130, 246, 0)',
+                            '0 0 0 3px rgba(59, 130, 246, 0.3)',
+                            '0 0 0 0 rgba(59, 130, 246, 0)'
                           ]
                         }}
                         transition={{
-                          duration: 2,
+                          duration: 4,
                           repeat: Infinity,
-                          repeatType: "loop"
+                          repeatType: "loop",
+                          ease: "easeInOut"
                         }}
                       />
-                      <MapPin className="h-5 w-5 text-indigo-400" />
-                    </motion.div>
+                      <MapPin className="h-5 w-5 text-blue-400" />
+                    </div>
                     
-                    <motion.div 
-                      whileHover={{ scale: 1.2 }}
-                      className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5 text-blue-400">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <path d="M12 16v-4"></path>
-                        <path d="M12 8h.01"></path>
+                    <div className="w-6 h-6 flex items-center justify-center opacity-50">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 text-slate-400">
+                        <path d="M12 20h9"></path>
+                        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
                       </svg>
-                    </motion.div>
+                    </div>
                   </div>
                 </div>
               </div>
               
-              {/* Phone Light Reflection */}
-              <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-[40px]">
+              {/* Subtle light reflection - simplified */}
+              <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-[32px]">
                 <motion.div 
-                  className="absolute -inset-full bg-gradient-to-tr from-blue-500/20 via-white/10 to-transparent transform rotate-12"
+                  className="absolute -inset-full bg-gradient-to-tr from-blue-500/10 via-white/5 to-transparent transform rotate-12"
                   animate={{
                     left: ['-100%', '100%'],
                     top: ['-100%', '100%']
                   }}
                   transition={{
-                    duration: 6,
+                    duration: 10,
                     repeat: Infinity,
                     repeatType: "loop",
                     ease: "easeInOut"
@@ -521,54 +546,34 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
               </div>
             </motion.div>
             
-            {/* Decorative elements - more tech-focused */}
+            {/* Simplified decorative elements - just two subtle glows */}
             <motion.div 
-              className="absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br from-blue-600/30 to-indigo-600/30 rounded-full blur-3xl"
+              className="absolute -top-10 -right-10 w-40 h-40 bg-blue-600/20 rounded-full blur-3xl"
               animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.3, 0.5, 0.3]
+                scale: [1, 1.1, 1],
+                opacity: [0.2, 0.3, 0.2]
               }}
               transition={{
-                duration: 8,
+                duration: 12,
                 repeat: Infinity,
-                repeatType: "reverse"
+                repeatType: "reverse",
+                ease: "easeInOut"
               }}
             />
             
             <motion.div 
-              className="absolute -bottom-20 -left-20 w-40 h-40 bg-gradient-to-br from-indigo-600/30 to-purple-600/30 rounded-full blur-3xl"
+              className="absolute -bottom-10 -left-10 w-40 h-40 bg-indigo-600/20 rounded-full blur-3xl"
               animate={{
-                scale: [1, 1.3, 1],
-                opacity: [0.3, 0.6, 0.3]
+                scale: [1, 1.1, 1],
+                opacity: [0.2, 0.3, 0.2]
               }}
               transition={{
-                duration: 10,
+                duration: 15,
                 repeat: Infinity,
-                repeatType: "reverse"
+                repeatType: "reverse",
+                ease: "easeInOut"
               }}
             />
-            
-            {/* Tech dots surrounding the phone */}
-            {Array.from({ length: 8 }).map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-1.5 h-1.5 rounded-full bg-blue-400"
-                style={{
-                  top: `${30 + Math.sin(i * 45 * Math.PI / 180) * 150}%`,
-                  left: `${50 + Math.cos(i * 45 * Math.PI / 180) * 150}%`,
-                }}
-                animate={{
-                  scale: [1, 1.5, 1],
-                  opacity: [0.3, 0.7, 0.3]
-                }}
-                transition={{
-                  duration: 2 + i % 3,
-                  repeat: Infinity,
-                  repeatType: "reverse",
-                  delay: i * 0.2
-                }}
-              />
-            ))}
           </motion.div>
         </div>
       </div>
