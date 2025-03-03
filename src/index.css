@@ -18,8 +18,8 @@
   --text-tertiary: #cbd5e1;
   --text-muted: #94a3b8;
   --text-accent: #3b82f6;
-  --text-gradient-start: #3b82f6;
-  --text-gradient-end: #8b5cf6;
+  --text-gradient-start: #60a5fa;
+  --text-gradient-end: #a78bfa;
 }
 
 html {
@@ -414,4 +414,20 @@ body {
 .transition-smooth {
   transition-timing-function: var(--animation-timing);
   transition-duration: var(--animation-duration);
+}
+
+/* Cookie consent and animation styles */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out forwards;
 }

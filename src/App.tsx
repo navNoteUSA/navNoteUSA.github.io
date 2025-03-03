@@ -11,6 +11,10 @@ import TeamPage from './components/TeamPage';
 import ContactPage from './components/ContactPage';
 import Footer from './components/Footer';
 import ParticleBackground from './components/ParticleBackground';
+import CookieConsent from './components/CookieConsent';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfUse from './pages/TermsOfUse';
+import CookieSettings from './pages/CookieSettings';
 import { X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -85,7 +89,7 @@ function App() {
       case 'home':
         return (
           <>
-            <Hero onOpenDemo={openDemoForm} onOpenAuth={openAuthForm} />
+            <Hero openDemoForm={openDemoForm} openAuthForm={openAuthForm} />
             <Features />
             <LifeMap />
             <AppDemo />
@@ -98,10 +102,19 @@ function App() {
         return <TeamPage />;
       case 'contact':
         return <ContactPage />;
+      case 'privacy':
+        return <PrivacyPolicy onBack={() => navigateTo('home')} />;
+      case 'terms':
+        return <TermsOfUse onBack={() => navigateTo('home')} />;
+      case 'cookies':
+        return <CookieSettings onBack={() => navigateTo('home')} />;
       default:
-        return <Hero onOpenDemo={openDemoForm} onOpenAuth={openAuthForm} />;
+        return <Hero openDemoForm={openDemoForm} openAuthForm={openAuthForm} />;
     }
   };
+  
+  // Determine whether to show navbar and footer
+  const showNavbarAndFooter = !['privacy', 'terms', 'cookies'].includes(currentPage);
   
   return (
     <div className="app min-h-screen bg-slate-950 text-white relative overflow-hidden">
@@ -112,18 +125,23 @@ function App() {
       <div className="fixed bottom-0 right-0 w-[40rem] h-[40rem] bg-purple-500/10 rounded-full filter blur-3xl"></div>
 
       <div className="relative z-10">
-        <Navbar 
-          onNavigate={navigateTo} 
-          onOpenDemo={openDemoForm} 
-          onOpenAuth={openAuthForm} 
-        />
+        {showNavbarAndFooter && (
+          <Navbar 
+            onNavigate={navigateTo} 
+            onOpenDemo={openDemoForm} 
+            onOpenAuth={openAuthForm} 
+          />
+        )}
         
         <main>
           {renderPage()}
         </main>
         
-        <Footer onNavigate={navigateTo} />
+        {showNavbarAndFooter && <Footer onNavigate={navigateTo} />}
       </div>
+      
+      {/* Cookie Consent Banner */}
+      <CookieConsent onNavigate={navigateTo} />
       
       {/* Demo Request Modal */}
       {showDemoForm && (

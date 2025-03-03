@@ -72,11 +72,35 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             </ul>
           </div>
           
-          {/* Contact */}
+          {/* Legal Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
+            <h3 className="text-lg font-semibold mb-4">Legal</h3>
             <ul className="space-y-2">
-              <li className="flex items-start">
+              <li>
+                <button 
+                  onClick={() => onNavigate('privacy')}
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  Privacy Policy
+                </button>
+              </li>
+              <li>
+                <button 
+                  onClick={() => onNavigate('terms')}
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  Terms of Use
+                </button>
+              </li>
+              <li>
+                <button 
+                  onClick={() => onNavigate('cookies')}
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  Cookie Settings
+                </button>
+              </li>
+              <li className="flex items-start mt-6">
                 <Mail size={18} className="text-gray-400 mr-2 mt-1" />
                 <span className="text-gray-400">info@navNote.net</span>
               </li>
@@ -90,9 +114,24 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         <div className="border-t border-slate-800/50 pt-8 mt-8 text-sm text-gray-500 flex flex-col md:flex-row justify-between items-center">
           <p>&copy; {new Date().getFullYear()} navNote. All rights reserved.</p>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <span className="hover:text-white transition-colors cursor-pointer">Privacy Policy</span>
-            <span className="hover:text-white transition-colors cursor-pointer">Terms of Service</span>
-            <span className="hover:text-white transition-colors cursor-pointer">Cookies</span>
+            <button 
+              onClick={() => onNavigate('privacy')}
+              className="hover:text-white transition-colors cursor-pointer"
+            >
+              Privacy Policy
+            </button>
+            <button 
+              onClick={() => onNavigate('terms')}
+              className="hover:text-white transition-colors cursor-pointer"
+            >
+              Terms of Use
+            </button>
+            <button 
+              onClick={() => onNavigate('cookies')}
+              className="hover:text-white transition-colors cursor-pointer"
+            >
+              Cookies
+            </button>
           </div>
         </div>
       </div>
