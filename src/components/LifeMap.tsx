@@ -72,7 +72,7 @@ const LifeMap: React.FC = () => {
   }, [prefersReducedMotion]);
 
   return (
-    <section id="lifemap" className="py-12 relative overflow-hidden">
+    <section id="lifemap" className="py-4 mb-0 relative overflow-hidden">
       {/* Background pattern */}
       <div className="absolute inset-0 bg-hex-pattern opacity-10"></div>
       <div className="absolute inset-0 bg-gradient-to-b from-dark to-primary"></div>
@@ -83,7 +83,7 @@ const LifeMap: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true, margin: "-100px" }}
-          className="text-center mb-8 md:mb-10"
+          className="text-center mb-4 md:mb-6"
         >
           <h2 className="section-heading text-3xl md:text-5xl font-bold">Life Map Visualization</h2>
           <p className="section-subheading text-base md:text-xl max-w-2xl mx-auto">
