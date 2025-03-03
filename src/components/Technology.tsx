@@ -31,7 +31,7 @@ const Technology: React.FC = () => {
   ];
 
   return (
-    <section id="technology" className="py-12 relative overflow-hidden">
+    <section id="technology" className="py-8 -mt-4 relative overflow-hidden">
       {/* Background elements */}
       <div className="absolute inset-0 bg-circuit-pattern opacity-10"></div>
       <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-blue-950/30 to-slate-950"></div>
