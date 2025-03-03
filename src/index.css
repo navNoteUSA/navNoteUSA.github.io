@@ -177,15 +177,9 @@ body {
   }
 }
 
-/* Parallax and cursor effects */
+/* Parallax effects */
 .parallax {
   transform: translateY(var(--parallax-y, 0));
-}
-
-.custom-cursor {
-  @apply fixed w-6 h-6 rounded-full pointer-events-none z-50 mix-blend-difference;
-  transform: translate(-50%, -50%);
-  transition: width 0.3s, height 0.3s, background-color 0.3s;
 }
 
 /* Particle animation */

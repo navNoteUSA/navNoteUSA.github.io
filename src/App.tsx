@@ -11,7 +11,6 @@ import TeamPage from './components/TeamPage';
 import ContactPage from './components/ContactPage';
 import Footer from './components/Footer';
 import ParticleBackground from './components/ParticleBackground';
-import CustomCursor from './components/CustomCursor';
 import { X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -20,36 +19,6 @@ function App() {
   const [showDemoForm, setShowDemoForm] = useState(false);
   const [showAuthForm, setShowAuthForm] = useState(false);
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
-  const cursorRef = useRef<HTMLDivElement>(null);
-  
-  // Custom cursor effect
-  useEffect(() => {
-    const cursor = cursorRef.current;
-    if (!cursor) return;
-    
-    const onMouseMove = (e: MouseEvent) => {
-      cursor.style.left = `${e.clientX}px`;
-      cursor.style.top = `${e.clientY}px`;
-    };
-    
-    const onMouseDown = () => {
-      cursor.classList.add('cursor-clicked');
-    };
-    
-    const onMouseUp = () => {
-      cursor.classList.remove('cursor-clicked');
-    };
-    
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mousedown', onMouseDown);
-    document.addEventListener('mouseup', onMouseUp);
-    
-    return () => {
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mousedown', onMouseDown);
-      document.removeEventListener('mouseup', onMouseUp);
-    };
-  }, []);
   
   // Create particle animation
   useEffect(() => {
@@ -136,7 +105,6 @@ function App() {
   
   return (
     <div className="app min-h-screen bg-slate-950 text-white relative overflow-hidden">
-      <CustomCursor />
       <ParticleBackground />
       
       {/* Glow Effects */}
