@@ -1,5 +1,5 @@
 import React from 'react';
-import { Github, Twitter, Linkedin, Instagram, Mail } from 'lucide-react';
+import { Github, Twitter, Linkedin, Mail } from 'lucide-react';
 
 interface FooterProps {
   onNavigate: (page: string) => void;
@@ -12,7 +12,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
       <div className="absolute inset-0 bg-grid-pattern opacity-5 pointer-events-none"></div>
       
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           {/* Company info */}
           <div className="col-span-1 md:col-span-1">
             <div className="flex items-center mb-4">
@@ -35,11 +35,8 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               <a href="https://twitter.com" className="text-gray-400 hover:text-white transition-colors" aria-label="Twitter">
                 <Twitter size={20} />
               </a>
-              <a href="https://linkedin.com" className="text-gray-400 hover:text-white transition-colors" aria-label="LinkedIn">
+              <a href="https://www.linkedin.com/company/navnote/" className="text-gray-400 hover:text-white transition-colors" aria-label="LinkedIn">
                 <Linkedin size={20} />
-              </a>
-              <a href="https://instagram.com" className="text-gray-400 hover:text-white transition-colors" aria-label="Instagram">
-                <Instagram size={20} />
               </a>
             </div>
           </div>
@@ -75,28 +72,16 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             </ul>
           </div>
           
-          {/* Features */}
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Features</h3>
-            <ul className="space-y-2">
-              <li><span className="text-gray-400 hover:text-white transition-colors cursor-pointer">Life Map</span></li>
-              <li><span className="text-gray-400 hover:text-white transition-colors cursor-pointer">Task Management</span></li>
-              <li><span className="text-gray-400 hover:text-white transition-colors cursor-pointer">Location Services</span></li>
-              <li><span className="text-gray-400 hover:text-white transition-colors cursor-pointer">Schedule Optimization</span></li>
-            </ul>
-          </div>
-          
           {/* Contact */}
           <div>
             <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
             <ul className="space-y-2">
               <li className="flex items-start">
                 <Mail size={18} className="text-gray-400 mr-2 mt-1" />
-                <span className="text-gray-400">hello@navnote.ai</span>
+                <span className="text-gray-400">info@navNote.net</span>
               </li>
               <li className="text-gray-400">
-                123 Innovation Street<br />
-                San Francisco, CA 94103
+                Utah, United States
               </li>
             </ul>
           </div>
