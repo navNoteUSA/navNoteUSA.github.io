@@ -85,9 +85,9 @@ const LifeMap: React.FC = () => {
           viewport={{ once: true, margin: "-100px" }}
           className="text-center mb-12 md:mb-16"
         >
-          <h2 className="section-heading text-3xl md:text-5xl font-bold">Life Map Visualization</h2>
+          <h2 className="section-heading text-3xl md:text-5xl font-bold">Life Map Intelligence Platform</h2>
           <p className="section-subheading text-base md:text-xl max-w-2xl mx-auto">
-            A dynamic, spatial view of your tasks and reminders that intelligently adapts to your life.
+            Experience the world's first spatiotemporal task ecosystem that adapts to your environment, schedule, and cognitive patterns in real-time.
           </p>
         </motion.div>
         
@@ -280,9 +280,9 @@ const LifeMap: React.FC = () => {
                   <Clock className="text-secondary w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-lg md:text-xl font-bold mb-2">Time-Based Dynamics</h3>
+                  <h3 className="text-lg md:text-xl font-bold mb-2">Temporal Intelligence</h3>
                   <p className="text-sm md:text-base text-gray-300">
-                    Events reorganize in real-time as deadlines approach, visually representing their importance.
+                    Quantum-inspired decision matrices reorganize your priorities with millisecond precision as contexts evolve.
                   </p>
                 </div>
               </div>
@@ -294,9 +294,9 @@ const LifeMap: React.FC = () => {
                   <MapPin className="text-accent w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-lg md:text-xl font-bold mb-2">Spatial Context</h3>
+                  <h3 className="text-lg md:text-xl font-bold mb-2">Geospatial Framework</h3>
                   <p className="text-sm md:text-base text-gray-300">
-                    Tasks tied to locations move dynamically as you navigate, showing proximity and relevance.
+                    Proprietary multi-layered proximity algorithms with adaptive geofencing technology for unparalleled location awareness.
                   </p>
                 </div>
               </div>
@@ -308,9 +308,9 @@ const LifeMap: React.FC = () => {
                   <Zap className="text-secondary w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-lg md:text-xl font-bold mb-2">Intelligent Movement</h3>
+                  <h3 className="text-lg md:text-xl font-bold mb-2">Neural Orchestration</h3>
                   <p className="text-sm md:text-base text-gray-300">
-                    Watch as AI-powered algorithms find relationships between tasks and animate them meaningfully.
+                    Advanced deep learning networks continuously analyze behavioral patterns to optimize task coordination and workflow efficiency.
                   </p>
                 </div>
               </div>
@@ -322,9 +322,9 @@ const LifeMap: React.FC = () => {
                   <Calendar className="text-purple w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-lg md:text-xl font-bold mb-2">Adaptive Planning</h3>
+                  <h3 className="text-lg md:text-xl font-bold mb-2">Adaptive System Architecture</h3>
                   <p className="text-sm md:text-base text-gray-300">
-                    Your Life Map evolves with your schedule, automatically adjusting to your changing priorities.
+                    Self-evolving microservices infrastructure with real-time priority adjustments based on your changing context and goals.
                   </p>
                 </div>
               </div>

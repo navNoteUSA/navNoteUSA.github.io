@@ -197,14 +197,14 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
               variants={itemVariants}
               className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-[var(--text-primary)]"
             >
-              AI-Driven <span className="bg-gradient-to-r from-[var(--text-gradient-start)] to-[var(--text-gradient-end)] bg-clip-text text-transparent">Virtual Memory</span> That Evolves With You
+              Revolutionary <span className="bg-gradient-to-r from-[var(--text-gradient-start)] to-[var(--text-gradient-end)] bg-clip-text text-transparent">Contextual Intelligence</span> for Your Digital Life
             </motion.h1>
             
             <motion.p 
               variants={itemVariants}
               className="text-xl text-[var(--text-tertiary)] mb-8"
             >
-              navNote intelligently adapts to your life, dynamically organizing tasks based on location, time, and context—because your tasks evolve with you.
+              navNote seamlessly integrates location, time, and context to transform task management into an intuitive experience that anticipates your needs and evolves with your lifestyle.
             </motion.p>
             
             <motion.div 
@@ -245,7 +245,7 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
                 </motion.div>
                 <div>
                   <h3 className="font-semibold mb-1">Location-Aware</h3>
-                  <p className="text-gray-400 text-sm">Tasks that appear when you need them, where you need them</p>
+                  <p className="text-gray-400 text-sm">Smart geofencing delivers precise tasks at optimal locations</p>
                 </div>
               </div>
               
@@ -260,7 +260,7 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
                 </motion.div>
                 <div>
                   <h3 className="font-semibold mb-1">Time-Optimized</h3>
-                  <p className="text-gray-400 text-sm">Dynamic rescheduling based on your real-time availability</p>
+                  <p className="text-gray-400 text-sm">Adaptive scheduling that maximizes productivity and efficiency</p>
                 </div>
               </div>
               
@@ -275,7 +275,7 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
                 </motion.div>
                 <div>
                   <h3 className="font-semibold mb-1">AI-Powered</h3>
-                  <p className="text-gray-400 text-sm">Advanced neural networks that learn your habits and preferences</p>
+                  <p className="text-gray-400 text-sm">Proprietary neural networks that learn and predict your optimal workflows</p>
                 </div>
               </div>
               
@@ -290,7 +290,7 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
                 </motion.div>
                 <div>
                   <h3 className="font-semibold mb-1">Privacy-First</h3>
-                  <p className="text-gray-400 text-sm">On-device processing keeps your data private and secure</p>
+                  <p className="text-gray-400 text-sm">End-to-end encryption with secure on-device processing</p>
                 </div>
               </div>
             </motion.div>

@@ -33,7 +33,7 @@ const Technology: React.FC = () => {
   const technologies = [
     {
       title: 'On-Device AI Processing',
-      description: 'Faster, secure, and private AI processing that keeps your sensitive data on your device.',
+      description: 'Advanced edge computing architecture delivers real-time intelligence while maintaining complete data sovereignty.',
       icon: <Cpu className="w-7 h-7 text-cyan-400" />,
       color: 'from-cyan-600 to-cyan-400',
       bgColor: 'bg-cyan-500/10',
@@ -41,7 +41,7 @@ const Technology: React.FC = () => {
     },
     {
       title: 'Next-Gen AI Integration',
-      description: 'Cutting-edge technology including CNN compression, Diffusion Models, and advanced Sensor Fusion.',
+      description: 'Leveraging state-of-the-art transformer networks, quantum-inspired ML models, and advanced neural prediction algorithms.',
       icon: <Zap className="w-7 h-7 text-indigo-400" />,
       color: 'from-indigo-600 to-indigo-400',
       bgColor: 'bg-indigo-500/10',
@@ -49,7 +49,7 @@ const Technology: React.FC = () => {
     },
     {
       title: 'Privacy-First Design',
-      description: 'End-to-end encryption and local data processing ensure your information remains secure.',
+      description: 'Military-grade encryption and sandboxed execution environment with zero data harvesting or third-party access.',
       icon: <Shield className="w-7 h-7 text-emerald-400" />,
       color: 'from-emerald-600 to-emerald-400',
       bgColor: 'bg-emerald-500/10',
@@ -135,7 +135,7 @@ const Technology: React.FC = () => {
                 ease: "easeInOut" 
               }}
             ></motion.div>
-            <span className="text-blue-400 text-sm font-medium">AI-Powered Innovation</span>
+            <span className="text-blue-400 text-sm font-medium">State-of-the-Art Technology</span>
           </motion.div>
           
           <motion.h2 
@@ -145,7 +145,7 @@ const Technology: React.FC = () => {
             animate={titleInView ? "visible" : "hidden"}
             custom={1}
           >
-            The navNote AI System
+            The navNote Intelligence Platform
           </motion.h2>
           
           <motion.p 
@@ -155,7 +155,7 @@ const Technology: React.FC = () => {
             animate={titleInView ? "visible" : "hidden"}
             custom={2}
           >
-            We've built a cutting-edge AI system that understands context, location, and time to deliver a truly intuitive experience.
+            Our proprietary AI platform integrates contextual awareness, geospatial intelligence, and temporal dynamics to deliver an experience that anticipates your needs with unparalleled precision.
           </motion.p>
         </motion.div>
         
@@ -324,7 +324,7 @@ const Technology: React.FC = () => {
                     x: 50
                   }}
                 >
-                  Our proprietary AI model combines natural language processing, spatial awareness, and temporal reasoning to create a truly contextual assistant that understands not just what you need to do, but when and where you need to do it.
+                  Our flagship architecture combines adaptive neural networks with multimodal context processing for unprecedented intelligence. This breakthrough system integrates advanced NLP algorithms with proprietary spatial reasoning models to create a truly cognizant digital assistant that goes beyond simple task management.
                 </motion.p>
                 
                 {/* Tech specs indicator */}

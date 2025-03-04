@@ -166,9 +166,9 @@ const Features: React.FC = () => {
             <span className="text-blue-400 text-xs font-medium tracking-wider uppercase">Features</span>
             <div className="h-0.5 w-6 bg-blue-500/50 rounded ml-3"></div>
           </div>
-          <h2 className="text-2xl md:text-3xl font-bold mb-3 text-[var(--text-primary)]">Redefining Task Management with AI</h2>
+          <h2 className="text-2xl md:text-3xl font-bold mb-3 text-[var(--text-primary)]">Transforming Productivity Through Intelligent Design</h2>
           <p className="text-base md:text-lg text-[var(--text-tertiary)] max-w-2xl mx-auto">
-            navNote combines AI intelligence with location awareness to transform how you organize your life.
+            navNote's proprietary AI engine integrates with spatial awareness to create a revolutionary task management platform.
           </p>
         </motion.div>
         
