@@ -30,9 +30,10 @@ const Technology: React.FC = () => {
         minWidth: 200.00,
         baseColor: 0x172957,
         backgroundColor: 0x040509,
-        amplitudeFactor: 0.30,
+        amplitudeFactor: 0.20,
+        xOffset: 0.02,
         yOffset: 0.05,
-        size: 2.00
+        size: 1.30
       });
     }
 
