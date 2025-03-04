@@ -317,33 +317,35 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
                 ease: "easeInOut"
               }}
             >
-              {/* Phone Frame with subtle, professional design */}
-              <div className="relative overflow-hidden rounded-[32px] border-[8px] border-gray-900 shadow-xl mx-auto max-w-xs sm:max-w-sm">
-                {/* Status Bar */}
-                <div className="absolute top-0 inset-x-0 h-5 bg-gray-900 z-10 flex justify-center items-end">
-                  <div className="w-16 h-[3px] bg-gray-800 rounded-full mb-0.5"></div>
-                </div>
-                
-                {/* Subtle screen reflection */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/5 to-transparent z-20 pointer-events-none"></div>
-                
-                {/* App screen mockup with focused Life Map */}
-                <div className="bg-slate-950 aspect-[9/19] overflow-hidden relative">
-                  {/* Clean, minimalist app header */}
-                  <div className="p-4 bg-slate-900 border-b border-slate-800/80 flex justify-between items-center">
-                    <div>
-                      <h3 className="font-bold text-base text-white">navNote</h3>
-                      <p className="text-[10px] text-slate-400">Life Map</p>
+              {/* Modern App Interface - no phone frame */}
+              <div className="relative overflow-hidden rounded-xl shadow-2xl mx-auto max-w-xs sm:max-w-sm">
+                {/* App screen with gradient background */}
+                <div className="bg-gradient-to-b from-slate-900 to-slate-950 aspect-[9/16] overflow-hidden relative">
+                  {/* Custom glassmorphism header with logo */}
+                  <div className="p-4 bg-gradient-to-r from-slate-900/90 to-slate-800/90 backdrop-blur-md border-b border-slate-700/30 flex justify-between items-center">
+                    <div className="flex items-center">
+                      <div className="w-7 h-7 rounded-md bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center mr-2">
+                        <span className="text-xs font-bold text-white">n</span>
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-base text-white">navNote</h3>
+                        <p className="text-[10px] text-blue-400">Life Map</p>
+                      </div>
                     </div>
-                    <div className="w-7 h-7 rounded-full bg-blue-500/10 flex items-center justify-center">
-                      <MapPin className="h-3.5 w-3.5 text-blue-400" />
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 rounded-full bg-slate-800/80 border border-slate-700/50 flex items-center justify-center">
+                        <MapPin className="h-3 w-3 text-blue-400" />
+                      </div>
                     </div>
                   </div>
                   
                   {/* Enhanced Life Map Visualization - Core feature */}
-                  <div className="relative h-52 bg-slate-950 overflow-hidden">
-                    {/* Map background */}
+                  <div className="relative h-52 bg-gradient-to-br from-slate-900 to-slate-950 overflow-hidden">
+                    {/* Professional map grid background */}
                     <div className="absolute inset-0 bg-[linear-gradient(rgba(30,41,59,0.8)_1px,transparent_1px),linear-gradient(90deg,rgba(30,41,59,0.8)_1px,transparent_1px)] bg-[size:20px_20px] opacity-20"></div>
+                    
+                    {/* Map overlay with blue glow */}
+                    <div className="absolute inset-0 bg-blue-900/5 backdrop-blur-[2px]"></div>
                     
                     {/* Life Map visualization - more organized with clear paths */}
                     <div className="absolute inset-0">
@@ -352,8 +354,8 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
                         {/* Home to Work Path */}
                         <motion.path
                           d="M110 80 C 140 50, 160 50, 190 80"
-                          stroke="#60a5fa"
-                          strokeWidth="1.5"
+                          stroke="url(#gradient1)"
+                          strokeWidth="2"
                           fill="none"
                           initial={{ pathLength: 0 }}
                           animate={{ pathLength: 1 }}
@@ -368,8 +370,8 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
                         {/* Home to Store Path */}
                         <motion.path
                           d="M110 80 C 90 130, 90 150, 110 170"
-                          stroke="#818cf8"
-                          strokeWidth="1.5"
+                          stroke="url(#gradient2)"
+                          strokeWidth="2"
                           fill="none"
                           initial={{ pathLength: 0 }}
                           animate={{ pathLength: 1 }}
@@ -385,8 +387,8 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
                         {/* Work to Meeting Path */}
                         <motion.path
                           d="M190 80 C 240 100, 240 120, 220 160"
-                          stroke="#a78bfa"
-                          strokeWidth="1.5"
+                          stroke="url(#gradient3)"
+                          strokeWidth="2"
                           fill="none" 
                           initial={{ pathLength: 0 }}
                           animate={{ pathLength: 1 }}
@@ -398,15 +400,31 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
                             delay: 2
                           }}
                         />
+                        
+                        {/* SVG Gradients for paths */}
+                        <defs>
+                          <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor="#60a5fa" />
+                            <stop offset="100%" stopColor="#3b82f6" />
+                          </linearGradient>
+                          <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor="#818cf8" />
+                            <stop offset="100%" stopColor="#6366f1" />
+                          </linearGradient>
+                          <linearGradient id="gradient3" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor="#a78bfa" />
+                            <stop offset="100%" stopColor="#8b5cf6" />
+                          </linearGradient>
+                        </defs>
                       </svg>
                       
                       {/* Location Points - Consistent, meaningful locations */}
                       {/* Home Location */}
                       <motion.div
-                        className="absolute w-5 h-5 rounded-full bg-blue-500/20 flex items-center justify-center"
+                        className="absolute w-6 h-6 rounded-full bg-blue-500/20 flex items-center justify-center"
                         style={{ top: '80px', left: '110px' }}
                         animate={{ 
-                          boxShadow: ['0 0 0 0 rgba(59, 130, 246, 0)', '0 0 0 8px rgba(59, 130, 246, 0.1)', '0 0 0 0 rgba(59, 130, 246, 0)']
+                          boxShadow: ['0 0 0 0 rgba(59, 130, 246, 0)', '0 0 0 10px rgba(59, 130, 246, 0.1)', '0 0 0 0 rgba(59, 130, 246, 0)']
                         }}
                         transition={{
                           duration: 8,
@@ -414,15 +432,15 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
                           ease: "easeInOut"
                         }}
                       >
-                        <div className="w-2.5 h-2.5 rounded-full bg-blue-500"></div>
+                        <div className="w-3 h-3 rounded-full bg-blue-500"></div>
                       </motion.div>
                       
                       {/* Work Location */}
                       <motion.div
-                        className="absolute w-5 h-5 rounded-full bg-indigo-500/20 flex items-center justify-center"
+                        className="absolute w-6 h-6 rounded-full bg-indigo-500/20 flex items-center justify-center"
                         style={{ top: '80px', left: '190px' }}
                         animate={{ 
-                          boxShadow: ['0 0 0 0 rgba(99, 102, 241, 0)', '0 0 0 8px rgba(99, 102, 241, 0.1)', '0 0 0 0 rgba(99, 102, 241, 0)']
+                          boxShadow: ['0 0 0 0 rgba(99, 102, 241, 0)', '0 0 0 10px rgba(99, 102, 241, 0.1)', '0 0 0 0 rgba(99, 102, 241, 0)']
                         }}
                         transition={{
                           duration: 8,
@@ -431,15 +449,15 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
                           delay: 1
                         }}
                       >
-                        <div className="w-2.5 h-2.5 rounded-full bg-indigo-500"></div>
+                        <div className="w-3 h-3 rounded-full bg-indigo-500"></div>
                       </motion.div>
                       
                       {/* Store Location */}
                       <motion.div
-                        className="absolute w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center"
+                        className="absolute w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center"
                         style={{ top: '170px', left: '110px' }}
                         animate={{ 
-                          boxShadow: ['0 0 0 0 rgba(34, 197, 94, 0)', '0 0 0 8px rgba(34, 197, 94, 0.1)', '0 0 0 0 rgba(34, 197, 94, 0)']
+                          boxShadow: ['0 0 0 0 rgba(34, 197, 94, 0)', '0 0 0 10px rgba(34, 197, 94, 0.1)', '0 0 0 0 rgba(34, 197, 94, 0)']
                         }}
                         transition={{
                           duration: 8,
@@ -448,15 +466,15 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
                           delay: 2
                         }}
                       >
-                        <div className="w-2.5 h-2.5 rounded-full bg-green-500"></div>
+                        <div className="w-3 h-3 rounded-full bg-green-500"></div>
                       </motion.div>
                       
                       {/* Meeting Location */}
                       <motion.div
-                        className="absolute w-5 h-5 rounded-full bg-purple-500/20 flex items-center justify-center"
+                        className="absolute w-6 h-6 rounded-full bg-purple-500/20 flex items-center justify-center"
                         style={{ top: '160px', left: '220px' }}
                         animate={{ 
-                          boxShadow: ['0 0 0 0 rgba(168, 85, 247, 0)', '0 0 0 8px rgba(168, 85, 247, 0.1)', '0 0 0 0 rgba(168, 85, 247, 0)']
+                          boxShadow: ['0 0 0 0 rgba(168, 85, 247, 0)', '0 0 0 10px rgba(168, 85, 247, 0.1)', '0 0 0 0 rgba(168, 85, 247, 0)']
                         }}
                         transition={{
                           duration: 8,
@@ -465,19 +483,19 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
                           delay: 3
                         }}
                       >
-                        <div className="w-2.5 h-2.5 rounded-full bg-purple-500"></div>
+                        <div className="w-3 h-3 rounded-full bg-purple-500"></div>
                       </motion.div>
                       
-                      {/* Current Location Indicator - Subtle pulse */}
+                      {/* Current Location Indicator - Pulse with gradient */}
                       <motion.div
-                        className="absolute w-8 h-8 rounded-full"
+                        className="absolute w-10 h-10 rounded-full"
                         style={{
-                          top: '80px',
-                          left: '110px',
-                          backgroundColor: 'rgba(59, 130, 246, 0.15)'
+                          top: '77px',
+                          left: '107px',
+                          background: 'radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0) 70%)'
                         }}
                         animate={{ 
-                          scale: [1, 1.5, 1],
+                          scale: [1, 1.6, 1],
                           opacity: [0.5, 0.2, 0.5]
                         }}
                         transition={{
@@ -488,23 +506,26 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
                       />
                     </div>
                     
-                    {/* Professional UI Overlay */}
-                    <div className="absolute top-3 left-3 bg-slate-900/70 backdrop-blur-sm rounded px-2 py-1 text-[10px] text-slate-300 border border-slate-800">
-                      <span>Home</span>
+                    {/* Professional UI Elements */}
+                    <div className="absolute top-3 left-3 bg-slate-800/70 backdrop-blur-md rounded-md px-2 py-1 text-[10px] text-slate-200 border border-slate-700/50 shadow-lg">
+                      <div className="flex items-center gap-1.5">
+                        <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
+                        <span>Home Location</span>
+                      </div>
                     </div>
                     
-                    <div className="absolute bottom-3 right-3 bg-slate-900/70 backdrop-blur-sm rounded-lg px-2 py-1 text-[10px] text-slate-300 border border-slate-800">
-                      <div className="flex items-center gap-1">
+                    <div className="absolute bottom-3 right-3 bg-slate-800/70 backdrop-blur-md rounded-md px-2 py-1 text-[10px] text-slate-200 border border-slate-700/50 shadow-lg">
+                      <div className="flex items-center gap-1.5">
                         <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
                         <span>Life Map Active</span>
                       </div>
                     </div>
                   </div>
                   
-                  {/* Task Section - Simplified and more professional */}
+                  {/* Task Section - Redesigned and more modern */}
                   <div className="px-4 pt-2 pb-12">
                     <div className="flex justify-between items-center mb-2">
-                      <h4 className="text-xs font-medium text-slate-400">LOCATION-BASED TASKS</h4>
+                      <h4 className="text-xs font-medium text-blue-400">LOCATION-BASED TASKS</h4>
                     </div>
                     
                     {/* Home Task */}
@@ -512,7 +533,7 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 1, delay: 0.2 }}
-                      className="mb-2 p-3 bg-slate-900 rounded-lg border border-slate-800 relative"
+                      className="mb-2 p-3 bg-slate-800/50 backdrop-blur-sm rounded-lg border border-slate-700/50 relative shadow-md"
                     >
                       <div className="flex justify-between items-start">
                         <div>
@@ -520,9 +541,9 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
                             <div className="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
                             <h4 className="font-medium text-sm text-white">Morning Routine</h4>
                           </div>
-                          <p className="text-[10px] text-slate-400 mt-1 ml-3">Current location: Home</p>
+                          <p className="text-[10px] text-slate-300 mt-1 ml-3">Current location: Home</p>
                         </div>
-                        <div className="text-[10px] px-1.5 py-0.5 bg-blue-500/10 rounded text-blue-400 font-medium">
+                        <div className="text-[10px] px-2 py-1 bg-blue-500/20 rounded-md text-blue-400 font-medium border border-blue-500/20">
                           Now
                         </div>
                       </div>
@@ -533,7 +554,7 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 1, delay: 0.3 }}
-                      className="mb-2 p-3 bg-slate-900 rounded-lg border border-slate-800 relative"
+                      className="mb-2 p-3 bg-slate-800/50 backdrop-blur-sm rounded-lg border border-slate-700/50 relative shadow-md"
                     >
                       <div className="flex justify-between items-start">
                         <div>
@@ -541,58 +562,63 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
                             <div className="w-1.5 h-1.5 rounded-full bg-indigo-500"></div>
                             <h4 className="font-medium text-sm text-white">Team Meeting</h4>
                           </div>
-                          <p className="text-[10px] text-slate-400 mt-1 ml-3">Office - Conference Room</p>
+                          <p className="text-[10px] text-slate-300 mt-1 ml-3">Office - Conference Room</p>
                         </div>
-                        <div className="text-[10px] px-1.5 py-0.5 bg-indigo-500/10 rounded text-indigo-400 font-medium">
+                        <div className="text-[10px] px-2 py-1 bg-indigo-500/20 rounded-md text-indigo-400 font-medium border border-indigo-500/20">
                           9:30 AM
                         </div>
                       </div>
                     </motion.div>
                   </div>
                   
-                  {/* Minimal Navigation Bar */}
-                  <div className="absolute bottom-0 inset-x-0 h-12 bg-slate-900 border-t border-slate-800 flex items-center justify-around px-6">
-                    <div className="w-6 h-6 flex items-center justify-center opacity-50">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 text-slate-400">
+                  {/* Modern Action Bar with gradient */}
+                  <div className="absolute bottom-0 inset-x-0 h-14 bg-gradient-to-r from-slate-900/90 to-slate-800/90 backdrop-blur-md border-t border-slate-700/30 flex items-center justify-around px-6">
+                    <div className="flex flex-col items-center justify-center opacity-70">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5 text-slate-400 mb-1">
                         <rect x="3" y="3" width="18" height="18" rx="2"></rect>
                         <line x1="9" y1="3" x2="9" y2="21"></line>
                       </svg>
+                      <span className="text-[8px] text-slate-500">Dashboard</span>
                     </div>
                     
-                    <div className="w-10 h-10 bg-blue-500/10 rounded-full flex items-center justify-center relative">
-                      <motion.div
-                        className="absolute inset-0 rounded-full"
-                        animate={{
-                          boxShadow: [
-                            '0 0 0 0 rgba(59, 130, 246, 0)',
-                            '0 0 0 3px rgba(59, 130, 246, 0.3)',
-                            '0 0 0 0 rgba(59, 130, 246, 0)'
-                          ]
-                        }}
-                        transition={{
-                          duration: 4,
-                          repeat: Infinity,
-                          repeatType: "loop",
-                          ease: "easeInOut"
-                        }}
-                      />
-                      <MapPin className="h-5 w-5 text-blue-400" />
+                    <div className="flex flex-col items-center justify-center">
+                      <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center relative shadow-lg mb-1">
+                        <motion.div
+                          className="absolute inset-0 rounded-full"
+                          animate={{
+                            boxShadow: [
+                              '0 0 0 0 rgba(59, 130, 246, 0)',
+                              '0 0 0 4px rgba(59, 130, 246, 0.3)',
+                              '0 0 0 0 rgba(59, 130, 246, 0)'
+                            ]
+                          }}
+                          transition={{
+                            duration: 4,
+                            repeat: Infinity,
+                            repeatType: "loop",
+                            ease: "easeInOut"
+                          }}
+                        />
+                        <MapPin className="h-5 w-5 text-white" />
+                      </div>
+                      <span className="text-[8px] text-blue-400 font-medium">Life Map</span>
                     </div>
                     
-                    <div className="w-6 h-6 flex items-center justify-center opacity-50">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 text-slate-400">
+                    <div className="flex flex-col items-center justify-center opacity-70">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5 text-slate-400 mb-1">
                         <path d="M12 20h9"></path>
                         <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
                       </svg>
+                      <span className="text-[8px] text-slate-500">Tasks</span>
                     </div>
                   </div>
                 </div>
               </div>
               
-              {/* Subtle light reflection - simplified */}
-              <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-[32px]">
+              {/* Subtle light reflections and depth effects */}
+              <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-xl">
                 <motion.div 
-                  className="absolute -inset-full bg-gradient-to-tr from-blue-500/10 via-white/5 to-transparent transform rotate-12"
+                  className="absolute -inset-full bg-gradient-to-tr from-blue-500/10 via-white/10 to-transparent transform rotate-12"
                   animate={{
                     left: ['-100%', '100%'],
                     top: ['-100%', '100%']
