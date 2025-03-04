@@ -30,21 +30,6 @@ const Partners: React.FC = () => {
     }
   ];
 
-  // Animation variants for the scrolling marquee effect
-  const containerVariants = {
-    animate: {
-      x: [0, -1000],
-      transition: {
-        x: {
-          repeat: Infinity,
-          repeatType: "loop",
-          duration: 20,
-          ease: "linear"
-        }
-      }
-    }
-  };
-
   // Duplicate the partners for continuous scrolling effect
   const scrollingPartners = [...partners, ...partners, ...partners];
 
@@ -63,7 +48,7 @@ const Partners: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-10"
         >
           <h2 className="text-3xl md:text-5xl font-bold mb-4 text-[var(--text-primary)]">Our Partners & Collaborators</h2>
           <p className="text-lg text-[var(--text-tertiary)] max-w-3xl mx-auto">
@@ -71,28 +56,73 @@ const Partners: React.FC = () => {
           </p>
         </motion.div>
         
-        {/* Scrolling partners marquee */}
-        <div className="relative w-full overflow-hidden py-10">
-          <motion.div
+        {/* Marquee Row 1 - Left to Right */}
+        <div className="relative overflow-hidden py-10 mb-1 bg-slate-900/20 backdrop-blur-sm border-t border-slate-800/50">
+          {/* Gradient overlays */}
+          <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-slate-950 to-transparent z-10"></div>
+          <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-slate-950 to-transparent z-10"></div>
+          
+          <motion.div 
             className="flex whitespace-nowrap"
-            variants={containerVariants}
-            animate="animate"
+            initial={{ x: 0 }}
+            animate={{ x: [-2500, 0] }}
+            transition={{ 
+              repeat: Infinity,
+              repeatType: "loop",
+              duration: 40,
+              ease: "linear"
+            }}
           >
-            {scrollingPartners.map((partner, index) => (
+            {/* Triple the partners to ensure continuous flow */}
+            {[...partners, ...partners, ...partners].map((partner, index) => (
               <div 
                 key={index} 
-                className="inline-flex flex-col items-center justify-center mx-12 min-w-[200px]"
+                className="inline-flex flex-col items-center mx-16"
               >
-                <div className="bg-slate-900/80 backdrop-blur-sm border border-slate-800/50 rounded-xl p-6 w-full flex flex-col items-center justify-center hover:shadow-glow-sm transition-all">
-                  <h3 className="text-base md:text-xl font-medium text-center text-[var(--text-primary)]">{partner.name}</h3>
-                  <span className={`text-sm mt-2 px-3 py-1 rounded-full ${
-                    partner.category === 'retail' ? 'bg-green-900/30 text-green-300' :
-                    partner.category === 'tech' ? 'bg-blue-900/30 text-blue-300' :
-                    'bg-purple-900/30 text-purple-300'
-                  }`}>
-                    {partner.category.charAt(0).toUpperCase() + partner.category.slice(1)}
-                  </span>
-                </div>
+                <h3 className="text-2xl md:text-3xl font-bold text-white hover:text-blue-400 transition-colors duration-300">{partner.name}</h3>
+                <span className={`mt-2 px-4 py-1 rounded-full ${
+                  partner.category === 'retail' ? 'bg-green-900/30 text-green-300' :
+                  partner.category === 'tech' ? 'bg-blue-900/30 text-blue-300' :
+                  'bg-purple-900/30 text-purple-300'
+                }`}>
+                  {partner.category.charAt(0).toUpperCase() + partner.category.slice(1)}
+                </span>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+        
+        {/* Marquee Row 2 - Right to Left (Reversed) */}
+        <div className="relative overflow-hidden py-10 mb-4 bg-slate-900/30 backdrop-blur-sm border-b border-slate-800/50">
+          {/* Gradient overlays */}
+          <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-slate-950 to-transparent z-10"></div>
+          <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-slate-950 to-transparent z-10"></div>
+          
+          <motion.div 
+            className="flex whitespace-nowrap"
+            initial={{ x: -2500 }}
+            animate={{ x: [0, -2500] }}
+            transition={{ 
+              repeat: Infinity,
+              repeatType: "loop",
+              duration: 50,
+              ease: "linear"
+            }}
+          >
+            {/* Triple the partners but reversed to ensure continuous flow */}
+            {[...partners, ...partners, ...partners].reverse().map((partner, index) => (
+              <div 
+                key={index} 
+                className="inline-flex flex-col items-center mx-16"
+              >
+                <h3 className="text-2xl md:text-3xl font-bold text-white hover:text-blue-400 transition-colors duration-300">{partner.name}</h3>
+                <span className={`mt-2 px-4 py-1 rounded-full ${
+                  partner.category === 'retail' ? 'bg-green-900/30 text-green-300' :
+                  partner.category === 'tech' ? 'bg-blue-900/30 text-blue-300' :
+                  'bg-purple-900/30 text-purple-300'
+                }`}>
+                  {partner.category.charAt(0).toUpperCase() + partner.category.slice(1)}
+                </span>
               </div>
             ))}
           </motion.div>
