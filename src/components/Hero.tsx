@@ -110,8 +110,8 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
           minWidth: 200.00,
           scale: 1.00,
           scaleMobile: 1.00,
-          color: 0x2a2a5f,
-          backgroundColor: 0x141422,
+          color: 0x71a0b1,
+          backgroundColor: 0xd0f1e,
           points: 9.00,
           maxDistance: 26.00,
           spacing: 16.00
@@ -130,7 +130,7 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
           scale: 1.00,
           scaleMobile: 1.00,
           color: 0x2a2a5f,
-          backgroundColor: 0x141422,
+          backgroundColor: 0xd0f1e,
           points: 7.00,
           maxDistance: 14.00,
           spacing: 16.00

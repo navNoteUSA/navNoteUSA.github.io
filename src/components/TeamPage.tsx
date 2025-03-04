@@ -186,9 +186,10 @@ const TeamPage: React.FC = () => {
             >
               {/* Triple the advisory board to ensure continuous flow */}
               {[...advisoryBoard, ...advisoryBoard, ...advisoryBoard].map((advisor, index) => (
-                <div key={index} className="inline-flex flex-col items-center mx-16">
+                <div key={index} className="inline-flex flex-col items-center mx-16 max-w-xs">
                   <h3 className="text-2xl md:text-3xl font-bold text-white hover:text-blue-400 transition-colors duration-300">{advisor.name}</h3>
                   <p className="text-blue-400 text-sm font-medium">{advisor.title}</p>
+                  <p className="text-gray-300 text-xs text-center mt-1 max-w-[200px] truncate">{advisor.description}</p>
                 </div>
               ))}
             </motion.div>
@@ -213,50 +214,13 @@ const TeamPage: React.FC = () => {
             >
               {/* Triple the advisory board to ensure continuous flow but reversed */}
               {[...advisoryBoard.slice().reverse(), ...advisoryBoard.slice().reverse(), ...advisoryBoard.slice().reverse()].map((advisor, index) => (
-                <div key={index} className="inline-flex flex-col items-center mx-16">
+                <div key={index} className="inline-flex flex-col items-center mx-16 max-w-xs">
                   <h3 className="text-2xl md:text-3xl font-bold text-white hover:text-blue-400 transition-colors duration-300">{advisor.name}</h3>
                   <p className="text-blue-400 text-sm font-medium">{advisor.title}</p>
+                  <p className="text-gray-300 text-xs text-center mt-1 max-w-[200px] truncate">{advisor.description}</p>
                 </div>
               ))}
             </motion.div>
-          </div>
-          
-          {/* Spread description in a grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
-            {advisoryBoard.map((advisor, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-slate-900/30 backdrop-blur-sm border border-slate-800/50 rounded-lg p-5 shadow-lg hover:bg-slate-800/40 hover:border-blue-900/50 transition-all duration-300"
-                whileHover={{ 
-                  y: -5,
-                  boxShadow: "0 10px 25px -5px rgba(59, 130, 246, 0.1), 0 10px 10px -5px rgba(59, 130, 246, 0.05)"
-                }}
-                variants={{
-                  pulse: {
-                    scale: [1, 1.02, 1],
-                    transition: { 
-                      repeat: Infinity, 
-                      repeatType: "reverse", 
-                      duration: 1.5 + index * 0.5 
-                    }
-                  }
-                }}
-                animate="pulse"
-              >
-                <motion.h3 
-                  className="text-xl font-bold mb-1 text-white"
-                  whileHover={{ color: "#60a5fa" }}
-                >
-                  {advisor.name}
-                </motion.h3>
-                <p className="text-blue-400 text-sm font-medium mb-3">{advisor.title}</p>
-                <p className="text-gray-300 text-sm line-clamp-3 hover:line-clamp-none transition-all duration-300">{advisor.description}</p>
-              </motion.div>
-            ))}
           </div>
         </section>
       </div>
