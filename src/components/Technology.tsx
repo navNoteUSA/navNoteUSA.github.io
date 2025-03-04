@@ -1,13 +1,34 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Brain, Server, Cpu, Lock, Shield, Zap } from 'lucide-react';
 
 const Technology: React.FC = () => {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
+  const [mainRef, mainInView] = useInView({
+    triggerOnce: false,
     threshold: 0.1,
   });
+
+  const [titleRef, titleInView] = useInView({
+    triggerOnce: false,
+    threshold: 0.5,
+    rootMargin: "-50px 0px"
+  });
+
+  const [archRef, archInView] = useInView({
+    triggerOnce: false,
+    threshold: 0.4,
+  });
+
+  const [featuresRef, featuresInView] = useInView({
+    triggerOnce: false,
+    threshold: 0.2,
+  });
+
+  // Scroll-based parallax effect
+  const { scrollYProgress } = useScroll();
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '20%']);
+  const titleY = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
 
   const technologies = [
     {
@@ -44,70 +65,144 @@ const Technology: React.FC = () => {
     duration: Math.random() * 20 + 10,
   }));
 
+  const titleVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.2,
+        duration: 0.8,
+        ease: "easeOut"
+      }
+    })
+  };
+
   return (
     <section id="technology" className="py-20 relative overflow-hidden">
       {/* Advanced background elements */}
-      <div className="absolute inset-0 bg-circuit-pattern opacity-10"></div>
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-blue-950/20 to-slate-950"></div>
+      <motion.div 
+        className="absolute inset-0 bg-circuit-pattern opacity-10"
+        style={{ y: backgroundY }}
+      ></motion.div>
       
-      {/* Animated technological hexagons */}
-      <div className="absolute inset-0 overflow-hidden">
-        {hexagons.map((hex, index) => (
-          <motion.div
-            key={index}
-            className="absolute opacity-10"
-            style={{
-              top: `${hex.y}%`,
-              left: `${hex.x}%`,
-              width: `${hex.size}px`,
-              height: `${hex.size}px`,
-              clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
-              background: `linear-gradient(45deg, rgba(59, 130, 246, 0.3), rgba(147, 51, 234, 0.3))`,
-            }}
-            animate={{
-              opacity: [0.05, 0.2, 0.05],
-              rotate: [0, 360],
-              scale: [1, 1.2, 1],
-            }}
-            transition={{
-              duration: hex.duration,
-              repeat: Infinity,
-              delay: hex.delay,
-              ease: "linear",
-            }}
-          />
-        ))}
-      </div>
+      {/* Floating hexagons */}
+      {hexagons.map((hex, index) => (
+        <motion.div
+          key={index}
+          className="absolute bg-blue-500/5 rounded-xl"
+          style={{
+            left: `${hex.x}%`,
+            top: `${hex.y}%`,
+            width: `${hex.size}px`,
+            height: `${hex.size}px`,
+          }}
+          animate={{
+            y: [0, -15, 0],
+            rotate: [0, 5, 0],
+            opacity: [0.2, 0.3, 0.2],
+          }}
+          transition={{
+            duration: hex.duration,
+            delay: hex.delay,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+      ))}
       
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.8 }}
+          ref={titleRef}
           className="text-center mb-20"
         >
-          <div className="inline-flex items-center justify-center px-4 py-1.5 bg-gradient-to-r from-blue-900/50 to-purple-900/50 rounded-full mb-6 backdrop-blur-sm border border-blue-500/20">
-            <div className="w-2 h-2 rounded-full bg-blue-400 mr-2 animate-pulse"></div>
+          <motion.div 
+            className="inline-flex items-center justify-center px-4 py-1.5 bg-gradient-to-r from-blue-900/50 to-purple-900/50 rounded-full mb-6 backdrop-blur-sm border border-blue-500/20"
+            variants={titleVariants}
+            initial="hidden"
+            animate={titleInView ? "visible" : "hidden"}
+            custom={0}
+          >
+            <motion.div 
+              className="w-2 h-2 rounded-full bg-blue-400 mr-2"
+              animate={{ 
+                scale: [1, 1.5, 1],
+                opacity: [0.7, 1, 0.7],
+              }}
+              transition={{ 
+                duration: 2, 
+                repeat: Infinity, 
+                ease: "easeInOut" 
+              }}
+            ></motion.div>
             <span className="text-blue-400 text-sm font-medium">AI-Powered Innovation</span>
-          </div>
-          <h2 className="text-3xl md:text-5xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-100 via-blue-300 to-indigo-200">The navNote AI System</h2>
-          <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          </motion.div>
+          
+          <motion.h2 
+            className="text-3xl md:text-5xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-100 via-blue-300 to-indigo-200"
+            variants={titleVariants}
+            initial="hidden"
+            animate={titleInView ? "visible" : "hidden"}
+            custom={1}
+          >
+            The navNote AI System
+          </motion.h2>
+          
+          <motion.p 
+            className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed"
+            variants={titleVariants}
+            initial="hidden"
+            animate={titleInView ? "visible" : "hidden"}
+            custom={2}
+          >
             We've built a cutting-edge AI system that understands context, location, and time to deliver a truly intuitive experience.
-          </p>
+          </motion.p>
         </motion.div>
         
         {/* Main technology highlight with enhanced visuals */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.8, delay: 0.1 }}
+          ref={archRef}
+          initial={{ opacity: 0, y: 50 }}
+          animate={archInView ? { 
+            opacity: 1, 
+            y: 0,
+            transition: { 
+              duration: 0.8,
+              type: "spring",
+              stiffness: 100
+            }
+          } : {
+            opacity: 0,
+            y: 50
+          }}
           className="mb-24 bg-gradient-to-r from-slate-900 to-slate-800 p-0.5 rounded-2xl shadow-2xl max-w-5xl mx-auto overflow-hidden"
         >
           <div className="relative backdrop-blur-sm bg-slate-900/90 rounded-2xl p-10 overflow-hidden">
             {/* Decorative elements */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full filter blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500/5 rounded-full filter blur-3xl transform -translate-x-1/2 translate-y-1/2"></div>
+            <motion.div 
+              className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full filter blur-3xl transform translate-x-1/2 -translate-y-1/2"
+              animate={archInView ? {
+                scale: [1, 1.2, 1],
+                opacity: [0.3, 0.6, 0.3],
+              } : {}}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            ></motion.div>
+            <motion.div 
+              className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500/5 rounded-full filter blur-3xl transform -translate-x-1/2 translate-y-1/2"
+              animate={archInView ? {
+                scale: [1, 1.3, 1],
+                opacity: [0.3, 0.5, 0.3],
+              } : {}}
+              transition={{
+                duration: 10,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            ></motion.div>
             
             {/* Content */}
             <div className="flex flex-col md:flex-row items-center gap-10 relative z-10">
@@ -118,9 +213,12 @@ const Technology: React.FC = () => {
                     <motion.div
                       key={i}
                       className="absolute inset-0 rounded-full border-2 border-blue-500/20"
-                      animate={{
+                      animate={archInView ? {
                         scale: [1, 1.1, 1],
                         opacity: [0.1, 0.3, 0.1],
+                      } : {
+                        scale: 1,
+                        opacity: 0.1
                       }}
                       transition={{
                         duration: 3,
@@ -135,13 +233,32 @@ const Technology: React.FC = () => {
                   {/* Center icon */}
                   <motion.div
                     className="relative w-24 h-24 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl shadow-lg flex items-center justify-center transform rotate-45 z-10"
-                    animate={{ rotate: 45, scale: [1, 1.05, 1] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                    animate={archInView ? { 
+                      rotate: 45, 
+                      scale: [1, 1.05, 1],
+                      boxShadow: [
+                        "0px 0px 15px 0px rgba(37, 99, 235, 0.3)",
+                        "0px 0px 30px 5px rgba(37, 99, 235, 0.5)",
+                        "0px 0px 15px 0px rgba(37, 99, 235, 0.3)"
+                      ]
+                    } : {
+                      rotate: 45,
+                      scale: 1
+                    }}
+                    transition={{ 
+                      duration: 4, 
+                      repeat: Infinity, 
+                      ease: "easeInOut" 
+                    }}
                   >
                     <motion.div 
                       className="transform -rotate-45"
-                      animate={{ rotate: -45 }}
-                      transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                      animate={archInView ? { rotate: -45 } : {}}
+                      transition={{ 
+                        duration: 4, 
+                        repeat: Infinity, 
+                        ease: "easeInOut" 
+                      }}
                     >
                       <Brain className="w-14 h-14 text-white" />
                     </motion.div>
@@ -156,9 +273,11 @@ const Technology: React.FC = () => {
                         top: `${Math.random() * 100}%`,
                         left: `${Math.random() * 100}%`,
                       }}
-                      animate={{
+                      animate={archInView ? {
                         y: [0, -10, 0],
                         opacity: [0, 1, 0],
+                      } : {
+                        opacity: 0
                       }}
                       transition={{
                         duration: 2 + Math.random() * 2,
@@ -171,36 +290,110 @@ const Technology: React.FC = () => {
               </div>
               
               <div className="w-full md:w-3/5">
-                <h3 className="text-2xl md:text-3xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-indigo-300">Advanced AI Architecture</h3>
-                <p className="text-lg text-gray-300 leading-relaxed">
+                <motion.h3 
+                  className="text-2xl md:text-3xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-indigo-300"
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={archInView ? { 
+                    opacity: 1, 
+                    x: 0,
+                    transition: { 
+                      duration: 0.6, 
+                      delay: 0.2,
+                      type: "spring"
+                    }
+                  } : {
+                    opacity: 0,
+                    x: 50
+                  }}
+                >
+                  Advanced AI Architecture
+                </motion.h3>
+                
+                <motion.p 
+                  className="text-lg text-gray-300 leading-relaxed"
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={archInView ? { 
+                    opacity: 1, 
+                    x: 0,
+                    transition: { 
+                      duration: 0.6, 
+                      delay: 0.4 
+                    }
+                  } : {
+                    opacity: 0,
+                    x: 50
+                  }}
+                >
                   Our proprietary AI model combines natural language processing, spatial awareness, and temporal reasoning to create a truly contextual assistant that understands not just what you need to do, but when and where you need to do it.
-                </p>
+                </motion.p>
                 
                 {/* Tech specs indicator */}
-                <div className="mt-8 flex items-center">
+                <motion.div 
+                  className="mt-8 flex items-center"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={archInView ? { 
+                    opacity: 1, 
+                    y: 0,
+                    transition: { 
+                      duration: 0.6, 
+                      delay: 0.6 
+                    }
+                  } : {
+                    opacity: 0,
+                    y: 20
+                  }}
+                >
                   <div className="relative mr-4">
                     <div className="w-12 h-3 bg-slate-700 rounded-full"></div>
                     <motion.div 
                       className="absolute top-0 left-0 h-3 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full"
-                      animate={{ width: ['0%', '75%', '60%', '85%', '75%'] }}
-                      transition={{ duration: 5, repeat: Infinity }}
+                      animate={archInView ? { 
+                        width: ['0%', '75%', '60%', '85%', '75%'] 
+                      } : {
+                        width: "0%"
+                      }}
+                      transition={{ 
+                        duration: 5, 
+                        repeat: Infinity 
+                      }}
                     ></motion.div>
                   </div>
                   <span className="text-sm text-blue-300 font-mono">AI PROCESSING</span>
-                </div>
+                </motion.div>
               </div>
             </div>
           </div>
         </motion.div>
         
         {/* Technology features grid with enhanced cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <motion.div 
+          ref={featuresRef}
+          className="grid grid-cols-1 md:grid-cols-3 gap-8"
+        >
           {technologies.map((tech, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.6, delay: tech.delay }}
+              initial={{ opacity: 0, y: 50 }}
+              animate={featuresInView ? { 
+                opacity: 1, 
+                y: 0,
+                transition: { 
+                  duration: 0.6, 
+                  delay: index * 0.2,
+                  type: "spring",
+                  stiffness: 50
+                }
+              } : {
+                opacity: 0,
+                y: 50
+              }}
+              whileHover={{ 
+                y: -10,
+                transition: {
+                  duration: 0.3,
+                  ease: "easeOut"
+                }
+              }}
               className="group relative p-0.5 rounded-xl bg-gradient-to-r from-slate-800 via-blue-900/30 to-slate-800 overflow-hidden shadow-lg hover:shadow-blue-900/20 transition-all duration-300"
             >
               {/* Card background with animation */}
@@ -220,31 +413,15 @@ const Technology: React.FC = () => {
                     {tech.icon}
                   </motion.div>
                   
-                  {/* Tech specification indicator */}
-                  <div className="ml-auto flex space-x-1">
-                    {[1, 2, 3].map(i => (
-                      <div 
-                        key={i} 
-                        className={`w-1 h-4 rounded-full ${i <= 2 ? tech.bgColor : 'bg-slate-700'}`}
-                      ></div>
-                    ))}
+                  <div className="ml-4">
+                    <h3 className="text-xl font-semibold mb-2">{tech.title}</h3>
+                    <p className="text-gray-400 leading-relaxed">{tech.description}</p>
                   </div>
                 </div>
-                
-                <h3 className="text-xl font-semibold mb-3">{tech.title}</h3>
-                <p className="text-gray-300">{tech.description}</p>
-                
-                {/* Hover indicator */}
-                <motion.div 
-                  className="absolute bottom-3 right-3 w-6 h-6 flex items-center justify-center"
-                  whileHover={{ scale: 1.2 }}
-                >
-                  <div className="w-1.5 h-1.5 rounded-full bg-blue-400 group-hover:bg-blue-300 transition-colors"></div>
-                </motion.div>
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
