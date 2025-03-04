@@ -149,7 +149,7 @@ const Technology: React.FC = () => {
   };
 
   return (
-    <section id="technology" ref={sectionRef} className="py-20 relative overflow-hidden">
+    <section id="technology" ref={sectionRef} className="pt-8 pb-20 relative overflow-hidden">
       {/* Background elements now simplified to not interfere with Vanta */}
       <div className="absolute inset-0 z-0"></div>
       

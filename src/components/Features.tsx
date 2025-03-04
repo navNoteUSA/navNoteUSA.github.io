@@ -121,7 +121,7 @@ const Features: React.FC = () => {
   };
 
   return (
-    <section id="features" className="py-10 relative overflow-hidden">
+    <section id="features" className="pt-10 pb-6 relative overflow-hidden">
       {/* Background elements */}
       <div className="absolute inset-0 bg-black"></div>
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
