@@ -38,23 +38,23 @@ const CookieConsent: React.FC<CookieConsentProps> = ({ onNavigate }) => {
   if (!visible) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 p-4 md:p-6">
+    <div className="fixed bottom-0 left-0 right-0 z-50 p-2 md:p-3">
       <div className="max-w-6xl mx-auto bg-slate-800/90 backdrop-blur-md border border-slate-700 rounded-lg shadow-lg transition-all duration-300 animate-fade-in-up">
-        <div className="relative p-4 md:p-6">
+        <div className="relative p-2 md:p-3">
           <button 
             onClick={declineCookies}
-            className="absolute right-4 top-4 text-gray-400 hover:text-white transition-colors"
+            className="absolute right-2 top-2 text-gray-400 hover:text-white transition-colors"
             aria-label="Close cookie consent banner"
           >
-            <X size={20} />
+            <X size={16} />
           </button>
           
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
+          <div className="flex flex-row items-center gap-3">
             <div className="flex-1">
-              <h3 className="text-lg font-semibold mb-2 text-[var(--text-primary)]">Cookie Notice</h3>
-              <p className="text-sm text-gray-300 mb-2">
+              <h3 className="text-sm font-semibold mb-0.5 text-[var(--text-primary)]">Cookie Notice</h3>
+              <p className="text-xs text-gray-300 mb-0">
                 We use cookies to enhance your browsing experience, analyze site traffic, and personalize content.
-                By clicking "Accept All", you consent to our use of cookies as described in our 
+                By clicking "Accept All", you consent to our use of cookies as described in our
                 <button 
                   onClick={viewPrivacyPolicy}
                   className="text-blue-400 hover:text-blue-300 transition-colors underline mx-1"
@@ -64,16 +64,16 @@ const CookieConsent: React.FC<CookieConsentProps> = ({ onNavigate }) => {
               </p>
             </div>
             
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-nowrap gap-2">
               <button
                 onClick={declineCookies}
-                className="px-4 py-2 bg-slate-700 hover:bg-slate-600 transition-colors rounded-md text-sm font-medium"
+                className="px-3 py-1 bg-slate-700 hover:bg-slate-600 transition-colors rounded-md text-xs font-medium"
               >
                 Decline
               </button>
               <button
                 onClick={acceptCookies}
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-500 transition-colors rounded-md text-sm font-medium"
+                className="px-3 py-1 bg-blue-600 hover:bg-blue-500 transition-colors rounded-md text-xs font-medium"
               >
                 Accept All
               </button>
