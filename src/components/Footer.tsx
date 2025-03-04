@@ -1,5 +1,5 @@
 import React from 'react';
-import { Github, Twitter, Linkedin, Mail } from 'lucide-react';
+import { Twitter, Linkedin, Mail } from 'lucide-react';
 
 interface FooterProps {
   onNavigate: (page: string) => void;
@@ -29,9 +29,6 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             </p>
             
             <div className="flex space-x-4">
-              <a href="https://github.com" className="text-gray-400 hover:text-white transition-colors" aria-label="GitHub">
-                <Github size={20} />
-              </a>
               <a href="https://x.com/navNoteHQ" className="text-gray-400 hover:text-white transition-colors" aria-label="Twitter">
                 <Twitter size={20} />
               </a>
