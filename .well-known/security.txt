@@ -1,7 +1,7 @@
-# Security Policy for navNote
-Contact: mailto:security@navnote.ai
-Expires: 2025-03-03T07:00:00.000Z
+# Security Policy
+Contact: mailto:info@navNote.net
+Expires: 2025-03-01T00:00:00.000Z
 Preferred-Languages: en
-Canonical: https://www.navnote.net/.well-known/security.txt
 Policy: https://www.navnote.net/security-policy
+Canonical: https://www.navnote.net/.well-known/security.txt
 Hiring: https://www.navnote.net/careers 
