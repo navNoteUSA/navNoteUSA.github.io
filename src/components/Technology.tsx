@@ -20,24 +20,53 @@ const Technology: React.FC = () => {
   useEffect(() => {
     // Make sure window, VANTA, and the section element exist
     if (typeof window !== 'undefined' && window.VANTA && sectionRef.current) {
-      // Initialize the HALO effect
-      window.technologyEffect = window.VANTA.HALO({
-        el: sectionRef.current,
-        mouseControls: true,
-        touchControls: true,
-        gyroControls: false,
-        minHeight: 200.00,
-        minWidth: 200.00,
-        baseColor: 0x172957,
-        backgroundColor: 0x040509,
-        amplitudeFactor: 0.20,
-        xOffset: 0.02,
-        yOffset: 0.05,
-        size: 1.30
-      });
+      // Function to initialize or reinitialize the effect
+      const initVantaEffect = () => {
+        // Cleanup previous effect if it exists
+        if (window.technologyEffect && typeof window.technologyEffect.destroy === 'function') {
+          window.technologyEffect.destroy();
+        }
+
+        // Check if screen is mobile size
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+        // Initialize with the appropriate settings for the screen size
+        window.technologyEffect = window.VANTA.HALO({
+          el: sectionRef.current,
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200.00,
+          minWidth: 200.00,
+          baseColor: 0x172957,
+          backgroundColor: 0x040509,
+          amplitudeFactor: isMobile ? 0.20 : 0.30,
+          xOffset: isMobile ? 0.04 : undefined,
+          yOffset: 0.05,
+          size: isMobile ? 0.70 : 2.00
+        });
+      };
+
+      // Initialize the effect
+      initVantaEffect();
+
+      // Add resize listener to update effect on screen size change
+      const handleResize = () => {
+        initVantaEffect();
+      };
+
+      window.addEventListener('resize', handleResize);
+
+      // Return cleanup function to remove event listener and destroy effect
+      return () => {
+        window.removeEventListener('resize', handleResize);
+        if (window.technologyEffect && typeof window.technologyEffect.destroy === 'function') {
+          window.technologyEffect.destroy();
+        }
+      };
     }
 
-    // Cleanup function for Vanta effect
+    // Cleanup function for Vanta effect when component unmounts
     return () => {
       if (window.technologyEffect && typeof window.technologyEffect.destroy === 'function') {
         window.technologyEffect.destroy();
