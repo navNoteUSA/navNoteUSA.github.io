@@ -36,7 +36,7 @@ const Technology: React.FC = () => {
           mouseControls: true,
           touchControls: true,
           gyroControls: false,
-          minHeight: 200.00,
+          minHeight: 150.00,
           minWidth: 200.00,
           baseColor: 0x172957,
           backgroundColor: 0x040509,
@@ -157,7 +157,7 @@ const Technology: React.FC = () => {
       <div className="container mx-auto px-4 relative z-20">
         <motion.div
           ref={titleRef}
-          className="text-center mb-20"
+          className="text-center mb-8"
         >
           <motion.div 
             className="inline-flex items-center justify-center px-4 py-1.5 bg-gradient-to-r from-blue-900/60 to-purple-900/60 rounded-full mb-6 backdrop-blur-md border border-blue-500/30"
@@ -218,7 +218,7 @@ const Technology: React.FC = () => {
             opacity: 0,
             y: 50
           }}
-          className="mb-24 bg-gradient-to-r from-slate-900/80 to-slate-800/80 p-0.5 rounded-2xl shadow-2xl max-w-5xl mx-auto overflow-hidden backdrop-blur-md border border-slate-700/30"
+          className="mb-12 bg-gradient-to-r from-slate-900/80 to-slate-800/80 p-0.5 rounded-2xl shadow-2xl max-w-5xl mx-auto overflow-hidden backdrop-blur-md border border-slate-700/30"
         >
           <div className="relative backdrop-blur-lg bg-slate-900/70 rounded-2xl p-10 overflow-hidden">
             {/* Decorative elements */}
