@@ -6,20 +6,20 @@ const TeamPage: React.FC = () => {
   const founders = [
     {
       name: "Esmaeil Mousavi",
-      title: "Founder & Owner",
-      description: "Artificial Intelligence & Machine Learning Lead Researcher / Teaching Fellow at Weber State, MIT, Harvard, NCWQR",
+      title: "Founder",
+      description: "Artificial Intelligence & Machine Learning Lead Researcher / Teaching Fellow @ Weber State, Collaborator@ Nvidia, MIT, Harvard, IBM, Perplexity, HPE, NCWQR",
       image: "/esmaeil-mousavi.jpg", 
-      linkedin: "https://www.linkedin.com/in/mousavi-ai",
-      email: "contact@navnote.net",
-      website: "https://www.weber.edu/east/mousavi"
+      linkedin: "https://www.linkedin.com/in/mousavi-ai/",
+      email: "Esmaeil@navNote.net",
+      website: "www.weber.edu/east/mousavi"
     },
     {
       name: "Niklas Kennedy",
-      title: "Co-Founder & CEO",
-      description: "Mainframe System Engineer, UX/UI Developer, Association for Computing Machinery President at IBM, ACM, Weber State",
+      title: "Co-Founder",
+      description: "Mainframe System Engineer @ IBM , UX/UI Developer, President @ACM @Weber State",
       image: "/niklas-kennedy.jpg", 
       linkedin: "https://www.linkedin.com/in/niklas-kennedy-0a1a53198/",
-      email: "niklas@navnote.net",
+      email: "Niklas@navNote.net",
       website: ""
     }
   ];

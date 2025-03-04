@@ -121,17 +121,17 @@ const Team: React.FC = () => {
   const founders = [
     {
       name: "Esmaeil Mousavi",
-      role: "Founder & Owner",
-      email: "esmaeil@navNote.net",
-      credentials: "Artificial Intelligence & Machine Learning Lead Researcher / Teaching Fellow, Weber State, MIT, Harvard, NCWQR",
+      role: "Founder",
+      email: "Esmaeil@navNote.net",
+      credentials: "Artificial Intelligence & Machine Learning Lead Researcher / Teaching Fellow @ Weber State, Collaborator@ Nvidia, MIT, Harvard, IBM, Perplexity, HPE, NCWQR",
       linkedinUrl: "https://www.linkedin.com/in/mousavi-ai/",
       photoUrl: "/assets/team/esmaeil.jpg"
     },
     {
       name: "Niklas Kennedy",
-      role: "Co-Founder & CEO",
-      email: "niklas@navNote.net",
-      credentials: "Mainframe System Engineer, UX/UI Developer, Association for Computing Machinery President, IBM, ACM, Weber State",
+      role: "Co-Founder",
+      email: "Niklas@navNote.net",
+      credentials: "Mainframe System Engineer @ IBM , UX/UI Developer, President @ACM @Weber State",
       linkedinUrl: "https://www.linkedin.com/in/niklas-kennedy-0a1a53198/",
       photoUrl: "/assets/team/niklas.jpg"
     }
