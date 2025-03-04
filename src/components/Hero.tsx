@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, MapPin, Clock, Brain, Shield, ChevronRight } from 'lucide-react';
+import { MotionContext } from '../App';
 
 interface HeroProps {
   openDemoForm?: () => void;
@@ -15,45 +16,36 @@ declare global {
 
 const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
   const [scrollY, setScrollY] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
   const vantaRef = useRef<any>(null);
   
-  // Check if screen is mobile
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    
-    // Initial check
-    checkMobile();
-    
-    // Add resize listener
-    window.addEventListener('resize', checkMobile);
-    
-    return () => {
-      window.removeEventListener('resize', checkMobile);
-    };
-  }, []);
+  // Get values from the context
+  const { prefersReducedMotion, isMobile } = useContext(MotionContext);
   
-  // Animation variants
+  // Animation variants - simplified for mobile
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3
+        staggerChildren: prefersReducedMotion ? 0 : 0.2,
+        delayChildren: prefersReducedMotion ? 0 : 0.3
       }
     }
   };
   
-  const itemVariants = {
+  const itemVariants = prefersReducedMotion ? {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 }
+  } : {
     hidden: { y: 20, opacity: 0 },
     visible: { y: 0, opacity: 1 }
   };
   
-  const buttonVariants = {
+  const buttonVariants = prefersReducedMotion ? {
+    hover: { scale: 1.02 },
+    tap: { scale: 0.98 }
+  } : {
     hover: { 
       scale: 1.05,
       boxShadow: "0 10px 25px rgba(59, 130, 246, 0.5)",
@@ -62,7 +54,11 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
     tap: { scale: 0.95 }
   };
   
-  const iconVariants = {
+  // Disable animation on mobile
+  const iconVariants = prefersReducedMotion ? {
+    initial: { scale: 1 },
+    animate: { scale: 1 }
+  } : {
     initial: { scale: 1 },
     animate: { 
       scale: [1, 1.2, 1],
@@ -74,7 +70,10 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
     }
   };
   
-  const fadeInUpVariants = {
+  const fadeInUpVariants = prefersReducedMotion ? {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 }
+  } : {
     hidden: { opacity: 0, y: 30 },
     visible: { 
       opacity: 1, 
@@ -85,11 +84,11 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
     }
   };
   
-  // Initialize Vanta.js NET effect
+  // Initialize Vanta.js NET effect only on desktop
   useEffect(() => {
-    // Make sure VANTA is available in window
-    if (heroRef.current && window.VANTA) {
-      console.log(`Initializing VANTA effect, isMobile: ${isMobile}`);
+    // Make sure VANTA is available in window and not on mobile
+    if (heroRef.current && window.VANTA && !isMobile && !prefersReducedMotion) {
+      console.log('Initializing VANTA effect for desktop');
       
       // Destroy existing effect if it exists
       if (vantaRef.current) {
@@ -98,38 +97,29 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
         vantaRef.current = null;
       }
 
-      // Only use Vanta effect on desktop
-      if (!isMobile) {
-        console.log('Using desktop configuration');
-        vantaRef.current = window.VANTA.NET({
-          el: heroRef.current,
-          mouseControls: true,
-          touchControls: false, // Disable touch controls to prevent issues
-          gyroControls: false,
-          minHeight: 200.00,
-          minWidth: 200.00,
-          scale: 1.00,
-          scaleMobile: 1.00,
-          color: 0x2203c,
-          backgroundColor: 0x0,
-          points: 9.00,
-          maxDistance: 26.00,
-          spacing: 16.00
-        });
-      } 
-      // On mobile, don't use Vanta.js at all to avoid performance issues
-      else {
-        console.log('Mobile detected: Not initializing Vanta.js');
-        // Add a simple background color instead
-        if (heroRef.current) {
-          heroRef.current.style.backgroundColor = "#141422";
-        }
-      }
-    } else {
-      console.log('VANTA not available or heroRef not set', { 
-        vantaAvailable: !!window.VANTA, 
-        heroRefAvailable: !!heroRef.current
+      // Only use Vanta effect on desktop with reduced settings
+      vantaRef.current = window.VANTA.NET({
+        el: heroRef.current,
+        mouseControls: false,
+        touchControls: false,
+        gyroControls: false,
+        minHeight: 200.00,
+        minWidth: 200.00,
+        scale: 1.00,
+        scaleMobile: 1.00,
+        color: 0x2203c,
+        backgroundColor: 0x0,
+        points: 6.00, // reduced from 9.00
+        maxDistance: 20.00, // reduced from 26.00
+        spacing: 18.00, // increased from 16.00
+        showDots: false // hide dots for better performance
       });
+    } else {
+      console.log('Mobile or reduced motion detected: Not initializing Vanta.js');
+      // Add a simple background color instead
+      if (heroRef.current) {
+        heroRef.current.style.backgroundColor = "#141422";
+      }
     }
     
     // Cleanup function
@@ -140,21 +130,21 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
         vantaRef.current = null;
       }
     };
-  }, [isMobile]); // Re-initialize when mobile status changes
+  }, [isMobile, prefersReducedMotion]); // Re-initialize when these values change
   
   // Handle scroll effect for parallax - only add on desktop
   useEffect(() => {
-    if (isMobile) {
-      return; // Skip parallax effect on mobile
+    if (isMobile || prefersReducedMotion) {
+      return; // Skip parallax effect on mobile or with reduced motion
     }
     
     const handleScroll = () => {
       setScrollY(window.scrollY);
     };
     
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [isMobile]);
+  }, [isMobile, prefersReducedMotion]);
   
   const handleDemoRequest = () => {
     if (openDemoForm) {

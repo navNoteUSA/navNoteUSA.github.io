@@ -187,6 +187,46 @@
       input[type="text"], input[type="email"], input[type="password"], input[type="number"], input[type="search"], input[type="tel"], input[type="url"], textarea {
         cursor: text;
       }
+
+      /* Mobile optimizations */
+      @media (max-width: 767px) {
+        /* Reduce or disable animations on mobile */
+        * {
+          animation-duration: 0.001ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.001ms !important;
+        }
+
+        /* Disable heavy animations on mobile */
+        .reduced-motion * {
+          transition: none !important;
+          animation: none !important;
+          transform: none !important;
+        }
+
+        /* Prevent overflows that might cause refresh issues */
+        body {
+          overflow-x: hidden;
+          width: 100%;
+          position: relative;
+          touch-action: manipulation;
+          -webkit-overflow-scrolling: touch;
+        }
+      }
+
+      /* Additional fixes to prevent mobile refresh issues */
+      .prevent-refresh {
+        overscroll-behavior: none;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      /* Performance optimizations */
+      .hardware-accelerated {
+        transform: translateZ(0);
+        backface-visibility: hidden;
+        perspective: 1000px;
+      }
     </style>
     
     <!-- Enhanced Target Audience Meta Tags -->
@@ -198,7 +238,7 @@
     <meta name="ai-powered" content="true" />
     <meta name="location-aware" content="true" />
   </head>
-  <body class="bg-primary text-white">
+  <body class="bg-primary text-white prevent-refresh hardware-accelerated">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     
@@ -229,24 +269,54 @@
     <script>
       // Wait for the DOM to be fully loaded
       document.addEventListener('DOMContentLoaded', function() {
-        // Check if Vanta is loaded and the target element exists
-        if (window.VANTA && document.getElementById('vanta-background')) {
-          // Mobile detection
-          const isMobile = window.innerWidth < 768;
+        try {
+          // Mobile detection - completely disable Vanta.js on mobile
+          const isMobile = window.innerWidth < 768 || 
+                          /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
           
-          // Only initialize Vanta.js on desktop devices
-          if (!isMobile) {
-            console.log('Vanta.js loaded and ready for desktop');
-            // NET effect is initialized in the Hero component to properly manage React lifecycle
-          } else {
-            console.log('Mobile device detected, skipping Vanta.js initialization');
+          // Apply reduced motion class to body for mobile
+          if (isMobile) {
+            document.body.classList.add('reduced-motion');
+            console.log('Mobile device detected, disabling animations');
           }
+          
+          // Only initialize Vanta on desktop devices
+          if (!isMobile && window.VANTA && document.getElementById('vanta-background')) {
+            console.log('Vanta.js available for desktop');
+            // NET effect is initialized in the Hero component to properly manage React lifecycle
+          } else if (isMobile) {
+            console.log('Mobile device: Vanta.js disabled for performance');
+            
+            // Cleanup any existing Vanta instances to prevent memory leaks
+            if (window.VANTA && window.VANTA.current) {
+              try {
+                window.VANTA.current.destroy();
+              } catch (e) {
+                console.log('Error cleaning up Vanta:', e);
+              }
+            }
+          }
+        } catch (error) {
+          console.error('Error in Vanta initialization:', error);
         }
         
-        // Add passive event listeners for scroll events to improve performance on mobile
-        window.addEventListener('scroll', function() {}, { passive: true });
-        window.addEventListener('touchmove', function() {}, { passive: true });
-        window.addEventListener('wheel', function() {}, { passive: true });
+        // Add passive event listeners for scroll events to improve performance
+        try {
+          const passiveIfSupported = { passive: true, capture: false };
+          window.addEventListener('scroll', function() {}, passiveIfSupported);
+          window.addEventListener('touchmove', function() {}, passiveIfSupported);
+          window.addEventListener('wheel', function() {}, passiveIfSupported);
+          window.addEventListener('touchstart', function() {}, passiveIfSupported);
+        } catch (e) {
+          console.log('Passive listeners not supported:', e);
+        }
+        
+        // Prevent pull-to-refresh behavior on mobile
+        document.body.addEventListener('touchmove', function(e) {
+          if (e.target === document.body) {
+            e.preventDefault();
+          }
+        }, { passive: false });
       });
     </script>
   </body>
