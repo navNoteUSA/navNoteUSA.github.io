@@ -1,9 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { Brain, Server, Cpu, Lock, Shield, Zap } from 'lucide-react';
 
+// Define types for Vanta and window
+declare global {
+  interface Window {
+    technologyEffect: {
+      destroy: () => void;
+    };
+  }
+}
+
 const Technology: React.FC = () => {
+  // Add useEffect for Vanta cleanup
+  useEffect(() => {
+    // Cleanup function for Vanta effect
+    return () => {
+      if (window.technologyEffect && typeof window.technologyEffect.destroy === 'function') {
+        window.technologyEffect.destroy();
+      }
+    };
+  }, []);
+
   const [mainRef, mainInView] = useInView({
     triggerOnce: false,
     threshold: 0.1,
@@ -80,37 +99,10 @@ const Technology: React.FC = () => {
 
   return (
     <section id="technology" className="py-20 relative overflow-hidden">
-      {/* Advanced background elements */}
-      <motion.div 
-        className="absolute inset-0 bg-circuit-pattern opacity-10"
-        style={{ y: backgroundY }}
-      ></motion.div>
+      {/* Background elements now simplified to not interfere with Vanta */}
+      <div className="absolute inset-0 z-0"></div>
       
-      {/* Floating hexagons */}
-      {hexagons.map((hex, index) => (
-        <motion.div
-          key={index}
-          className="absolute bg-blue-500/5 rounded-xl"
-          style={{
-            left: `${hex.x}%`,
-            top: `${hex.y}%`,
-            width: `${hex.size}px`,
-            height: `${hex.size}px`,
-          }}
-          animate={{
-            y: [0, -15, 0],
-            rotate: [0, 5, 0],
-            opacity: [0.2, 0.3, 0.2],
-          }}
-          transition={{
-            duration: hex.duration,
-            delay: hex.delay,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
-      
+      {/* Container with semi-transparent background for text readability */}
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
           ref={titleRef}
@@ -175,7 +167,7 @@ const Technology: React.FC = () => {
             opacity: 0,
             y: 50
           }}
-          className="mb-24 bg-gradient-to-r from-slate-900 to-slate-800 p-0.5 rounded-2xl shadow-2xl max-w-5xl mx-auto overflow-hidden"
+          className="mb-24 bg-gradient-to-r from-slate-900/90 to-slate-800/90 p-0.5 rounded-2xl shadow-2xl max-w-5xl mx-auto overflow-hidden backdrop-blur-sm"
         >
           <div className="relative backdrop-blur-sm bg-slate-900/90 rounded-2xl p-10 overflow-hidden">
             {/* Decorative elements */}
@@ -394,7 +386,7 @@ const Technology: React.FC = () => {
                   ease: "easeOut"
                 }
               }}
-              className="group relative p-0.5 rounded-xl bg-gradient-to-r from-slate-800 via-blue-900/30 to-slate-800 overflow-hidden shadow-lg hover:shadow-blue-900/20 transition-all duration-300"
+              className="group relative p-0.5 rounded-xl bg-gradient-to-r from-slate-800/90 via-blue-900/40 to-slate-800/90 overflow-hidden shadow-lg hover:shadow-blue-900/30 transition-all duration-300 backdrop-blur-md"
             >
               {/* Card background with animation */}
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -402,7 +394,7 @@ const Technology: React.FC = () => {
               </div>
               
               {/* Card content */}
-              <div className="relative bg-slate-900 rounded-xl p-8 h-full z-10">
+              <div className="relative bg-slate-900/80 backdrop-blur-sm rounded-xl p-8 h-full z-10">
                 <div className="flex items-start mb-6">
                   {/* Icon container with animation */}
                   <motion.div

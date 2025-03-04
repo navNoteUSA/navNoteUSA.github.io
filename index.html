@@ -16,6 +16,7 @@
     <!-- Vanta.js Background -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.halo.min.js"></script>
     
     <!-- Alternative Languages Support -->
     <link rel="alternate" hreflang="en" href="https://www.navnote.net/" />
@@ -233,11 +234,24 @@
           // NET effect is initialized in the Hero component to properly manage React lifecycle
           console.log('Vanta.js loaded and ready');
         }
+        
+        // Initialize HALO effect for technology section
+        if (window.VANTA && document.getElementById('technology')) {
+          window.technologyEffect = VANTA.HALO({
+            el: "#technology",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            baseColor: 0x172957,
+            backgroundColor: 0x040509,
+            amplitudeFactor: 0.30,
+            yOffset: 0.05,
+            size: 2.00
+          });
+        }
       });
     </script>
-    
-    <!-- Vanta.js dependencies and initialization -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
   </body>
 </html>
