@@ -76,7 +76,7 @@ const TeamPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 to-slate-900 pt-20 pb-20">
+    <div className="min-h-screen bg-black pt-20 pb-20">
       <div className="container mx-auto px-4">
         {/* Founders Section */}
         <section className="mb-20">

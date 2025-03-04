@@ -35,8 +35,7 @@ html {
 
 body {
   @apply bg-primary text-white font-sans overflow-x-hidden;
-  background-image: radial-gradient(circle at 10% 20%, rgba(51, 102, 204, 0.08) 0%, transparent 40%),
-                    radial-gradient(circle at 90% 80%, rgba(0, 200, 150, 0.08) 0%, transparent 40%);
+  background-color: #000000; /* Pure black background */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

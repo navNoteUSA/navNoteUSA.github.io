@@ -44,7 +44,7 @@ const AppDemo: React.FC = () => {
   return (
     <section id="app-demo" className="py-12 relative overflow-hidden">
       {/* Background elements */}
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-blue-950/20 to-slate-950"></div>
+      <div className="absolute inset-0 bg-black"></div>
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
       
       {/* Animated particles */}

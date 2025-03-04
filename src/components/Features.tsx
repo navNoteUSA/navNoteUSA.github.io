@@ -123,7 +123,7 @@ const Features: React.FC = () => {
   return (
     <section id="features" className="py-10 relative overflow-hidden">
       {/* Background elements */}
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-950 to-slate-900"></div>
+      <div className="absolute inset-0 bg-black"></div>
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
       
       {/* Subtle animated particles */}

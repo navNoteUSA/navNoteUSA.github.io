@@ -10,7 +10,7 @@ const CallToAction: React.FC<CallToActionProps> = ({ onOpenDemo, onOpenAuth }) =
   return (
     <section id="cta" className="py-12 relative overflow-hidden">
       {/* Background elements */}
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-blue-950/20 to-slate-950 z-0"></div>
+      <div className="absolute inset-0 bg-black z-0"></div>
       
       {/* Animated background elements */}
       <div className="absolute inset-0 pointer-events-none z-0">

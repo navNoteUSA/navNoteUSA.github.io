@@ -4,7 +4,7 @@ import { Mail, Phone, MapPin, Linkedin } from 'lucide-react';
 
 const ContactPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 to-slate-900 pt-20 pb-20">
+    <div className="min-h-screen bg-black pt-20 pb-20">
       <div className="container mx-auto px-4">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}

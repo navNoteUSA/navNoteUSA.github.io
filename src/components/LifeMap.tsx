@@ -75,7 +75,7 @@ const LifeMap: React.FC = () => {
     <section id="lifemap" className="py-24 relative overflow-hidden">
       {/* Background pattern */}
       <div className="absolute inset-0 bg-hex-pattern opacity-10"></div>
-      <div className="absolute inset-0 bg-gradient-to-b from-dark to-primary"></div>
+      <div className="absolute inset-0 bg-black"></div>
       
       <div className="container mx-auto px-4 relative z-10">
         <motion.div

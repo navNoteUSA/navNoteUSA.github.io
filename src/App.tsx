@@ -80,7 +80,7 @@ function App() {
   const showNavbarAndFooter = !['privacy', 'terms', 'cookies'].includes(currentPage);
   
   return (
-    <div className="app min-h-screen bg-slate-950 text-white relative overflow-hidden">
+    <div className="app min-h-screen bg-black text-white relative overflow-hidden">
       <div className="relative z-10">
         {showNavbarAndFooter && (
           <Navbar 
