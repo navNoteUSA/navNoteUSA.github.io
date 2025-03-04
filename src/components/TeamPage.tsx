@@ -150,15 +150,79 @@ const TeamPage: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="text-center mb-16"
+            className="text-center mb-12"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6">Advisory Board</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 relative inline-block">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-purple-300 to-blue-300 animate-gradient">Advisory Board</span>
+              <motion.span 
+                className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600"
+                initial={{ width: "0%" }}
+                whileInView={{ width: "100%" }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+              ></motion.span>
+            </h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               Special thanks to our distinguished advisory board members who provide invaluable guidance and expertise.
             </p>
           </motion.div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Advisors Marquee - Row 1 */}
+          <div className="relative overflow-hidden py-10 mb-1 bg-slate-900/20 backdrop-blur-sm border-t border-slate-800/50">
+            {/* Gradient overlays */}
+            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-slate-950 to-transparent z-10"></div>
+            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-slate-950 to-transparent z-10"></div>
+            
+            <motion.div 
+              className="flex whitespace-nowrap"
+              initial={{ x: 0 }}
+              animate={{ x: [0, -2500] }}
+              transition={{ 
+                repeat: Infinity,
+                repeatType: "loop",
+                duration: 40,
+                ease: "linear"
+              }}
+            >
+              {/* Triple the advisory board to ensure continuous flow */}
+              {[...advisoryBoard, ...advisoryBoard, ...advisoryBoard].map((advisor, index) => (
+                <div key={index} className="inline-flex flex-col items-center mx-16">
+                  <h3 className="text-2xl md:text-3xl font-bold text-white hover:text-blue-400 transition-colors duration-300">{advisor.name}</h3>
+                  <p className="text-blue-400 text-sm font-medium">{advisor.title}</p>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+          
+          {/* Advisors Marquee - Row 2 (Reverse Direction) */}
+          <div className="relative overflow-hidden py-10 mb-4 bg-slate-900/30 backdrop-blur-sm border-b border-slate-800/50">
+            {/* Gradient overlays */}
+            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-slate-950 to-transparent z-10"></div>
+            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-slate-950 to-transparent z-10"></div>
+            
+            <motion.div 
+              className="flex whitespace-nowrap"
+              initial={{ x: -2500 }}
+              animate={{ x: [-2500, 0] }}
+              transition={{ 
+                repeat: Infinity,
+                repeatType: "loop",
+                duration: 50,
+                ease: "linear"
+              }}
+            >
+              {/* Triple the advisory board to ensure continuous flow but reversed */}
+              {[...advisoryBoard.slice().reverse(), ...advisoryBoard.slice().reverse(), ...advisoryBoard.slice().reverse()].map((advisor, index) => (
+                <div key={index} className="inline-flex flex-col items-center mx-16">
+                  <h3 className="text-2xl md:text-3xl font-bold text-white hover:text-blue-400 transition-colors duration-300">{advisor.name}</h3>
+                  <p className="text-blue-400 text-sm font-medium">{advisor.title}</p>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+          
+          {/* Spread description in a grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
             {advisoryBoard.map((advisor, index) => (
               <motion.div
                 key={index}
@@ -166,24 +230,31 @@ const TeamPage: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-slate-900/30 backdrop-blur-sm border border-slate-800/50 rounded-lg overflow-hidden shadow-lg"
+                className="bg-slate-900/30 backdrop-blur-sm border border-slate-800/50 rounded-lg p-5 shadow-lg hover:bg-slate-800/40 hover:border-blue-900/50 transition-all duration-300"
+                whileHover={{ 
+                  y: -5,
+                  boxShadow: "0 10px 25px -5px rgba(59, 130, 246, 0.1), 0 10px 10px -5px rgba(59, 130, 246, 0.05)"
+                }}
+                variants={{
+                  pulse: {
+                    scale: [1, 1.02, 1],
+                    transition: { 
+                      repeat: Infinity, 
+                      repeatType: "reverse", 
+                      duration: 1.5 + index * 0.5 
+                    }
+                  }
+                }}
+                animate="pulse"
               >
-                <div className="h-48 overflow-hidden bg-blue-900/20">
-                  <img 
-                    src={advisor.image} 
-                    alt={advisor.name}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.src = 'https://placehold.co/600x400/1e3a8a/ffffff?text=Advisor';
-                    }}
-                  />
-                </div>
-                <div className="p-5">
-                  <h3 className="text-xl font-bold mb-1">{advisor.name}</h3>
-                  <p className="text-blue-400 text-sm font-medium mb-3">{advisor.title}</p>
-                  <p className="text-gray-300 text-sm">{advisor.description}</p>
-                </div>
+                <motion.h3 
+                  className="text-xl font-bold mb-1 text-white"
+                  whileHover={{ color: "#60a5fa" }}
+                >
+                  {advisor.name}
+                </motion.h3>
+                <p className="text-blue-400 text-sm font-medium mb-3">{advisor.title}</p>
+                <p className="text-gray-300 text-sm line-clamp-3 hover:line-clamp-none transition-all duration-300">{advisor.description}</p>
               </motion.div>
             ))}
           </div>
