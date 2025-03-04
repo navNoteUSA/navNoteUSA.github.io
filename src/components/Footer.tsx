@@ -99,7 +99,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               </li>
               <li className="flex items-start mt-6">
                 <Mail size={18} className="text-gray-400 mr-2 mt-1" />
-                <span className="text-gray-400">info@navNote.net</span>
+                <a href="mailto:info@navNote.net" className="text-gray-400 hover:text-white transition-colors">info@navNote.net</a>
               </li>
               <li className="text-gray-400">
                 Utah, United States
