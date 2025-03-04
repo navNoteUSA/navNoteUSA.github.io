@@ -11,7 +11,7 @@ const TeamPage: React.FC = () => {
       image: "/esmaeil-mousavi.jpg", 
       linkedin: "https://www.linkedin.com/in/mousavi-ai/",
       email: "Esmaeil@navNote.net",
-      website: "www.weber.edu/east/mousavi"
+      website: "https://www.weber.edu/east/mousavi"
     },
     {
       name: "Niklas Kennedy",
