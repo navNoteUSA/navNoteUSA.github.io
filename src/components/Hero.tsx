@@ -98,13 +98,13 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
         vantaRef.current = null;
       }
 
-      // Desktop configuration
+      // Only use Vanta effect on desktop
       if (!isMobile) {
         console.log('Using desktop configuration');
         vantaRef.current = window.VANTA.NET({
           el: heroRef.current,
           mouseControls: true,
-          touchControls: true,
+          touchControls: false, // Disable touch controls to prevent issues
           gyroControls: false,
           minHeight: 200.00,
           minWidth: 200.00,
@@ -117,24 +117,13 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
           spacing: 16.00
         });
       } 
-      // Mobile configuration
+      // On mobile, don't use Vanta.js at all to avoid performance issues
       else {
-        console.log('Using mobile configuration');
-        vantaRef.current = window.VANTA.NET({
-          el: heroRef.current,
-          mouseControls: true,
-          touchControls: true,
-          gyroControls: false,
-          minHeight: 200.00,
-          minWidth: 200.00,
-          scale: 1.00,
-          scaleMobile: 1.00,
-          color: 0x2203c,
-          backgroundColor: 0x0,
-          points: 7.00,
-          maxDistance: 14.00,
-          spacing: 16.00
-        });
+        console.log('Mobile detected: Not initializing Vanta.js');
+        // Add a simple background color instead
+        if (heroRef.current) {
+          heroRef.current.style.backgroundColor = "#141422";
+        }
       }
     } else {
       console.log('VANTA not available or heroRef not set', { 
@@ -153,15 +142,19 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
     };
   }, [isMobile]); // Re-initialize when mobile status changes
   
-  // Handle scroll effect for parallax
+  // Handle scroll effect for parallax - only add on desktop
   useEffect(() => {
+    if (isMobile) {
+      return; // Skip parallax effect on mobile
+    }
+    
     const handleScroll = () => {
       setScrollY(window.scrollY);
     };
     
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isMobile]);
   
   const handleDemoRequest = () => {
     if (openDemoForm) {

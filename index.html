@@ -231,9 +231,22 @@
       document.addEventListener('DOMContentLoaded', function() {
         // Check if Vanta is loaded and the target element exists
         if (window.VANTA && document.getElementById('vanta-background')) {
-          // NET effect is initialized in the Hero component to properly manage React lifecycle
-          console.log('Vanta.js loaded and ready');
+          // Mobile detection
+          const isMobile = window.innerWidth < 768;
+          
+          // Only initialize Vanta.js on desktop devices
+          if (!isMobile) {
+            console.log('Vanta.js loaded and ready for desktop');
+            // NET effect is initialized in the Hero component to properly manage React lifecycle
+          } else {
+            console.log('Mobile device detected, skipping Vanta.js initialization');
+          }
         }
+        
+        // Add passive event listeners for scroll events to improve performance on mobile
+        window.addEventListener('scroll', function() {}, { passive: true });
+        window.addEventListener('touchmove', function() {}, { passive: true });
+        window.addEventListener('wheel', function() {}, { passive: true });
       });
     </script>
   </body>
