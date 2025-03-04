@@ -648,32 +648,6 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
                   
                   {/* iPhone Home indicator */}
                   <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-[120px] h-1 bg-white rounded-full z-20"></div>
-                  
-                  {/* Camera module */}
-                  <div className="absolute top-3 right-3 w-20 h-20 bg-[#1A1A1C] rounded-2xl overflow-hidden flex items-center justify-center p-2 rotate-1 z-30">
-                    <div className="grid grid-cols-2 gap-2 w-full h-full">
-                      <div className="flex items-center justify-center">
-                        <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#243036] to-[#172026] border-2 border-[#121B20] flex items-center justify-center">
-                          <div className="w-3.5 h-3.5 rounded-full bg-[#080D11] border border-[#243036]"></div>
-                        </div>
-                      </div>
-                      <div className="flex items-center justify-center">
-                        <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#243036] to-[#172026] border-2 border-[#121B20] flex items-center justify-center">
-                          <div className="w-3.5 h-3.5 rounded-full bg-[#080D11] border border-[#243036]"></div>
-                        </div>
-                      </div>
-                      <div className="flex items-center justify-center">
-                        <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#243036] to-[#172026] border-2 border-[#121B20] flex items-center justify-center">
-                          <div className="w-3.5 h-3.5 rounded-full bg-[#080D11] border border-[#243036]"></div>
-                        </div>
-                      </div>
-                      <div className="flex items-center justify-center">
-                        <div className="w-5 h-5 rounded-lg bg-gradient-to-br from-[#2D4D5F] to-[#203B49] border border-[#121B20] flex items-center justify-center">
-                          <div className="w-2 h-2 rounded-full bg-[#72839C]"></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
                 
                 {/* Phone reflection and shadow effects */}
