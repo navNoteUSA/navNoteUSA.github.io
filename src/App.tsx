@@ -175,8 +175,8 @@ function App() {
         
         {/* Demo Request Modal */}
         {showDemoForm && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm z-50">
-            <div className="bg-slate-900 p-8 rounded-2xl border border-slate-700 max-w-md w-full">
+          <div className="fixed inset-0 flex items-start justify-center bg-black/70 backdrop-blur-sm z-50 pt-24">
+            <div className="bg-slate-900 p-8 rounded-2xl border border-slate-700 max-w-md w-full mt-10">
               <h2 className="text-2xl font-bold mb-6">Request a Demo</h2>
               <form className="space-y-4">
                 <div>
@@ -217,8 +217,8 @@ function App() {
         
         {/* Auth Modal */}
         {showAuthForm && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm z-50">
-            <div className="bg-slate-900 p-8 rounded-2xl border border-slate-700 max-w-md w-full">
+          <div className="fixed inset-0 flex items-start justify-center bg-black/70 backdrop-blur-sm z-50 pt-24">
+            <div className="bg-slate-900 p-8 rounded-2xl border border-slate-700 max-w-md w-full mt-10">
               <h2 className="text-2xl font-bold mb-6">Sign In / Sign Up</h2>
               <form className="space-y-4">
                 <div>
