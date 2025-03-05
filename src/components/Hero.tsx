@@ -86,51 +86,30 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
   
   // Initialize Vanta.js NET effect only on desktop
   useEffect(() => {
-    // Make sure VANTA is available in window and not on mobile
-    if (heroRef.current && window.VANTA && !isMobile && !prefersReducedMotion) {
-      console.log('Initializing VANTA effect for desktop');
-      
-      // Destroy existing effect if it exists
-      if (vantaRef.current) {
-        console.log('Destroying existing VANTA effect');
-        vantaRef.current.destroy();
-        vantaRef.current = null;
-      }
-
-      // Only use Vanta effect on desktop with reduced settings
+    if (!vantaRef.current && heroRef.current && window.VANTA) {
       vantaRef.current = window.VANTA.NET({
         el: heroRef.current,
-        mouseControls: false,
-        touchControls: false,
+        mouseControls: true,
+        touchControls: true,
         gyroControls: false,
         minHeight: 200.00,
         minWidth: 200.00,
         scale: 1.00,
         scaleMobile: 1.00,
-        color: 0x2203c,
+        color: 0x1f1f59,
         backgroundColor: 0x0,
-        points: 6.00, // reduced from 9.00
-        maxDistance: 20.00, // reduced from 26.00
-        spacing: 18.00, // increased from 16.00
-        showDots: false // hide dots for better performance
+        points: 10.00,
+        maxDistance: 20.00,
+        spacing: 20.00
       });
-    } else {
-      console.log('Mobile or reduced motion detected: Not initializing Vanta.js');
-      // Add a simple background color instead
-      if (heroRef.current) {
-        heroRef.current.style.backgroundColor = "#141422";
-      }
     }
-    
-    // Cleanup function
+
     return () => {
       if (vantaRef.current) {
-        console.log('Cleanup: Destroying VANTA effect');
         vantaRef.current.destroy();
-        vantaRef.current = null;
       }
     };
-  }, [isMobile, prefersReducedMotion]); // Re-initialize when these values change
+  }, []);
   
   // Handle scroll effect for parallax - only add on desktop
   useEffect(() => {
