@@ -76,8 +76,47 @@ function App() {
   
   // Navigation functions
   const navigateTo = (page: string) => {
-    setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Check if the page contains a hash (for within-page navigation)
+    if (page.includes('#')) {
+      const [pageName, sectionId] = page.split('#');
+      
+      // If we're already on the correct page, just scroll to the section
+      if (currentPage === pageName || (pageName === '' && currentPage === 'home')) {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          // Get the navbar height for proper offset
+          const navbarHeight = 80; // matches the --nav-height CSS variable
+          const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+          const offsetPosition = elementPosition - navbarHeight;
+          
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      } else {
+        // If we need to change pages first, then scroll
+        setCurrentPage(pageName || 'home');
+        // Use setTimeout to allow the page to render before scrolling
+        setTimeout(() => {
+          const element = document.getElementById(sectionId);
+          if (element) {
+            const navbarHeight = 80;
+            const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+            const offsetPosition = elementPosition - navbarHeight;
+            
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
+          }
+        }, 100);
+      }
+    } else {
+      // Regular page navigation (no hash)
+      setCurrentPage(page);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
   
   const renderPage = () => {

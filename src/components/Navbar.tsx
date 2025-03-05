@@ -66,6 +66,20 @@ const Navbar: React.FC<NavbarProps> = ({
               >
                 Contact
               </button>
+              
+              {/* Add section-specific navigation */}
+              <button 
+                onClick={() => onNavigate('home#features')} 
+                className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+              >
+                Features
+              </button>
+              <button 
+                onClick={() => onNavigate('home#technology')} 
+                className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+              >
+                Technology
+              </button>
             </div>
             
             <div className="flex items-center space-x-4">
@@ -126,6 +140,26 @@ const Navbar: React.FC<NavbarProps> = ({
                 className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors text-left py-2"
               >
                 Contact
+              </button>
+              
+              {/* Add section navigation for mobile */}
+              <button 
+                onClick={() => {
+                  onNavigate('home#features');
+                  setIsMenuOpen(false);
+                }} 
+                className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors text-left py-2"
+              >
+                Features
+              </button>
+              <button 
+                onClick={() => {
+                  onNavigate('home#technology');
+                  setIsMenuOpen(false);
+                }} 
+                className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors text-left py-2"
+              >
+                Technology
               </button>
             </div>
             
