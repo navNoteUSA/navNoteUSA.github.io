@@ -8,7 +8,7 @@ const TeamPage: React.FC = () => {
       name: "Esmaeil Mousavi",
       title: "Founder",
       description: "Artificial Intelligence & Machine Learning Lead Researcher / Teaching Fellow @ Weber State, Collaborator@ Nvidia, MIT, Harvard, IBM, Perplexity, HPE, NCWQR",
-      image: "/esmaeil-mousavi.jpg", 
+      image: "/team/esmaeil_mousavi.jpg", 
       linkedin: "https://www.linkedin.com/in/mousavi-ai/",
       email: "Esmaeil@navNote.net",
       website: "https://www.weber.edu/east/mousavi"
@@ -17,7 +17,7 @@ const TeamPage: React.FC = () => {
       name: "Niklas Kennedy",
       title: "Co-Founder",
       description: "Mainframe System Engineer @ IBM , UX/UI Developer, President @ACM @Weber State",
-      image: "/niklas-kennedy.jpg", 
+      image: "/team/niklas_kennedy.jpg", 
       linkedin: "https://www.linkedin.com/in/niklas-kennedy-0a1a53198/",
       email: "Niklas@navNote.net",
       website: ""
