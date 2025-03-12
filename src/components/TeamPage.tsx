@@ -167,60 +167,81 @@ const TeamPage: React.FC = () => {
             </p>
           </motion.div>
           
-          {/* Advisors Marquee - Row 1 */}
-          <div className="relative overflow-hidden py-10 mb-1 bg-slate-900/20 backdrop-blur-sm border-t border-slate-800/50">
-            {/* Gradient overlays */}
-            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-slate-950 to-transparent z-10"></div>
-            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-slate-950 to-transparent z-10"></div>
-            
-            <motion.div 
-              className="flex whitespace-nowrap"
-              initial={{ x: 0 }}
-              animate={{ x: [0, -2500] }}
-              transition={{ 
-                repeat: Infinity,
-                repeatType: "loop",
-                duration: 40,
-                ease: "linear"
-              }}
-            >
-              {/* Triple the advisory board to ensure continuous flow */}
-              {[...advisoryBoard, ...advisoryBoard, ...advisoryBoard].map((advisor, index) => (
-                <div key={index} className="inline-flex flex-col items-center mx-16 max-w-xs">
-                  <h3 className="text-2xl md:text-3xl font-bold text-white hover:text-blue-400 transition-colors duration-300">{advisor.name}</h3>
-                  <p className="text-blue-400 text-sm font-medium">{advisor.title}</p>
-                  <p className="text-gray-300 text-xs text-center mt-1 max-w-[200px] truncate">{advisor.description}</p>
-                </div>
-              ))}
-            </motion.div>
+          {/* Mobile View - Static Grid */}
+          <div className="md:hidden grid grid-cols-1 sm:grid-cols-2 gap-6 px-4 mb-8">
+            {advisoryBoard.map((advisor, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="bg-slate-900/50 backdrop-blur-sm border border-slate-800/50 rounded-xl p-6 text-center"
+              >
+                <h3 className="text-xl font-bold text-white mb-2">{advisor.name}</h3>
+                <p className="text-blue-400 text-sm font-medium mb-2">{advisor.title}</p>
+                <p className="text-gray-300 text-xs">{advisor.description}</p>
+              </motion.div>
+            ))}
           </div>
-          
-          {/* Advisors Marquee - Row 2 (Reverse Direction) */}
-          <div className="relative overflow-hidden py-10 mb-4 bg-slate-900/30 backdrop-blur-sm border-b border-slate-800/50">
-            {/* Gradient overlays */}
-            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-slate-950 to-transparent z-10"></div>
-            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-slate-950 to-transparent z-10"></div>
+
+          {/* Desktop View - Dynamic Marquee */}
+          <div className="hidden md:block">
+            {/* Advisors Marquee - Row 1 */}
+            <div className="relative overflow-hidden py-10 mb-1 bg-slate-900/20 backdrop-blur-sm border-t border-slate-800/50">
+              {/* Gradient overlays */}
+              <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-slate-950 to-transparent z-10"></div>
+              <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-slate-950 to-transparent z-10"></div>
+              
+              <motion.div 
+                className="flex whitespace-nowrap"
+                initial={{ x: 0 }}
+                animate={{ x: [0, -2500] }}
+                transition={{ 
+                  repeat: Infinity,
+                  repeatType: "loop",
+                  duration: 40,
+                  ease: "linear"
+                }}
+              >
+                {/* Triple the advisory board to ensure continuous flow */}
+                {[...advisoryBoard, ...advisoryBoard, ...advisoryBoard].map((advisor, index) => (
+                  <div key={index} className="inline-flex flex-col items-center mx-16 max-w-xs">
+                    <h3 className="text-2xl md:text-3xl font-bold text-white hover:text-blue-400 transition-colors duration-300">{advisor.name}</h3>
+                    <p className="text-blue-400 text-sm font-medium">{advisor.title}</p>
+                    <p className="text-gray-300 text-xs text-center mt-1 max-w-[200px] truncate">{advisor.description}</p>
+                  </div>
+                ))}
+              </motion.div>
+            </div>
             
-            <motion.div 
-              className="flex whitespace-nowrap"
-              initial={{ x: -2500 }}
-              animate={{ x: [-2500, 0] }}
-              transition={{ 
-                repeat: Infinity,
-                repeatType: "loop",
-                duration: 50,
-                ease: "linear"
-              }}
-            >
-              {/* Triple the advisory board to ensure continuous flow but reversed */}
-              {[...advisoryBoard.slice().reverse(), ...advisoryBoard.slice().reverse(), ...advisoryBoard.slice().reverse()].map((advisor, index) => (
-                <div key={index} className="inline-flex flex-col items-center mx-16 max-w-xs">
-                  <h3 className="text-2xl md:text-3xl font-bold text-white hover:text-blue-400 transition-colors duration-300">{advisor.name}</h3>
-                  <p className="text-blue-400 text-sm font-medium">{advisor.title}</p>
-                  <p className="text-gray-300 text-xs text-center mt-1 max-w-[200px] truncate">{advisor.description}</p>
-                </div>
-              ))}
-            </motion.div>
+            {/* Advisors Marquee - Row 2 (Reverse Direction) */}
+            <div className="relative overflow-hidden py-10 mb-4 bg-slate-900/30 backdrop-blur-sm border-b border-slate-800/50">
+              {/* Gradient overlays */}
+              <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-slate-950 to-transparent z-10"></div>
+              <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-slate-950 to-transparent z-10"></div>
+              
+              <motion.div 
+                className="flex whitespace-nowrap"
+                initial={{ x: -2500 }}
+                animate={{ x: [-2500, 0] }}
+                transition={{ 
+                  repeat: Infinity,
+                  repeatType: "loop",
+                  duration: 50,
+                  ease: "linear"
+                }}
+              >
+                {/* Triple the advisory board to ensure continuous flow but reversed */}
+                {[...advisoryBoard.slice().reverse(), ...advisoryBoard.slice().reverse(), ...advisoryBoard.slice().reverse()].map((advisor, index) => (
+                  <div key={index} className="inline-flex flex-col items-center mx-16 max-w-xs">
+                    <h3 className="text-2xl md:text-3xl font-bold text-white hover:text-blue-400 transition-colors duration-300">{advisor.name}</h3>
+                    <p className="text-blue-400 text-sm font-medium">{advisor.title}</p>
+                    <p className="text-gray-300 text-xs text-center mt-1 max-w-[200px] truncate">{advisor.description}</p>
+                  </div>
+                ))}
+              </motion.div>
+            </div>
           </div>
         </section>
       </div>
