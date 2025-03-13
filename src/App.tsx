@@ -264,10 +264,13 @@ function App() {
                 </div>
                 <div className="mt-4 text-center">
                   <p className="text-sm text-gray-400">
-                    Don't have an account? <a href="#" onClick={(e) => {
+                    {authMode === 'signin' ? "Don't have an account? " : "Have an account? "}
+                    <a href="#" onClick={(e) => {
                       e.preventDefault();
-                      setAuthMode('signup');
-                    }} className="text-blue-400 hover:text-blue-300">Sign up</a>
+                      setAuthMode(authMode === 'signin' ? 'signup' : 'signin');
+                    }} className="text-blue-400 hover:text-blue-300">
+                      {authMode === 'signin' ? 'Sign up' : 'Login'}
+                    </a>
                   </p>
                 </div>
               </form>
