@@ -16,6 +16,7 @@ import TermsOfUse from './pages/TermsOfUse';
 import CookieSettings from './pages/CookieSettings';
 import { X } from 'lucide-react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { initializeAntiScraping } from './utils/antiScraping';
 
 // Create a context to share the reduced motion and mobile detection state
 export const MotionContext = createContext({
@@ -54,6 +55,10 @@ function App() {
     // Check on resize
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  
+  useEffect(() => {
+    initializeAntiScraping();
   }, []);
   
   // Functions for opening modals
