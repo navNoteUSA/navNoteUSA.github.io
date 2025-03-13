@@ -14,8 +14,8 @@ import CookieConsent from './components/CookieConsent';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfUse from './pages/TermsOfUse';
 import CookieSettings from './pages/CookieSettings';
-import { X } from 'lucide-react';
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import Auth from './components/Auth';
+import TestModal from './components/TestModal';
 import { initializeAntiScraping } from './utils/antiScraping';
 
 // Create a context to share the reduced motion and mobile detection state
@@ -24,10 +24,14 @@ export const MotionContext = createContext({
   isMobile: false
 });
 
+// Simple mock for useReducedMotion
+const useReducedMotion = () => false;
+
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [showDemoForm, setShowDemoForm] = useState(false);
   const [showAuthForm, setShowAuthForm] = useState(false);
+  const [showTestModal, setShowTestModal] = useState(false);
   const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signup');
   const [isMobile, setIsMobile] = useState(false);
   
@@ -67,8 +71,10 @@ function App() {
   };
 
   const openAuthForm = (mode: 'signin' | 'signup' = 'signup') => {
+    console.log('Opening auth form with mode:', mode);
     setAuthMode(mode);
     setShowAuthForm(true);
+    console.log('Auth form state updated:', { showAuthForm: true, authMode: mode });
   };
   
   const closeDemoForm = () => {
@@ -76,7 +82,14 @@ function App() {
   };
 
   const closeAuthForm = () => {
+    console.log('Closing auth form');
     setShowAuthForm(false);
+    console.log('Auth form state updated:', { showAuthForm: false });
+  };
+
+  const toggleTestModal = () => {
+    setShowTestModal(!showTestModal);
+    console.log('Test modal toggled:', !showTestModal);
   };
   
   // Navigation functions
@@ -175,6 +188,16 @@ function App() {
           {showNavbarAndFooter && <Footer onNavigate={navigateTo} />}
         </div>
         
+        {/* Test button for modal */}
+        <div className="fixed bottom-4 right-4 z-50">
+          <button 
+            onClick={toggleTestModal}
+            className="bg-purple-600 text-white px-4 py-2 rounded-lg"
+          >
+            Test Modal
+          </button>
+        </div>
+        
         {/* Cookie Consent Banner */}
         <CookieConsent onNavigate={navigateTo} />
         
@@ -221,62 +244,17 @@ function App() {
         )}
         
         {/* Auth Modal */}
-        {showAuthForm && (
-          <div className="fixed inset-0 flex items-start justify-center bg-black/70 backdrop-blur-sm z-50 pt-24">
-            <div className="bg-slate-900 p-8 rounded-2xl border border-slate-700 max-w-md w-full mt-10">
-              <h2 className="text-2xl font-bold mb-6">{authMode === 'signin' ? 'Sign In' : 'Create Account'}</h2>
-              <form className="space-y-4">
-                {authMode === 'signup' && (
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Full Name</label>
-                    <input type="text" className="w-full px-4 py-3 bg-slate-800 rounded-lg border border-slate-700" placeholder="Enter your full name" />
-                  </div>
-                )}
-                <div>
-                  <label className="block text-sm font-medium mb-2">Email Address</label>
-                  <input type="email" className="w-full px-4 py-3 bg-slate-800 rounded-lg border border-slate-700" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2">Password</label>
-                  <input type="password" className="w-full px-4 py-3 bg-slate-800 rounded-lg border border-slate-700" />
-                </div>
-                <div className="flex justify-between items-center">
-                  <label className="flex items-center">
-                    <input type="checkbox" className="mr-2" />
-                    <span className="text-sm">Remember me</span>
-                  </label>
-                  <a href="#" className="text-sm text-blue-400 hover:text-blue-300">Forgot password?</a>
-                </div>
-                <div className="flex justify-end gap-4 mt-6">
-                  <button 
-                    type="button" 
-                    onClick={closeAuthForm}
-                    className="px-4 py-2 border border-slate-600 rounded-lg hover:bg-slate-800"
-                  >
-                    Cancel
-                  </button>
-                  <button 
-                    type="submit" 
-                    className="px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700"
-                  >
-                    {authMode === 'signin' ? 'Sign In' : 'Sign Up'}
-                  </button>
-                </div>
-                <div className="mt-4 text-center">
-                  <p className="text-sm text-gray-400">
-                    {authMode === 'signin' ? "Don't have an account? " : "Already have an account? "}
-                    <a href="#" onClick={(e) => {
-                      e.preventDefault();
-                      setAuthMode(authMode === 'signin' ? 'signup' : 'signin');
-                    }} className="text-blue-400 hover:text-blue-300">
-                      {authMode === 'signin' ? 'Create Account' : 'Sign In'}
-                    </a>
-                  </p>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
+        <Auth 
+          isOpen={showAuthForm} 
+          onClose={closeAuthForm} 
+          authMode={authMode}
+        />
+
+        {/* Test Modal */}
+        <TestModal 
+          isOpen={showTestModal}
+          onClose={toggleTestModal}
+        />
       </div>
     </MotionContext.Provider>
   );

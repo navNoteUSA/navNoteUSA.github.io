@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ChevronDown, Users } from 'lucide-react';
+import { Menu, X, Users, LogOut } from 'lucide-react';
 
 interface NavbarProps {
   onNavigate: (page: string) => void;
   onOpenDemo: () => void;
-  onOpenAuth: (mode: string) => void;
+  onOpenAuth: (mode: 'signin' | 'signup') => void;
 }
 
 const Navbar: React.FC<NavbarProps> = ({
@@ -14,6 +14,49 @@ const Navbar: React.FC<NavbarProps> = ({
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Check if user is logged in
+  useEffect(() => {
+    const checkAuthStatus = () => {
+      const token = localStorage.getItem('access_token');
+      console.log('Checking auth status, token:', token ? 'exists' : 'not found');
+      setIsLoggedIn(!!token);
+      console.log('isLoggedIn set to:', !!token);
+    };
+
+    // Check on mount
+    checkAuthStatus();
+
+    // Listen for storage events (in case token is added/removed in another tab)
+    window.addEventListener('storage', checkAuthStatus);
+    
+    // Create a custom event listener for auth status changes
+    window.addEventListener('authStatusChanged', checkAuthStatus);
+    console.log('Auth status change event listeners added');
+
+    return () => {
+      window.removeEventListener('storage', checkAuthStatus);
+      window.removeEventListener('authStatusChanged', checkAuthStatus);
+      console.log('Auth status change event listeners removed');
+    };
+  }, []);
+
+  // Handle logout
+  const handleLogout = () => {
+    console.log('Logout clicked, removing tokens');
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    setIsLoggedIn(false);
+    console.log('isLoggedIn set to false');
+    
+    // Dispatch event to notify other components
+    window.dispatchEvent(new CustomEvent('authStatusChanged'));
+    console.log('Auth status change event dispatched');
+    
+    // Navigate to home
+    onNavigate('home');
+  };
 
   // Handle scroll event to change navbar appearance
   useEffect(() => {
@@ -83,12 +126,22 @@ const Navbar: React.FC<NavbarProps> = ({
             </div>
             
             <div className="flex items-center space-x-4">
-              <button 
-                onClick={() => onOpenAuth('signup')}
-                className="text-[var(--text-secondary)] hover:text-[var(--text-accent)] transition-colors"
-              >
-                Sign In / Sign Up
-              </button>
+              {isLoggedIn ? (
+                <button 
+                  onClick={handleLogout}
+                  className="text-[var(--text-secondary)] hover:text-red-500 transition-colors flex items-center"
+                >
+                  <LogOut size={18} className="mr-1" />
+                  Log Out
+                </button>
+              ) : (
+                <button 
+                  onClick={() => onOpenAuth('signup')}
+                  className="text-[var(--text-secondary)] hover:text-[var(--text-accent)] transition-colors"
+                >
+                  Sign In / Sign Up
+                </button>
+              )}
               <button 
                 onClick={onOpenDemo}
                 className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-5 py-2 rounded-lg transition-all shadow-glow-sm hover:shadow-glow-md"
@@ -164,15 +217,28 @@ const Navbar: React.FC<NavbarProps> = ({
             </div>
             
             <div className="flex flex-col space-y-4 pt-4">
-              <button 
-                onClick={() => {
-                  onOpenAuth('signup');
-                  setIsMenuOpen(false);
-                }}
-                className="text-[var(--text-secondary)] hover:text-[var(--text-accent)] transition-colors py-2 text-left"
-              >
-                Sign In / Sign Up
-              </button>
+              {isLoggedIn ? (
+                <button 
+                  onClick={() => {
+                    handleLogout();
+                    setIsMenuOpen(false);
+                  }}
+                  className="text-[var(--text-secondary)] hover:text-red-500 transition-colors py-2 text-left flex items-center"
+                >
+                  <LogOut size={18} className="mr-2" />
+                  Log Out
+                </button>
+              ) : (
+                <button 
+                  onClick={() => {
+                    onOpenAuth('signup');
+                    setIsMenuOpen(false);
+                  }}
+                  className="text-[var(--text-secondary)] hover:text-[var(--text-accent)] transition-colors py-2 text-left"
+                >
+                  Sign In / Sign Up
+                </button>
+              )}
               <button 
                 onClick={() => {
                   onOpenDemo();

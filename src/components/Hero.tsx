@@ -5,7 +5,7 @@ import { MotionContext } from '../App';
 
 interface HeroProps {
   openDemoForm?: () => void;
-  openAuthForm?: (mode: string) => void;
+  openAuthForm?: (mode: 'signin' | 'signup') => void;
 }
 
 declare global {

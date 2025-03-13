@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 interface CallToActionProps {
   onOpenDemo: () => void;
-  onOpenAuth: (mode: string) => void;
+  onOpenAuth: (mode: 'signin' | 'signup') => void;
 }
 
 const CallToAction: React.FC<CallToActionProps> = ({ onOpenDemo, onOpenAuth }) => {
