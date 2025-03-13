@@ -1,0 +1,6 @@
+# NavNote AWS Deployment Configuration
+STACK_NAME=NavNoteSimpleStack
+AWS_REGION=us-east-1
+FRONTEND_REPOSITORY=897722675510.dkr.ecr.us-east-1.amazonaws.com/navnote-frontend
+BACKEND_REPOSITORY=897722675510.dkr.ecr.us-east-1.amazonaws.com/navnote-backend
+STATIC_BUCKET=navnote-static-files-897722675510
