@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Mail, Lock, User, Facebook, Apple } from 'lucide-react';
+import { authAPI } from '../services/api';
 
 interface AuthProps {
   isOpen: boolean;
@@ -14,6 +15,8 @@ const Auth: React.FC<AuthProps> = ({ isOpen, onClose }) => {
     password: '',
     name: '',
   });
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -21,12 +24,45 @@ const Auth: React.FC<AuthProps> = ({ isOpen, onClose }) => {
       ...prev,
       [name]: value
     }));
+    setError(null);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Auth form submitted:', formData);
-    // Here you would handle authentication
+    setError(null);
+    setIsLoading(true);
+
+    try {
+      let response;
+      if (isSignIn) {
+        response = await authAPI.login({
+          email: formData.email,
+          password: formData.password,
+        });
+      } else {
+        response = await authAPI.register({
+          email: formData.email,
+          password: formData.password,
+          name: formData.name,
+        });
+      }
+
+      // Store tokens
+      localStorage.setItem('access_token', response.access || response.tokens.access);
+      localStorage.setItem('refresh_token', response.refresh || response.tokens.refresh);
+
+      // Close modal and reset form
+      onClose();
+      setFormData({
+        email: '',
+        password: '',
+        name: '',
+      });
+    } catch (err: any) {
+      setError(err.response?.data?.error || 'An error occurred. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const toggleAuthMode = () => {
@@ -81,6 +117,12 @@ const Auth: React.FC<AuthProps> = ({ isOpen, onClose }) => {
                 {isSignIn ? 'Welcome back! Please enter your details.' : 'Join navNote to organize your life.'}
               </p>
             </div>
+            
+            {error && (
+              <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-500 text-sm">
+                {error}
+              </div>
+            )}
             
             {/* Social login buttons */}
             <div className="flex flex-col space-y-3 mb-6">
@@ -151,6 +193,7 @@ const Auth: React.FC<AuthProps> = ({ isOpen, onClose }) => {
                       className="w-full py-3 pl-10 pr-4 bg-slate-800/70 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-secondary"
                       placeholder="John Doe"
                       required
+                      disabled={isLoading}
                     />
                   </div>
                 </div>
@@ -173,6 +216,7 @@ const Auth: React.FC<AuthProps> = ({ isOpen, onClose }) => {
                     className="w-full py-3 pl-10 pr-4 bg-slate-800/70 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-secondary"
                     placeholder="you@example.com"
                     required
+                    disabled={isLoading}
                   />
                 </div>
               </div>
@@ -194,6 +238,7 @@ const Auth: React.FC<AuthProps> = ({ isOpen, onClose }) => {
                     className="w-full py-3 pl-10 pr-4 bg-slate-800/70 border border-slate-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-secondary"
                     placeholder={isSignIn ? "Enter password" : "Create password"}
                     required
+                    disabled={isLoading}
                   />
                 </div>
               </div>
@@ -219,9 +264,12 @@ const Auth: React.FC<AuthProps> = ({ isOpen, onClose }) => {
               
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white py-3 px-4 rounded-lg font-medium transition-all shadow-md shadow-blue-900/20 mt-2"
+                disabled={isLoading}
+                className={`w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white py-3 px-4 rounded-lg font-medium transition-all shadow-md shadow-blue-900/20 mt-2 ${
+                  isLoading ? 'opacity-75 cursor-not-allowed' : ''
+                }`}
               >
-                {isSignIn ? 'Sign In' : 'Create Account'}
+                {isLoading ? 'Please wait...' : (isSignIn ? 'Sign In' : 'Create Account')}
               </button>
             </form>
             
@@ -229,7 +277,15 @@ const Auth: React.FC<AuthProps> = ({ isOpen, onClose }) => {
               {isSignIn ? "Don't have an account? " : "Already have an account? "}
               <button
                 type="button"
-                onClick={toggleAuthMode}
+                onClick={() => {
+                  setIsSignIn(!isSignIn);
+                  setError(null);
+                  setFormData({
+                    email: '',
+                    password: '',
+                    name: '',
+                  });
+                }}
                 className="text-secondary hover:text-accent transition-colors font-medium"
               >
                 {isSignIn ? 'Sign up' : 'Sign in'}
