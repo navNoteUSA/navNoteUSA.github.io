@@ -4,7 +4,7 @@ import { Menu, X, ChevronDown, Users } from 'lucide-react';
 interface NavbarProps {
   onNavigate: (page: string) => void;
   onOpenDemo: () => void;
-  onOpenAuth: () => void;
+  onOpenAuth: (mode: string) => void;
 }
 
 const Navbar: React.FC<NavbarProps> = ({
@@ -84,7 +84,7 @@ const Navbar: React.FC<NavbarProps> = ({
             
             <div className="flex items-center space-x-4">
               <button 
-                onClick={onOpenAuth}
+                onClick={() => onOpenAuth('signup')}
                 className="text-[var(--text-secondary)] hover:text-[var(--text-accent)] transition-colors"
               >
                 Sign In / Sign Up
@@ -166,7 +166,7 @@ const Navbar: React.FC<NavbarProps> = ({
             <div className="flex flex-col space-y-4 pt-4">
               <button 
                 onClick={() => {
-                  onOpenAuth();
+                  onOpenAuth('signup');
                   setIsMenuOpen(false);
                 }}
                 className="text-[var(--text-secondary)] hover:text-[var(--text-accent)] transition-colors py-2 text-left"

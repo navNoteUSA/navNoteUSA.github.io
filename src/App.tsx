@@ -28,7 +28,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [showDemoForm, setShowDemoForm] = useState(false);
   const [showAuthForm, setShowAuthForm] = useState(false);
-  const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signin');
+  const [authMode, setAuthMode] = useState<'signin' | 'signup'>('signup');
   const [isMobile, setIsMobile] = useState(false);
   
   // Check for reduced motion preference from the OS
@@ -66,7 +66,7 @@ function App() {
     setShowDemoForm(true);
   };
 
-  const openAuthForm = (mode: 'signin' | 'signup' = 'signin') => {
+  const openAuthForm = (mode: 'signin' | 'signup' = 'signup') => {
     setAuthMode(mode);
     setShowAuthForm(true);
   };
@@ -264,12 +264,12 @@ function App() {
                 </div>
                 <div className="mt-4 text-center">
                   <p className="text-sm text-gray-400">
-                    {authMode === 'signin' ? "Don't have an account? " : "Have an account? "}
+                    {authMode === 'signin' ? "Don't have an account? " : "Already have an account? "}
                     <a href="#" onClick={(e) => {
                       e.preventDefault();
                       setAuthMode(authMode === 'signin' ? 'signup' : 'signin');
                     }} className="text-blue-400 hover:text-blue-300">
-                      {authMode === 'signin' ? 'Sign up' : 'Login'}
+                      {authMode === 'signin' ? 'Create Account' : 'Sign In'}
                     </a>
                   </p>
                 </div>

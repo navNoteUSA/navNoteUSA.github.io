@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 interface CallToActionProps {
   onOpenDemo: () => void;
-  onOpenAuth: () => void;
+  onOpenAuth: (mode: string) => void;
 }
 
 const CallToAction: React.FC<CallToActionProps> = ({ onOpenDemo, onOpenAuth }) => {
@@ -62,7 +62,7 @@ const CallToAction: React.FC<CallToActionProps> = ({ onOpenDemo, onOpenAuth }) =
               </motion.button>
               
               <motion.button
-                onClick={onOpenAuth}
+                onClick={() => onOpenAuth('signup')}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="btn-glass btn-large"

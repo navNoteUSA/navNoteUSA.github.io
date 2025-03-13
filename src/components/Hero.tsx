@@ -5,7 +5,7 @@ import { MotionContext } from '../App';
 
 interface HeroProps {
   openDemoForm?: () => void;
-  openAuthForm?: () => void;
+  openAuthForm?: (mode: string) => void;
 }
 
 declare global {
@@ -133,7 +133,7 @@ const Hero: React.FC<HeroProps> = ({ openDemoForm, openAuthForm }) => {
 
   const handleGetStarted = () => {
     if (openAuthForm) {
-      openAuthForm();
+      openAuthForm('signup');
     }
   };
   
