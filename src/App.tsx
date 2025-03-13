@@ -224,8 +224,14 @@ function App() {
         {showAuthForm && (
           <div className="fixed inset-0 flex items-start justify-center bg-black/70 backdrop-blur-sm z-50 pt-24">
             <div className="bg-slate-900 p-8 rounded-2xl border border-slate-700 max-w-md w-full mt-10">
-              <h2 className="text-2xl font-bold mb-6">Sign In / Sign Up</h2>
+              <h2 className="text-2xl font-bold mb-6">{authMode === 'signin' ? 'Sign In' : 'Create Account'}</h2>
               <form className="space-y-4">
+                {authMode === 'signup' && (
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Full Name</label>
+                    <input type="text" className="w-full px-4 py-3 bg-slate-800 rounded-lg border border-slate-700" placeholder="Enter your full name" />
+                  </div>
+                )}
                 <div>
                   <label className="block text-sm font-medium mb-2">Email Address</label>
                   <input type="email" className="w-full px-4 py-3 bg-slate-800 rounded-lg border border-slate-700" />
@@ -253,12 +259,15 @@ function App() {
                     type="submit" 
                     className="px-4 py-2 bg-blue-600 rounded-lg hover:bg-blue-700"
                   >
-                    Sign In
+                    {authMode === 'signin' ? 'Sign In' : 'Sign Up'}
                   </button>
                 </div>
                 <div className="mt-4 text-center">
                   <p className="text-sm text-gray-400">
-                    Don't have an account? <a href="#" className="text-blue-400 hover:text-blue-300">Sign up</a>
+                    Don't have an account? <a href="#" onClick={(e) => {
+                      e.preventDefault();
+                      setAuthMode('signup');
+                    }} className="text-blue-400 hover:text-blue-300">Sign up</a>
                   </p>
                 </div>
               </form>
