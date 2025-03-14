@@ -36,23 +36,3 @@ __pycache__
 .env.development.local
 .env.test.local
 .env.production.local
-
-# Environment variables
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-navnote_backend/.env
-
-# AWS keys and configs
-*.pem
-navnote-key.pem
-user-data.sh
-ec2-deploy-info.txt
-
-# Local database
-navnote_backend/db.sqlite3
-
-# Temporary/deployment files
-deploy-temp/

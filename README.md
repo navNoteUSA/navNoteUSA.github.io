@@ -1,151 +1,114 @@
-# nnnavNote
+# NavNote
 
-A navigation and note-taking application with frontend and backend components.
+NavNote is a web application for navigation and note-taking.
 
 ## Project Structure
 
-- **Frontend**: React/TypeScript application using Vite as the build tool
-- **Backend**: Django/Python REST API with JWT authentication
-- **Infrastructure**: AWS CloudFormation, Docker, and GitHub Actions for CI/CD
+- Frontend: React with TypeScript, built with Vite
+- Backend: Django with Django REST Framework
+- Database: PostgreSQL (in production) / SQLite (in development)
+- Deployment: AWS (EC2, ECR, S3)
 
-## Local Development Setup
-
-### Prerequisites
-
-- Node.js (v16+)
-- Python (3.10+)
-- Docker and Docker Compose (optional, for containerized development)
-
-### Frontend Setup
+## Local Development
 
 1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-github-username/navNoteUSA.github.io.git
+   ```
+   git clone https://github.com/navNoteUSA/navNoteUSA.github.io.git
    cd navNoteUSA.github.io
    ```
 
-2. Install dependencies:
-   ```bash
+2. Install frontend dependencies:
+   ```
    npm install
    ```
 
-3. Create a `.env` file in the root directory (or copy from `.env.example`):
+3. Start the frontend development server:
    ```
-   VITE_API_URL=http://localhost:8000/api
-   CHOKIDAR_USEPOLLING=true
-   ```
-
-4. Start the development server:
-   ```bash
    npm run dev
    ```
 
-### Backend Setup
-
-1. Navigate to the backend directory:
-   ```bash
+4. Set up the backend:
+   ```
    cd navnote_backend
-   ```
-
-2. Create a virtual environment and activate it:
-   ```bash
    python -m venv venv
-   source venv/bin/activate  # For Unix/Linux
-   # or
-   venv\Scripts\activate  # For Windows
-   ```
-
-3. Install dependencies:
-   ```bash
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
    pip install -r requirements.txt
-   ```
-
-4. Create a `.env` file in the `navnote_backend` directory (or copy from `.env.example`):
-   ```
-   DEBUG=True
-   SECRET_KEY=your-local-development-secret-key
-   ALLOWED_HOSTS=localhost,127.0.0.1
-   DATABASE_URL=sqlite:///db.sqlite3
-   CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
-   ```
-
-5. Run migrations:
-   ```bash
    python manage.py migrate
-   ```
-
-6. Start the development server:
-   ```bash
    python manage.py runserver
    ```
 
-## Docker Development
-
-To run the application using Docker:
-
-```bash
-docker-compose up -d
-```
-
-This will start both the frontend and backend services.
-
 ## AWS Deployment
 
-### Prerequisites
+### Option 1: Manual Deployment
 
-- AWS CLI installed and configured
-- GitHub account
-- Required AWS permissions to create resources via CloudFormation
+1. Build and push Docker images:
+   ```
+   # Frontend
+   docker build -t 897722675510.dkr.ecr.us-east-1.amazonaws.com/navnote-frontend:latest .
+   aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 897722675510.dkr.ecr.us-east-1.amazonaws.com
+   docker push 897722675510.dkr.ecr.us-east-1.amazonaws.com/navnote-frontend:latest
 
-### Automated Deployment via GitHub Actions
-
-1. Fork this repository to your GitHub account.
-
-2. Set up the following GitHub repository secrets:
-   - `AWS_ACCESS_KEY_ID`: Your AWS access key ID
-   - `AWS_SECRET_ACCESS_KEY`: Your AWS secret access key
-   - `EC2_SSH_KEY`: Contents of your EC2 private key (for SSH access)
-
-3. Push changes to the `main` branch to trigger the deployment pipeline:
-   ```bash
-   git add .
-   git commit -m "Your commit message"
-   git push origin main
+   # Backend
+   cd navnote_backend
+   docker build -t 897722675510.dkr.ecr.us-east-1.amazonaws.com/navnote-backend:latest .
+   docker push 897722675510.dkr.ecr.us-east-1.amazonaws.com/navnote-backend:latest
    ```
 
-4. The GitHub Actions workflow will:
-   - Build and push Docker images to Amazon ECR
-   - Deploy the infrastructure via CloudFormation
-   - Update the EC2 instance with the latest Docker images
-
-### Manual Deployment
-
-You can also deploy manually:
-
-1. Run the CloudFormation deployment script:
-   ```bash
-   ./deploy.sh
+2. Deploy to EC2:
    ```
-
-2. Or deploy directly to EC2:
-   ```bash
    ./ec2-deploy.sh
    ```
 
-## Security Considerations
+### Option 2: GitHub Actions Deployment
 
-- All sensitive credentials and secrets are managed via AWS Secrets Manager or GitHub Secrets
-- IAM roles are used for EC2 instances instead of hardcoded credentials
-- HTTPS is enforced for production deployments
-- Debug mode is disabled in production
-- Environment-specific configuration is used for different deployment stages
+1. Add the following secrets to your GitHub repository:
+   - `AWS_ACCESS_KEY_ID`: Your AWS access key
+   - `AWS_SECRET_ACCESS_KEY`: Your AWS secret key
 
-## Additional Resources
+2. Push to the main branch to trigger the deployment:
+   ```
+   git add .
+   git commit -m "Update application"
+   git push origin main
+   ```
 
-- [Frontend Documentation](docs/frontend.md)
-- [Backend API Documentation](docs/backend.md)
-- [AWS Infrastructure Documentation](docs/aws.md)
+3. The GitHub Actions workflow will:
+   - Build and push Docker images to ECR
+   - Create or update the EC2 instance
+   - Deploy the application to the EC2 instance
 
-## License
+4. Access your application at the EC2 instance's public IP address.
 
-MIT 
+## CloudFormation Deployment (Alternative)
+
+For a more comprehensive AWS infrastructure setup, you can use the CloudFormation template:
+
+```
+./deploy.sh
+```
+
+This will create:
+- VPC with public and private subnets
+- RDS PostgreSQL database
+- ECS cluster with Fargate tasks
+- Load balancer
+- S3 bucket for static files
+- ECR repositories for Docker images
+
+## Troubleshooting
+
+If you encounter issues with the deployment:
+
+1. Check the EC2 instance status:
+   ```
+   aws ec2 describe-instances --filters "Name=tag:Name,Values=NavNoteInstance" --query "Reservations[0].Instances[0].State.Name"
+   ```
+
+2. Check the Docker containers:
+   ```
+   ssh -i navnote-key.pem ec2-user@<EC2_PUBLIC_IP>
+   docker ps
+   docker logs <CONTAINER_ID>
+   ```
+
+3. Check the GitHub Actions workflow logs in the GitHub repository. 
