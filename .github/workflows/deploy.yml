@@ -3,15 +3,17 @@ name: Deploy to AWS
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v3
     
     - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
+      uses: aws-actions/configure-aws-credentials@v2
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -22,26 +24,50 @@ jobs:
       uses: aws-actions/amazon-ecr-login@v1
     
     - name: Build and push frontend image
-      uses: docker/build-push-action@v2
+      uses: docker/build-push-action@v4
       with:
         context: .
         push: true
         tags: 897722675510.dkr.ecr.us-east-1.amazonaws.com/navnote-frontend:latest
     
     - name: Build and push backend image
-      uses: docker/build-push-action@v2
+      uses: docker/build-push-action@v4
       with:
         context: ./navnote_backend
         push: true
         tags: 897722675510.dkr.ecr.us-east-1.amazonaws.com/navnote-backend:latest
     
     - name: Deploy to EC2
-      uses: appleboy/ssh-action@master
-      with:
-        host: 35.175.178.186
-        username: ec2-user
-        key: ${{ secrets.EC2_SSH_KEY }}
-        script: |
-          cd /home/ec2-user
-          docker-compose pull
-          docker-compose up -d
+      run: |
+        # Create EC2 instance if it doesn't exist
+        INSTANCE_ID=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=NavNoteInstance" "Name=instance-state-name,Values=running" --query "Reservations[0].Instances[0].InstanceId" --output text)
+        
+        if [ "$INSTANCE_ID" = "None" ] || [ -z "$INSTANCE_ID" ]; then
+          echo "Creating new EC2 instance..."
+          chmod +x ec2-deploy.sh
+          ./ec2-deploy.sh
+          # Get the new instance ID
+          INSTANCE_ID=$(cat ec2-deploy-info.txt | grep INSTANCE_ID | cut -d= -f2)
+        else
+          echo "Using existing EC2 instance: $INSTANCE_ID"
+        fi
+        
+        # Get instance public IP
+        PUBLIC_IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query "Reservations[0].Instances[0].PublicIpAddress" --output text)
+        
+        # Install AWS SSM Session Manager plugin
+        curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb" -o "session-manager-plugin.deb"
+        sudo dpkg -i session-manager-plugin.deb
+        
+        # Use SSM to run commands on the instance
+        aws ssm send-command \
+          --instance-ids $INSTANCE_ID \
+          --document-name "AWS-RunShellScript" \
+          --parameters commands=["aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 897722675510.dkr.ecr.us-east-1.amazonaws.com", 
+                                "docker pull 897722675510.dkr.ecr.us-east-1.amazonaws.com/navnote-frontend:latest", 
+                                "docker pull 897722675510.dkr.ecr.us-east-1.amazonaws.com/navnote-backend:latest", 
+                                "docker run -d -p 80:80 897722675510.dkr.ecr.us-east-1.amazonaws.com/navnote-frontend:latest", 
+                                "docker run -d -p 8000:8000 -e AWS_STORAGE_BUCKET_NAME=navnote-static-files-897722675510 -e AWS_S3_REGION_NAME=us-east-1 -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} 897722675510.dkr.ecr.us-east-1.amazonaws.com/navnote-backend:latest"]
+        
+        echo "Deployment to EC2 completed successfully!"
+        echo "Your application should be available at: http://$PUBLIC_IP"
