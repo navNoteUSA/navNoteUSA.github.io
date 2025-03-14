@@ -23,51 +23,88 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
     
+    - name: Set up environment variables
+      run: |
+        echo "TIMESTAMP=$(date +%s)" >> $GITHUB_ENV
+        echo "COMMIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+    
     - name: Build and push frontend image
       uses: docker/build-push-action@v4
       with:
         context: .
         push: true
-        tags: 897722675510.dkr.ecr.us-east-1.amazonaws.com/navnote-frontend:latest
+        tags: |
+          897722675510.dkr.ecr.us-east-1.amazonaws.com/navnote-frontend:latest
+          897722675510.dkr.ecr.us-east-1.amazonaws.com/navnote-frontend:${{ env.COMMIT_HASH }}
+        build-args: |
+          VITE_API_URL=https://api.navnote.net/api
+          NODE_ENV=production
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
     
     - name: Build and push backend image
       uses: docker/build-push-action@v4
       with:
         context: ./navnote_backend
         push: true
-        tags: 897722675510.dkr.ecr.us-east-1.amazonaws.com/navnote-backend:latest
+        tags: |
+          897722675510.dkr.ecr.us-east-1.amazonaws.com/navnote-backend:latest
+          897722675510.dkr.ecr.us-east-1.amazonaws.com/navnote-backend:${{ env.COMMIT_HASH }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
     
-    - name: Deploy to EC2
+    - name: Create or update CloudFormation stack
       run: |
-        # Create EC2 instance if it doesn't exist
-        INSTANCE_ID=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=NavNoteInstance" "Name=instance-state-name,Values=running" --query "Reservations[0].Instances[0].InstanceId" --output text)
-        
-        if [ "$INSTANCE_ID" = "None" ] || [ -z "$INSTANCE_ID" ]; then
-          echo "Creating new EC2 instance..."
-          chmod +x ec2-deploy.sh
-          ./ec2-deploy.sh
-          # Get the new instance ID
-          INSTANCE_ID=$(cat ec2-deploy-info.txt | grep INSTANCE_ID | cut -d= -f2)
+        # Check if stack exists
+        if aws cloudformation describe-stacks --stack-name NavNoteStack &> /dev/null; then
+          # Update existing stack
+          echo "Updating existing CloudFormation stack..."
+          aws cloudformation update-stack \
+            --stack-name NavNoteStack \
+            --template-body file://cloudformation-simple.yaml \
+            --parameters ParameterKey=ImageTagFrontend,ParameterValue=${{ env.COMMIT_HASH }} \
+                         ParameterKey=ImageTagBackend,ParameterValue=${{ env.COMMIT_HASH }} \
+            --capabilities CAPABILITY_NAMED_IAM || true
         else
-          echo "Using existing EC2 instance: $INSTANCE_ID"
+          # Create new stack
+          echo "Creating new CloudFormation stack..."
+          aws cloudformation create-stack \
+            --stack-name NavNoteStack \
+            --template-body file://cloudformation-simple.yaml \
+            --parameters ParameterKey=ImageTagFrontend,ParameterValue=${{ env.COMMIT_HASH }} \
+                         ParameterKey=ImageTagBackend,ParameterValue=${{ env.COMMIT_HASH }} \
+            --capabilities CAPABILITY_NAMED_IAM
+          
+          # Wait for stack creation to complete
+          aws cloudformation wait stack-create-complete --stack-name NavNoteStack
         fi
         
-        # Get instance public IP
-        PUBLIC_IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query "Reservations[0].Instances[0].PublicIpAddress" --output text)
+        # Get outputs from stack
+        INSTANCE_ID=$(aws cloudformation describe-stacks --stack-name NavNoteStack --query "Stacks[0].Outputs[?OutputKey=='EC2InstanceId'].OutputValue" --output text)
+        PUBLIC_IP=$(aws cloudformation describe-stacks --stack-name NavNoteStack --query "Stacks[0].Outputs[?OutputKey=='PublicIP'].OutputValue" --output text)
         
-        # Install AWS SSM Session Manager plugin
-        curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb" -o "session-manager-plugin.deb"
-        sudo dpkg -i session-manager-plugin.deb
+        echo "EC2 Instance ID: $INSTANCE_ID"
+        echo "Public IP: $PUBLIC_IP"
         
-        # Use SSM to run commands on the instance
+        # Wait for instance to be ready for SSM commands
+        echo "Waiting for instance to be ready for SSM commands..."
+        sleep 60
+        
+        # Use SSM to deploy the latest images
         aws ssm send-command \
           --instance-ids $INSTANCE_ID \
           --document-name "AWS-RunShellScript" \
-          --parameters commands=["aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 897722675510.dkr.ecr.us-east-1.amazonaws.com", 
-                                "docker pull 897722675510.dkr.ecr.us-east-1.amazonaws.com/navnote-frontend:latest", 
-                                "docker pull 897722675510.dkr.ecr.us-east-1.amazonaws.com/navnote-backend:latest", 
-                                "docker run -d -p 80:80 897722675510.dkr.ecr.us-east-1.amazonaws.com/navnote-frontend:latest", 
-                                "docker run -d -p 8000:8000 -e AWS_STORAGE_BUCKET_NAME=navnote-static-files-897722675510 -e AWS_S3_REGION_NAME=us-east-1 -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} 897722675510.dkr.ecr.us-east-1.amazonaws.com/navnote-backend:latest"]
+          --parameters commands=[
+            "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 897722675510.dkr.ecr.us-east-1.amazonaws.com",
+            "cd /home/ec2-user",
+            "docker-compose down",
+            "docker system prune -af",
+            "docker-compose pull",
+            "docker-compose up -d"
+          ]
         
-        echo "Deployment to EC2 completed successfully!"
+        echo "Deployment completed successfully!"
         echo "Your application should be available at: http://$PUBLIC_IP"
