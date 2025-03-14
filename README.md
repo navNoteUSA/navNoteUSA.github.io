@@ -1,4 +1,4 @@
-# NavNote
+# nnnavNote
 
 A navigation and note-taking application with frontend and backend components.
 
