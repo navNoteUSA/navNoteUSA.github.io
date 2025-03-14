@@ -36,3 +36,10 @@ __pycache__
 .env.development.local
 .env.test.local
 .env.production.local
+
+# AWS Keys
+*.pem
+ec2-deploy-info.txt
+# Environment Variables
+.env
+*/.env

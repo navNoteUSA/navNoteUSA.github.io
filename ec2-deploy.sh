@@ -8,6 +8,7 @@ AMI_ID="ami-0c7217cdde317cfec"  # Amazon Linux 2023
 KEY_NAME="navnote-key"
 SECURITY_GROUP_NAME="NavNoteSecurityGroup"
 REGION="us-east-1"
+IAM_ROLE_NAME="NavNoteEC2Role"  # New IAM role name
 
 # Colors for output
 GREEN='\033[0;32m'
@@ -40,18 +41,63 @@ else
 fi
 echo ""
 
+# Create IAM role for EC2 if it doesn't exist
+echo -e "${BLUE}Setting up IAM role...${NC}"
+if ! aws iam get-role --role-name ${IAM_ROLE_NAME} &> /dev/null; then
+    # Create IAM role
+    aws iam create-role \
+        --role-name ${IAM_ROLE_NAME} \
+        --assume-role-policy-document '{
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Principal": {
+                        "Service": "ec2.amazonaws.com"
+                    },
+                    "Action": "sts:AssumeRole"
+                }
+            ]
+        }'
+
+    # Attach policies
+    aws iam attach-role-policy \
+        --role-name ${IAM_ROLE_NAME} \
+        --policy-arn arn:aws:iam::aws:policy/AmazonECR-FullAccess
+
+    aws iam attach-role-policy \
+        --role-name ${IAM_ROLE_NAME} \
+        --policy-arn arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess
+
+    # Create instance profile
+    aws iam create-instance-profile --instance-profile-name ${IAM_ROLE_NAME}
+    
+    # Add role to instance profile
+    aws iam add-role-to-instance-profile --instance-profile-name ${IAM_ROLE_NAME} --role-name ${IAM_ROLE_NAME}
+    
+    # Wait for the profile to be fully created
+    echo "Waiting for instance profile to be ready..."
+    sleep 10
+    
+    echo -e "${GREEN}IAM role ${IAM_ROLE_NAME} created and configured.${NC}"
+else
+    echo -e "${GREEN}IAM role ${IAM_ROLE_NAME} already exists.${NC}"
+fi
+echo ""
+
 # Create security group if it doesn't exist
 echo -e "${BLUE}Creating security group...${NC}"
 if ! aws ec2 describe-security-groups --group-names ${SECURITY_GROUP_NAME} &> /dev/null; then
     SECURITY_GROUP_ID=$(aws ec2 create-security-group --group-name ${SECURITY_GROUP_NAME} --description "Security group for NavNote application" --query 'GroupId' --output text)
     echo -e "${GREEN}Security group created with ID: ${SECURITY_GROUP_ID}${NC}"
     
-    # Add inbound rules
-    aws ec2 authorize-security-group-ingress --group-id ${SECURITY_GROUP_ID} --protocol tcp --port 22 --cidr 0.0.0.0/0
+    # Add inbound rules - restrict SSH to current IP
+    CURRENT_IP=$(curl -s https://checkip.amazonaws.com)
+    aws ec2 authorize-security-group-ingress --group-id ${SECURITY_GROUP_ID} --protocol tcp --port 22 --cidr ${CURRENT_IP}/32
     aws ec2 authorize-security-group-ingress --group-id ${SECURITY_GROUP_ID} --protocol tcp --port 80 --cidr 0.0.0.0/0
     aws ec2 authorize-security-group-ingress --group-id ${SECURITY_GROUP_ID} --protocol tcp --port 443 --cidr 0.0.0.0/0
     aws ec2 authorize-security-group-ingress --group-id ${SECURITY_GROUP_ID} --protocol tcp --port 8000 --cidr 0.0.0.0/0
-    echo -e "${GREEN}Inbound rules added to security group.${NC}"
+    echo -e "${GREEN}Inbound rules added to security group. SSH restricted to ${CURRENT_IP}${NC}"
 else
     SECURITY_GROUP_ID=$(aws ec2 describe-security-groups --group-names ${SECURITY_GROUP_NAME} --query 'SecurityGroups[0].GroupId' --output text)
     echo -e "${GREEN}Security group ${SECURITY_GROUP_NAME} already exists with ID: ${SECURITY_GROUP_ID}${NC}"
@@ -74,16 +120,9 @@ yum install -y unzip
 unzip awscliv2.zip
 ./aws/install
 
-# Configure AWS credentials
-mkdir -p /home/ec2-user/.aws
-cat > /home/ec2-user/.aws/credentials << 'CREDS'
-[default]
-aws_access_key_id=REPLACE_ACCESS_KEY
-aws_secret_access_key=REPLACE_SECRET_KEY
-CREDS
-chown -R ec2-user:ec2-user /home/ec2-user/.aws
+# The instance will use IAM role permissions - no need to configure AWS credentials
 
-# Login to ECR
+# Login to ECR (using instance role)
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 897722675510.dkr.ecr.us-east-1.amazonaws.com
 
 # Pull Docker images
@@ -111,8 +150,9 @@ services:
     environment:
       - AWS_STORAGE_BUCKET_NAME=navnote-static-files-897722675510
       - AWS_S3_REGION_NAME=us-east-1
-      - AWS_ACCESS_KEY_ID=REPLACE_ACCESS_KEY
-      - AWS_SECRET_ACCESS_KEY=REPLACE_SECRET_KEY
+      - DEBUG=False
+      - ALLOWED_HOSTS=*
+      # No hardcoded credentials - instance will use IAM role
 COMPOSE
 
 # Install docker-compose
@@ -124,12 +164,6 @@ cd /home/ec2-user
 docker-compose up -d
 EOF
 
-# Replace placeholders with actual values
-ACCESS_KEY=$(aws configure get aws_access_key_id)
-SECRET_KEY=$(aws configure get aws_secret_access_key)
-sed -i "s/REPLACE_ACCESS_KEY/$ACCESS_KEY/g" user-data.sh
-sed -i "s/REPLACE_SECRET_KEY/$SECRET_KEY/g" user-data.sh
-
 # Launch EC2 instance
 echo -e "${BLUE}Launching EC2 instance...${NC}"
 INSTANCE_ID=$(aws ec2 run-instances \
@@ -137,6 +171,7 @@ INSTANCE_ID=$(aws ec2 run-instances \
     --instance-type ${INSTANCE_TYPE} \
     --key-name ${KEY_NAME} \
     --security-group-ids ${SECURITY_GROUP_ID} \
+    --iam-instance-profile Name=${IAM_ROLE_NAME} \
     --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=${INSTANCE_NAME}}]" \
     --user-data file://user-data.sh \
     --query 'Instances[0].InstanceId' \
@@ -151,8 +186,16 @@ aws ec2 wait instance-running --instance-ids ${INSTANCE_ID}
 echo -e "${GREEN}Instance is now running.${NC}"
 echo ""
 
+# Create and associate Elastic IP
+echo -e "${BLUE}Creating and associating Elastic IP...${NC}"
+ALLOCATION_ID=$(aws ec2 allocate-address --domain vpc --query 'AllocationId' --output text)
+ELASTIC_IP=$(aws ec2 describe-addresses --allocation-ids ${ALLOCATION_ID} --query 'Addresses[0].PublicIp' --output text)
+aws ec2 associate-address --instance-id ${INSTANCE_ID} --allocation-id ${ALLOCATION_ID}
+echo -e "${GREEN}Elastic IP ${ELASTIC_IP} associated with instance.${NC}"
+echo ""
+
 # Get public IP address
-PUBLIC_IP=$(aws ec2 describe-instances --instance-ids ${INSTANCE_ID} --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
+PUBLIC_IP=${ELASTIC_IP}
 echo -e "${BLUE}Instance public IP: ${PUBLIC_IP}${NC}"
 echo ""
 
@@ -160,6 +203,7 @@ echo ""
 echo "# NavNote EC2 Deployment Information" > ec2-deploy-info.txt
 echo "INSTANCE_ID=${INSTANCE_ID}" >> ec2-deploy-info.txt
 echo "PUBLIC_IP=${PUBLIC_IP}" >> ec2-deploy-info.txt
+echo "ELASTIC_IP_ALLOCATION_ID=${ALLOCATION_ID}" >> ec2-deploy-info.txt
 echo "KEY_FILE=${KEY_NAME}.pem" >> ec2-deploy-info.txt
 echo "SSH_COMMAND=ssh -i ${KEY_NAME}.pem ec2-user@${PUBLIC_IP}" >> ec2-deploy-info.txt
 

@@ -1,5 +1,0 @@
-# NavNote EC2 Deployment Information
-INSTANCE_ID=i-07a617e89d483aa0b
-PUBLIC_IP=35.175.178.186
-KEY_FILE=navnote-key.pem
-SSH_COMMAND=ssh -i navnote-key.pem ec2-user@35.175.178.186
