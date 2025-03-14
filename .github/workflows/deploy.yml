@@ -59,11 +59,11 @@ jobs:
     - name: Create or update CloudFormation stack
       run: |
         # Check if stack exists
-        if aws cloudformation describe-stacks --stack-name NavNoteStack &> /dev/null; then
+        if aws cloudformation describe-stacks --stack-name NavNoteSimpleStack &> /dev/null; then
           # Update existing stack
           echo "Updating existing CloudFormation stack..."
           aws cloudformation update-stack \
-            --stack-name NavNoteStack \
+            --stack-name NavNoteSimpleStack \
             --template-body file://cloudformation-simple.yaml \
             --parameters ParameterKey=ImageTagFrontend,ParameterValue=${{ env.COMMIT_HASH }} \
                          ParameterKey=ImageTagBackend,ParameterValue=${{ env.COMMIT_HASH }} \
@@ -72,19 +72,19 @@ jobs:
           # Create new stack
           echo "Creating new CloudFormation stack..."
           aws cloudformation create-stack \
-            --stack-name NavNoteStack \
+            --stack-name NavNoteSimpleStack \
             --template-body file://cloudformation-simple.yaml \
             --parameters ParameterKey=ImageTagFrontend,ParameterValue=${{ env.COMMIT_HASH }} \
                          ParameterKey=ImageTagBackend,ParameterValue=${{ env.COMMIT_HASH }} \
             --capabilities CAPABILITY_NAMED_IAM
           
           # Wait for stack creation to complete
-          aws cloudformation wait stack-create-complete --stack-name NavNoteStack
+          aws cloudformation wait stack-create-complete --stack-name NavNoteSimpleStack
         fi
         
         # Get outputs from stack
-        INSTANCE_ID=$(aws cloudformation describe-stacks --stack-name NavNoteStack --query "Stacks[0].Outputs[?OutputKey=='EC2InstanceId'].OutputValue" --output text)
-        PUBLIC_IP=$(aws cloudformation describe-stacks --stack-name NavNoteStack --query "Stacks[0].Outputs[?OutputKey=='PublicIP'].OutputValue" --output text)
+        INSTANCE_ID=$(aws cloudformation describe-stacks --stack-name NavNoteSimpleStack --query "Stacks[0].Outputs[?OutputKey=='EC2InstanceId'].OutputValue" --output text)
+        PUBLIC_IP=$(aws cloudformation describe-stacks --stack-name NavNoteSimpleStack --query "Stacks[0].Outputs[?OutputKey=='PublicIP'].OutputValue" --output text)
         
         echo "EC2 Instance ID: $INSTANCE_ID"
         echo "Public IP: $PUBLIC_IP"
